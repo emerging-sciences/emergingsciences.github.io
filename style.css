@@ -48,9 +48,8 @@ nav {
   flex-shrink: 0;
 }
 .logo-icon {
-  width: 32px; height: 32px; background: var(--blue); border-radius: 8px;
-  display: flex; align-items: center; justify-content: center;
-  color: white; font-size: 17px; font-weight: 700;
+  width: 32px; height: 32px; border-radius: 8px;
+  object-fit: cover; flex-shrink: 0;
 }
 .nav-links { display: flex; gap: 24px; flex: 1; }
 .nav-links a { font-size: 14px; font-weight: 500; color: var(--text2); transition: color 0.2s; }
