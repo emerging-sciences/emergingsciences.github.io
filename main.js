@@ -3,7 +3,7 @@ function toggleMenu() {
 }
 
 // --- Google Sheet Sync Code ---
-const SHEET_API_URL = "https://script.google.com/macros/s/AKfycbzExGmb16kZTqC0R7XUpytnbOiKIt2KY8zW3K_WR6Ra1VcERIvO_5Hf3Ve7MN60FDrL/exec";
+const SHEET_API_URL = "https://script.google.com/macros/s/AKfycbzvxaoWUtjmSWmgViZgS2JHWLPIr6KIsNeHdrSmm6mhcWdbbpJfhhJDa7ELWEI1lQ7m/exec";
 
 async function loadData() {
   try {
