@@ -12,7 +12,7 @@
 </head>
 <body>
 
-    <!-- Intro Video Splash Screen -->
+    <!-- Intro Video Splash Screen (Sirf pehli baar dikhega) -->
     <div id="intro-video-wrap">
         <video id="intro-video" autoplay muted playsinline>
             <source src="intro.mp4" type="video/mp4">
@@ -37,17 +37,25 @@
     </style>
 
     <script>
-        const introWrap = document.getElementById('intro-video-wrap');
-        const introVideo = document.getElementById('intro-video');
+        // Check karein ki kya user ne session mein pehle hi intro dekh liya hai
+        if (sessionStorage.getItem('introShown')) {
+            const wrap = document.getElementById('intro-video-wrap');
+            if (wrap) wrap.style.display = 'none'; // Agar dekh liya hai toh turant hata do
+        } else {
+            sessionStorage.setItem('introShown', 'true'); // Mark kar do ki dekh liya
+            
+            const introWrap = document.getElementById('intro-video-wrap');
+            const introVideo = document.getElementById('intro-video');
 
-        introVideo.addEventListener('ended', hideIntro);
-        setTimeout(hideIntro, 5000); // 5 seconds safety fallback
+            introVideo.addEventListener('ended', hideIntro);
+            setTimeout(hideIntro, 5000); // 5 seconds safety fallback
 
-        function hideIntro() {
-            if (introWrap) {
-                introWrap.style.transition = 'opacity 0.5s ease';
-                introWrap.style.opacity = '0';
-                setTimeout(() => introWrap.remove(), 500);
+            function hideIntro() {
+                if (introWrap) {
+                    introWrap.style.transition = 'opacity 0.5s ease';
+                    introWrap.style.opacity = '0';
+                    setTimeout(() => introWrap.remove(), 500);
+                }
             }
         }
     </script>
