@@ -321,5 +321,213 @@ Loading…
     </footer>
 
     <script src="main.js"></script>
+    <!-- ========================================== -->
+<!-- EMERGING SCIENCES MATH AI CHATBOT START -->
+<!-- ========================================== -->
+<style>
+  #es-chat-toggle {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    background: #2563eb;
+    color: #ffffff;
+    border: none;
+    border-radius: 50px;
+    padding: 12px 22px;
+    font-size: 15px;
+    font-weight: 600;
+    font-family: 'Space Grotesk', sans-serif;
+    cursor: pointer;
+    box-shadow: 0 8px 20px rgba(37, 99, 235, 0.35);
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: transform 0.2s ease, background 0.2s ease;
+  }
+  #es-chat-toggle:hover {
+    transform: translateY(-2px);
+    background: #1d4ed8;
+  }
+  #es-chat-box {
+    display: none;
+    position: fixed;
+    bottom: 85px;
+    right: 24px;
+    width: 360px;
+    max-width: 90vw;
+    height: 500px;
+    background: #111827;
+    color: #f3f4f6;
+    border-radius: 16px;
+    box-shadow: 0 12px 32px rgba(0,0,0,0.5);
+    border: 1px solid rgba(255,255,255,0.1);
+    flex-direction: column;
+    overflow: hidden;
+    z-index: 9999;
+    font-family: 'Inter', sans-serif;
+  }
+  .es-chat-header {
+    background: #1f2937;
+    padding: 14px 18px;
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700;
+    font-size: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+  }
+  .es-chat-header button {
+    background: transparent;
+    border: none;
+    color: #9ca3af;
+    font-size: 18px;
+    cursor: pointer;
+  }
+  .es-chat-messages {
+    flex: 1;
+    padding: 14px;
+    overflow-y: auto;
+    background: #0b0f19;
+    font-size: 13.5px;
+  }
+  .es-msg {
+    margin-bottom: 12px;
+    padding: 10px 14px;
+    border-radius: 10px;
+    line-height: 1.5;
+    white-space: pre-wrap;
+    word-break: break-word;
+  }
+  .es-msg.user {
+    background: #2563eb;
+    color: #ffffff;
+    margin-left: auto;
+    max-width: 82%;
+    border-bottom-right-radius: 2px;
+  }
+  .es-msg.bot {
+    background: #1f2937;
+    color: #e5e7eb;
+    margin-right: auto;
+    max-width: 88%;
+    border-bottom-left-radius: 2px;
+    border: 1px solid rgba(255,255,255,0.05);
+  }
+  .es-chat-input {
+    display: flex;
+    padding: 12px;
+    background: #1f2937;
+    border-top: 1px solid rgba(255,255,255,0.08);
+  }
+  .es-chat-input input {
+    flex: 1;
+    padding: 10px 14px;
+    background: #111827;
+    border: 1px solid rgba(255,255,255,0.15);
+    color: #fff;
+    border-radius: 20px;
+    outline: none;
+    font-size: 13px;
+  }
+  .es-chat-input button {
+    background: #2563eb;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    margin-left: 8px;
+    border-radius: 20px;
+    font-weight: 600;
+    cursor: pointer;
+  }
+</style>
+
+<button id="es-chat-toggle" onclick="toggleMathChat()"><span>🤖</span> Math AI Solver</button>
+
+<div id="es-chat-box">
+  <div class="es-chat-header">
+    <span>Emerging Sciences Math AI</span>
+    <button onclick="toggleMathChat()">✕</button>
+  </div>
+  <div class="es-chat-messages" id="es-chat-messages">
+    <div class="es-msg bot">Namaste! Main Emerging Sciences ka Math AI Solver hu. IIT JAM, CUET PG, ODE, Real Analysis ya Linear Algebra ka koi bhi question likhein!</div>
+  </div>
+  <div class="es-chat-input">
+    <input type="text" id="es-input" placeholder="Apna math problem likhein..." onkeypress="if(event.key==='Enter') sendMathMsg()">
+    <button onclick="sendMathMsg()">Send</button>
+  </div>
+</div>
+
+<script>
+  function toggleMathChat() {
+    const box = document.getElementById('es-chat-box');
+    box.style.display = box.style.display === 'flex' ? 'none' : 'flex';
+  }
+
+  async function sendMathMsg() {
+    const input = document.getElementById('es-input');
+    const msgContainer = document.getElementById('es-chat-messages');
+    const question = input.value.trim();
+
+    if (!question) return;
+
+    // User Message Box
+    const userDiv = document.createElement('div');
+    userDiv.className = 'es-msg user';
+    userDiv.textContent = question;
+    msgContainer.appendChild(userDiv);
+    input.value = '';
+    msgContainer.scrollTop = msgContainer.scrollHeight;
+
+    // Secure Client Key Prompt
+    let apiKey = localStorage.getItem('es_gemini_key');
+    if (!apiKey) {
+      apiKey = prompt("Math AI Solver unlock karne ke liye apni Free Gemini API Key dalein (Google AI Studio se milne wali key yahan browser me safe rhegi):");
+      if (apiKey) {
+        localStorage.setItem('es_gemini_key', apiKey.trim());
+      } else {
+        const errDiv = document.createElement('div');
+        errDiv.className = 'es-msg bot';
+        errDiv.textContent = "⚠️ API Key ke bina chatbot jawab nahi de payega.";
+        msgContainer.appendChild(errDiv);
+        return;
+      }
+    }
+
+    // Bot Typing Indicator
+    const botDiv = document.createElement('div');
+    botDiv.className = 'es-msg bot';
+    botDiv.textContent = "Solving step-by-step...";
+    msgContainer.appendChild(botDiv);
+    msgContainer.scrollTop = msgContainer.scrollHeight;
+
+    try {
+      const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          contents: [{
+            parts: [{ text: "You are an expert Mathematics tutor for Emerging Sciences (IIT JAM, CUET PG, TIFR level). Solve this problem step-by-step with simple, clear explanations:\n\n" + question }]
+          }]
+        })
+      });
+
+      const data = await response.json();
+      if (data.candidates && data.candidates[0].content.parts[0].text) {
+        botDiv.textContent = data.candidates[0].content.parts[0].text;
+      } else {
+        botDiv.textContent = "⚠️ API Key invalid ho sakti hai. Page refresh karke sahi key dalein.";
+        localStorage.removeItem('es_gemini_key');
+      }
+    } catch (err) {
+      botDiv.textContent = "❌ Network Error! Please try again.";
+    }
+    msgContainer.scrollTop = msgContainer.scrollHeight;
+  }
+</script>
+<!-- ========================================== -->
+<!-- EMERGING SCIENCES MATH AI CHATBOT END -->
+<!-- ========================================== -->
 </body>
 </html>
