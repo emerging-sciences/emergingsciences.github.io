@@ -36,21 +36,35 @@
         }
     </style>
 
-    <script>
-        const introWrap = document.getElementById('intro-video-wrap');
-        const introVideo = document.getElementById('intro-video');
+   <script>
+  // Check karo kya user pehli baar aaya hai
+  if (!localStorage.getItem('introPlayed')) {
+    // Agar nahi dekha, toh flag set kar do taaki dobara na chale
+    localStorage.setItem('introPlayed', 'true');
+  } else {
+    // Agar pehle hi chal chuka hai, toh intro element ko turant hata do
+    document.addEventListener('DOMContentLoaded', () => {
+      const introWrap = document.getElementById('intro-video-wrap');
+      if (introWrap) introWrap.remove();
+    });
+  }
 
-        introVideo.addEventListener('ended', hideIntro);
-        setTimeout(hideIntro, 5000); // 5 seconds safety fallback
+  const introWrap = document.getElementById('intro-video-wrap');
+  const introVideo = document.getElementById('intro-video');
+  
+  if (introVideo && introWrap) {
+    introVideo.addEventListener('ended', hideIntro);
+    setTimeout(hideIntro, 5000); // 5 seconds safety fallback
+  }
 
-        function hideIntro() {
-            if (introWrap) {
-                introWrap.style.transition = 'opacity 0.5s ease';
-                introWrap.style.opacity = '0';
-                setTimeout(() => introWrap.remove(), 500);
-            }
-        }
-    </script>
+  function hideIntro() {
+    if (introWrap && introWrap.parentNode) {
+      introWrap.style.transition = 'opacity 0.5s ease';
+      introWrap.style.opacity = '0';
+      setTimeout(() => introWrap.remove(), 500);
+    }
+  }
+</script>
 
    
 
