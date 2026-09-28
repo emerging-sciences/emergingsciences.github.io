@@ -1,25 +1,76 @@
-<!-- CONTACT -->
-<section class="section" id="contact">
-  <div class="section-inner">
-    <div class="contact-box">
-      <div class="sec-label center-text">Connect With Us</div>
-      <h2 class="sec-title center-text">Hamare community mein aao</h2>
-      <p class="contact-sub">Latest lectures, notes aur updates ke liye join karo</p>
-      
-      <div class="contact-chips">
-        <a href="https://youtube.com/@EMS4518-k4s" target="_blank" class="contact-chip">
-          <span class="chip-icon">▶</span>
-          <span>YouTube Channel</span>
-        </a>
-        <a href="https://t.me/emer816" target="_blank" class="contact-chip">
-          <span class="chip-icon">✈</span>
-          <span>Telegram Group</span>
-        </a>
-        <a href="https://x.com/emergingsc28041" target="_blank" class="contact-chip">
-          <span class="chip-icon">𝕏</span>
-          <span>Twitter / X</span>
-        </a>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact Us - Emerging Sciences</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Navigation -->
+  <nav>
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo">
+        <span class="accent">∑</span> Emerging Sciences
+      </a>
+      <div class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="lectures.html">Lectures</a>
+        <a href="notes.html">Notes</a>
+        <a href="about.html">About</a>
+        <a href="contact.html" class="active">Contact</a>
+      </div>
+      <button class="hamburger" onclick="toggleMenu()">☰</button>
+    </div>
+    <div class="mobile-menu" id="mobileMenu">
+      <a href="index.html">Home</a>
+      <a href="lectures.html">Lectures</a>
+      <a href="notes.html">Notes</a>
+      <a href="about.html">About</a>
+      <a href="contact.html">Contact</a>
+    </div>
+  </nav>
+
+  <!-- CONTACT SECTION -->
+  <section class="section">
+    <div class="section-inner">
+      <div class="contact-box">
+        <div class="sec-label center-text">Connect With Us</div>
+        <h2 class="sec-title center-text">Hamare community mein aao</h2>
+        <p class="contact-sub">Latest lectures, notes aur updates ke liye join karo</p>
+        
+        <div class="contact-chips">
+          <a href="https://youtube.com/@EMS4518-k4s" target="_blank" class="contact-chip">
+            <span class="chip-icon">▶</span>
+            <span>YouTube Channel</span>
+          </a>
+          <a href="https://t.me/emer816" target="_blank" class="contact-chip">
+            <span class="chip-icon">✈</span>
+            <span>Telegram Group</span>
+          </a>
+          <a href="https://x.com/emergingsc28041" target="_blank" class="contact-chip">
+            <span class="chip-icon">𝕏</span>
+            <span>Twitter / X</span>
+          </a>
+        </div>
       </div>
     </div>
-  </div>
-</section>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-logo">Emerging Sciences</div>
+      <p>© 2026 Emerging Sciences. Forging the Future.</p>
+    </div>
+  </footer>
+
+  <script>
+    function toggleMenu() {
+      document.getElementById('mobileMenu').classList.toggle('open');
+    }
+  </script>
+
+</body>
+</html>
