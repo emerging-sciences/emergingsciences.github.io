@@ -1,46 +1,72 @@
-<!-- WHAT WE OFFER -->
-<section class="section">
-  <div class="section-inner">
-    <div class="sec-label">What We Offer</div>
-    <div class="sec-title">Sab kuch free mein</div>
-    <div class="offer-grid">
-      <div class="offer-card">
-        <div class="offer-icon" style="background:#EFF6FF;">▶️</div>
-        <div class="offer-title">Video Lectures</div>
-        <div class="offer-desc">YouTube pe high-quality mathematics lectures. Kabhi bhi, kahin se bhi dekho — completely free.</div>
-      </div>
-      <div class="offer-card">
-        <div class="offer-icon" style="background:#ECFDF5;">📄</div>
-        <div class="offer-title">Study Notes / PDFs</div>
-        <div class="offer-desc">Detailed notes aur PDFs directly download karo. Har topic ke liye separate material available.</div>
-      </div>
-      <div class="offer-card">
-        <div class="offer-icon" style="background:#FFFBEB;">💬</div>
-        <div class="offer-title">Doubt Support</div>
-        <div class="offer-desc">Telegram group mein doubts poochho. Community ke saath milke prepare karo.</div>
-      </div>
-      <div class="offer-card">
-        <div class="offer-icon" style="background:#FDF4FF;">🔔</div>
-        <div class="offer-title">Regular Updates</div>
-        <div class="offer-desc">Nayi lectures aur notes regular basis pe upload hote hain. Telegram join karo to stay updated.</div>
-      </div>
-    </div>
-  </div>
-</section>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About Us - Emerging Sciences</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
 
-<!-- ABOUT -->
-<section class="section section-alt" id="about">
-  <div class="section-inner">
-    <div class="sec-label">About Us</div>
-    <div class="sec-title">Emerging Sciences ke baare mein</div>
-    <div class="about-card">
-      <div class="about-avatar">∑</div>
-      <div class="about-text">
-        <h3>Our Mission</h3>
-        <p>Emerging Sciences ka mission hai IIT JAM, CUET PG, TIFR aur sabhi MSc level mathematics entrance exams ke liye world-class preparation material bilkul free mein provide karna.</p>
-        <br>
-        <p>Hamara maanna hai ki <strong>paisa kabhi bhi quality education ki raah mein nahi aana chahiye.</strong> Isliye ye platform aur yahan ki har cheez — videos, notes, PDFs — hamesha free rahenge.</p>
+  <!-- Navigation -->
+  <nav>
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo">
+        <span class="accent">∑</span> Emerging Sciences
+      </a>
+      <div class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="lectures.html">Lectures</a>
+        <a href="notes.html">Notes</a>
+        <a href="about.html" class="active">About</a>
+        <a href="contact.html">Contact</a>
       </div>
+      <button class="hamburger" onclick="toggleMenu()">☰</button>
+    </div>
+    <div class="mobile-menu" id="mobileMenu">
+      <a href="index.html">Home</a>
+      <a href="lectures.html">Lectures</a>
+      <a href="notes.html">Notes</a>
+      <a href="about.html">About</a>
+      <a href="contact.html">Contact</a>
+    </div>
+  </nav>
+
+  <!-- PAGE HERO -->
+  <div class="page-hero">
+    <div class="page-hero-inner">
+      <h1 class="page-title">About Us</h1>
+      <p class="page-desc">Jaano Emerging Sciences ke mission aur vision ke baare mein.</p>
     </div>
   </div>
-</section>
+
+  <!-- ABOUT SECTION -->
+  <section class="section">
+    <div class="section-inner">
+      <div class="about-card">
+        <div class="about-avatar">∑</div>
+        <div class="about-text">
+          <h3>Our Mission</h3>
+          <p>Emerging Sciences ka mission hai IIT JAM, CUET PG, TIFR aur sabhi MSc level mathematics entrance exams ke liye world-class preparation material bilkul free mein provide karna.</p>
+          <p>Hamara maanna hai ki <strong>paisa kabhi bhi quality education ki raah mein nahi aana chahiye.</strong> Isliye ye platform aur yahan ki har cheez — videos, notes, PDFs — hamesha free rahenge.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-logo">Emerging Sciences</div>
+      <p>© 2026 Emerging Sciences. Forging the Future.</p>
+    </div>
+  </footer>
+
+  <script>
+    function toggleMenu() {
+      document.getElementById('mobileMenu').classList.toggle('open');
+    }
+  </script>
+
+</body>
+</html>
