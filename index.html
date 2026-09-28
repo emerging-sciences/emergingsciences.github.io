@@ -9,6 +9,9 @@
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500&display=swap" rel="stylesheet">
     <link rel="icon" type="image/png" href="logo-icon.png?v=2">
     <link rel="stylesheet" href="style.css">
+
+    <!-- 1. ADDED: KaTeX CSS for Math Symbols -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
 </head>
 <body>
 
@@ -320,9 +323,101 @@ Loading…
         </div>
     </footer>
 
+    <!-- 2. ADDED: Custom Math AI Chatbot Box (HTML) -->
+    <div id="chat-widget" style="position: fixed; bottom: 20px; right: 20px; width: 350px; background: white; border: 1px solid #d1d5db; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.15); font-family: sans-serif; z-index: 9999; overflow: hidden;">
+      
+      <!-- Chat Header -->
+      <div style="background: #4f46e5; color: white; padding: 12px; font-weight: bold; display: flex; justify-content: space-between; align-items: center;">
+        <span>Math AI Tutor 🤖</span>
+        <span style="font-size: 12px; background: #3730a3; padding: 2px 6px; border-radius: 4px;">Free</span>
+      </div>
+
+      <!-- Messages Area -->
+      <div id="chat-messages" style="height: 320px; overflow-y: auto; padding: 12px; font-size: 14px; display: flex; flex-direction: column; gap: 10px; background: #f9fafb;">
+        <div style="background: #e0e7ff; color: #1e1b4b; padding: 8px 12px; border-radius: 8px; align-self: flex-start; max-width: 85%;">
+          Hello! 👋 Mujhse IIT JAM, CUET PG ya koi bhi Math ki problem poochho. Main step-by-step solution dunga!
+        </div>
+      </div>
+
+      <!-- Input Area -->
+      <div style="display: flex; border-top: 1px solid #e5e7eb; padding: 10px; background: white;">
+        <input type="text" id="user-input" placeholder="Yahan math problem likho..." style="flex: 1; padding: 8px; border: 1px solid #d1d5db; border-radius: 6px; outline: none; font-size: 14px;" onkeypress="handleKeyPress(event)">
+        <button onclick="sendMessage()" style="background: #4f46e5; color: white; border: none; padding: 8px 14px; margin-left: 6px; border-radius: 6px; cursor: pointer; font-weight: bold;">Send</button>
+      </div>
+    </div>
+
+    <!-- Website Scripts -->
     <script src="main.js"></script>
-    <script src="https://cdn.botpress.cloud/webchat/v5.0/inject.js"></script>
-<script src="https://files.bpcontent.cloud/2026/09/27/17/20260927173023-HO130OD7.js" defer></script>
+
+    <!-- 3. ADDED: KaTeX Rendering & Custom Gemini Chatbot JavaScript -->
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js" onload="renderMathInElement(document.body);"></script>
+
+    <script>
+      // 🔑 APNI API KEY YAHAN PASTE KARO (AQ... wali)
+      const API_KEY = "AQ.Ab8RN6LuF1A5-YOXoD9YXwmXPD0r_4fb3vFSadQND9wsWMLE8g";
+
+      async function sendMessage() {
+        const inputField = document.getElementById("user-input");
+        const chatMessages = document.getElementById("chat-messages");
+        const userText = inputField.value.trim();
+
+        if (!userText) return;
+
+        // 1. User ka message screen par lagao
+        chatMessages.innerHTML += `<div style="background: #4f46e5; color: white; padding: 8px 12px; border-radius: 8px; align-self: flex-end; max-width: 85%;"><b>Aap:</b> ${userText}</div>`;
+        inputField.value = "";
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+
+        // 2. Loading message dikhao
+        const loadingId = "loading-" + Date.now();
+        chatMessages.innerHTML += `<div id="${loadingId}" style="background: #e5e7eb; color: #4b5563; padding: 8px 12px; border-radius: 8px; align-self: flex-start;">Soch raha hoon... ⏳</div>`;
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+
+        // 3. AI ko prompt bhejo
+        const prompt = `You are an expert mathematics tutor for students preparing for higher-level exams like IIT JAM and TIFR. Solve the following math problem clearly and step-by-step. Use proper mathematical notation and LaTeX format enclosed in $ for inline or $$ for block equations where necessary: ${userText}`;
+
+        try {
+          const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${API_KEY}`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              contents: [{ parts: [{ text: prompt }] }]
+            })
+          });
+
+          const data = await response.json();
+          
+          // Loading message hatao
+          document.getElementById(loadingId).remove();
+
+          if (data.candidates && data.candidates[0].content.parts[0].text) {
+            const aiReply = data.candidates[0].content.parts[0].text;
+            
+            // AI ka jawab screen par dikhao
+            chatMessages.innerHTML += `<div style="background: white; border: 1px solid #e5e7eb; padding: 10px 12px; border-radius: 8px; align-self: flex-start; max-width: 90%; line-height: 1.5;"><b>AI Tutor:</b><br>${aiReply}</div>`;
+            
+            // Math symbols ko render karo
+            renderMathInElement(chatMessages);
+          } else {
+            chatMessages.innerHTML += `<div style="background: #fee2e2; color: #b91c1c; padding: 8px; border-radius: 8px;">Kuch error aa gaya. Dobara koshish karein.</div>`;
+          }
+
+        } catch (error) {
+          document.getElementById(loadingId).remove();
+          chatMessages.innerHTML += `<div style="background: #fee2e2; color: #b91c1c; padding: 8px; border-radius: 8px;">Network Error: Request fail ho gayi.</div>`;
+        }
+
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+      }
+
+      // Enter dabane par message send ho jaye
+      function handleKeyPress(event) {
+        if (event.key === "Enter") {
+          sendMessage();
+        }
+      }
+    </script>
 
 </body>
 </html>
