@@ -1,0 +1,17 @@
+.a-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px;margin:1rem 0}
+.a-grid3{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin-bottom:1.5rem}
+.a-card{display:block;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:16px;color:var(--text);text-decoration:none}
+a.a-card:hover{border-color:var(--blue);transform:translateY(-2px)}.a-card.dim{opacity:.5}
+.a-card small,.section-inner small{color:var(--text2);display:block;margin-top:4px}.a-card h3{margin:6px 0;font-size:16px}
+.ic{color:var(--blue);font-weight:600}.a-h{margin:1rem 0 .5rem;color:var(--text)}.section-inner p,.section-inner h3,.section-inner label{color:var(--text2)}
+.bar{height:6px;background:var(--border);border-radius:9px;margin-top:10px;overflow:hidden}.bar i{display:block;height:100%;background:var(--green)}
+.a-row{display:flex;gap:12px;align-items:center;padding:12px;margin:6px 0;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);color:var(--text);text-decoration:none}
+.a-row:hover{border-color:var(--blue)}.a-row .num{color:var(--blue);font-weight:600;min-width:42px}.a-row .tt{flex:1}
+.tag{font-size:11px;padding:2px 8px;border-radius:9px;background:var(--blue-light);color:var(--blue);margin-right:4px}.tags{margin-top:8px}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0}.chips a{padding:6px 14px;border:1px solid var(--border);border-radius:99px;color:var(--text2);text-decoration:none;font-size:13px}
+.chips a.on{background:var(--blue);color:#fff;border-color:var(--blue)}
+.btns{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0;align-items:center}.btns button,.btns a,.mbar button{background:var(--blue-light);color:var(--text);border:1px solid var(--border);border-radius:8px;padding:8px 12px;font-size:13px;cursor:pointer;text-decoration:none}
+.vid{position:relative;aspect-ratio:16/9;background:#000;border-radius:var(--radius);overflow:hidden}.vid iframe{position:absolute;inset:0;width:100%;height:100%}
+.a-in{width:100%;padding:12px;border-radius:10px;border:1px solid var(--border-strong);background:var(--surface);color:var(--text);font-size:15px}
+.modal{position:fixed;inset:0;z-index:999;background:var(--bg);display:flex;flex-direction:column}.mbar{display:flex;justify-content:space-between;align-items:center;padding:10px;color:var(--text)}
+.modal iframe{flex:1;border:0;background:#fff}.modal.night iframe{filter:invert(1) hue-rotate(180deg)}

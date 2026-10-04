@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>About Us — Emerging Sciences</title>
+<title>Watch — Emerging Sciences</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500&display=swap" rel="stylesheet">
 <link rel="icon" type="image/png" href="favicon.png?v=2">
@@ -11,6 +11,7 @@
 <link rel="shortcut icon" href="favicon.ico?v=2">
 <link rel="apple-touch-icon" href="favicon.png?v=2">
 <link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="app.css">
 <link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#06070d">
 </head>
@@ -26,7 +27,7 @@
       <a href="index.html">Home</a>
       <a href="lectures.html">Lectures</a>
       <a href="material.html">Study Material</a>
-      <a href="about.html" class="active">About</a>
+      <a href="about.html">About</a>
       <a href="contact.html">Contact</a>
       <a href="doubts.html">Doubts</a>
       <a href="search.html">Search</a>
@@ -49,27 +50,7 @@
   </div>
 </nav>
 
-<!-- PAGE HERO -->
-<div class="page-hero">
-  <div class="page-hero-inner">
-    <h1 class="page-title">About Us</h1>
-    <p class="page-desc">Jaano Emerging Sciences ke mission aur vision ke baare mein.</p>
-  </div>
-</div>
-
-<!-- ABOUT SECTION -->
-<section class="section">
-  <div class="section-inner">
-    <div class="about-card">
-      <div class="about-avatar">∑</div>
-      <div class="about-text">
-        <h3>Our Mission</h3>
-        <p>Emerging Sciences ka mission hai IIT JAM, CUET PG, TIFR aur sabhi MSc level mathematics entrance exams ke liye world-class preparation material bilkul free mein provide karna.</p>
-        <p>Hamara maanna hai ki <strong>paisa kabhi bhi quality education ki raah mein nahi aana chahiye.</strong> Isliye ye platform aur yahan ki har cheez — videos, notes, PDFs — hamesha free rahenge.</p>
-      </div>
-    </div>
-  </div>
-</section>
+<main id="app" data-page="watch"></main>
 
 <footer>
   <div class="footer-inner">
@@ -79,7 +60,9 @@
   </div>
 </footer>
 
+<script src="data.js"></script>
 <script src="main.js"></script>
+<script src="app.js"></script>
   <script src="https://cdn.botpress.cloud/webchat/v5.0/inject.js"></script>
 <script src="https://files.bpcontent.cloud/2026/09/27/17/20260927173023-HO130OD7.js" defer></script>
 <script>
