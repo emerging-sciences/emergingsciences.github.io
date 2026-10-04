@@ -332,7 +332,28 @@ window.ES_DATA = {
    "drive": "1SVOy9FxNQ5sQhPeT9att3y4D-Ryt-pba"
   }
  ],
- "faq": [],
+ "faq": [
+ {
+  "q": "Is everything really free?",
+  "a": "Yes. Every lecture, note and PDF is free forever. No fees, no registration."
+ },
+ {
+  "q": "Which exams is this for?",
+  "a": "IIT JAM, CUET PG, TIFR and other MSc entrances like NBHM, CMI, ISI, BHU and DU."
+ },
+ {
+  "q": "How should I study here?",
+  "a": "Watch the lecture first, then read the matching PDF notes, then practice the questions."
+ },
+ {
+  "q": "When will new subjects arrive?",
+  "a": "Abstract Algebra, Linear Algebra, Complex Analysis and Topology are being uploaded over time. Join Telegram for updates."
+ },
+ {
+  "q": "How do I ask a doubt?",
+  "a": "Use the Doubts tab. Your question opens in Telegram so you can send it directly."
+ }
+],
  "doubtLinks": [],
  "updates": [
   {

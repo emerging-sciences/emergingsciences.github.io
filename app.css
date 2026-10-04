@@ -26,3 +26,15 @@ body{padding-bottom:84px}
 #splash img{width:112px;height:112px;border-radius:24px;animation:spIn .7s ease both}#splash b{color:#E8EAF0;font:700 20px 'Space Grotesk',sans-serif;animation:spIn .7s ease .15s both}
 @keyframes spIn{from{opacity:0;transform:scale(.85)}to{opacity:1;transform:none}}@keyframes spOut{to{opacity:0;visibility:hidden}}
 .faq details{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:12px 16px;margin:8px 0;color:var(--text)}.faq summary{cursor:pointer;font-weight:600}.faq p{margin:8px 0 0;color:var(--text2)}
+
+/* ---- v3: centered floating bottom bar, stable positions, doubt form ---- */
+html{scrollbar-gutter:stable}
+@view-transition{navigation:auto}
+.hdr{view-transition-name:hdr;padding-left:max(16px,calc((100% - 900px)/2));padding-right:max(16px,calc((100% - 900px)/2))}
+.bnav{view-transition-name:bnav;left:50%;right:auto;transform:translateX(-50%);width:min(520px,calc(100% - 16px));bottom:calc(8px + env(safe-area-inset-bottom));border:1px solid var(--border-strong);border-radius:22px;padding:6px 4px;box-shadow:0 8px 30px rgba(0,0,0,.5)}
+body{padding-bottom:100px}
+::view-transition-group(root){animation-duration:.12s}
+.ask{max-width:640px}.ask .a-in{margin:8px 0;font-family:inherit}.ask textarea{resize:vertical;min-height:120px}.ask select{appearance:auto}
+.photo{display:flex;gap:10px;align-items:center;color:var(--text2);cursor:pointer;margin:10px 2px}
+.send{width:100%;padding:14px;border:0;border-radius:99px;background:var(--blue);color:#fff;font-size:16px;font-weight:600;cursor:pointer;margin-top:8px}
+.ask small{display:block;text-align:center;margin-top:8px}

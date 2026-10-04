@@ -16,4 +16,6 @@ Pages khud ban jaate hain (lectures, watch, material, search, more).
 **Naya subject:** `subjects` me `live:true` karo aur lectures me wahi `s` id use karo.
 **Update/news:** `updates` me line add karo. **Exam date / daily goal:** `exam`, `goalMin`.
 
-Purane pages `old-backup/` me safe hain.
+Purane pages zip ke `old-backup/` me hain (repo me upload karna zaroori nahi).
+
+**FAQ / doubt links:** `faq` aur `doubtLinks` bhi `data.js` me hain.

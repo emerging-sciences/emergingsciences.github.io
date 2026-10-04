@@ -59,8 +59,25 @@ more(el){const sv=saved(),L=D.lectures.filter(l=>sv[l.id]),M=D.material.filter(m
  <button id="rst">Reset my progress</button></div><small>Progress is saved on this device only.</small></div></section>`;
  $('#g').onchange=e=>LS.s('goal',Math.max(5,+e.target.value||30));$('#rst').onclick=()=>{if(confirm('Delete progress, saved items and streak on this device?')){['done','saved','study'].forEach(k=>localStorage.removeItem('es_'+k));location.reload()}}}};
 
+
+const af=document.getElementById('ask-form');
+if(af){const subs=D.subjects.filter(s=>s.live).map(s=>s.name).concat(['Other / General']);
+ af.innerHTML=`<div class="ask"><h1 class="a-h" style="margin-top:0">Ask a doubt</h1><p>Stuck on a problem? Send it to us — it's free.</p>
+ <input id="dn" class="a-in" placeholder="Your name (optional)" maxlength="60">
+ <select id="ds" class="a-in">${subs.map(x=>`<option>${esc(x)}</option>`).join('')}</select>
+ <textarea id="dq" class="a-in" rows="5" placeholder="Write your question... e.g. How do I check if (2xy)dx + (x²)dy = 0 is exact?"></textarea>
+ <label class="photo">🖼 <span id="pn">Add a photo of the problem (optional)</span><input id="dp" type="file" accept="image/*" hidden></label>
+ <button id="dsend" class="send">✈ Send via Telegram</button><small>🔒 No login needed</small><small id="dmsg"></small></div>`;
+ $('#dp').onchange=e=>{$('#pn').textContent=e.target.files[0]?e.target.files[0].name:'Add a photo of the problem (optional)'};
+ $('#dsend').onclick=async()=>{const q=$('#dq').value.trim(),nm=$('#dn').value.trim(),sb=$('#ds').value,f=$('#dp').files[0];
+  if(!q&&!f){$('#dmsg').textContent='Pehle apna question likho.';return}
+  const text=`Doubt${nm?' from '+nm:''}\nSubject: ${sb}\n\n${q}`;
+  if(f&&navigator.canShare&&navigator.canShare({files:[f]})){try{await navigator.share({files:[f],text});return}catch(e){if(e.name==='AbortError')return}}
+  try{navigator.clipboard.writeText(text)}catch(e){}
+  window.open(D.links.telegram,'_blank','noopener');
+  $('#dmsg').textContent='Question copy ho gaya. Telegram me paste karke bhej do'+(f?' (photo wahin attach karna)':'')+'.'}}
 const fq=document.getElementById('faq');
-if(fq&&D.faq&&D.faq.length)fq.innerHTML='<h3 class="a-h" style="margin-top:3rem">❓ FAQ</h3><div class="faq">'+D.faq.map(f=>`<details><summary>${esc(f.q)}</summary><p>${esc(f.a)}</p></details>`).join('')+'</div>';
+if(fq&&D.faq&&D.faq.length)fq.innerHTML='<h3 class="a-h" style="margin-top:2.5rem">Frequently asked</h3><div class="faq">'+D.faq.map(f=>`<details><summary>${esc(f.q)}</summary><p>${esc(f.a)}</p></details>`).join('')+'</div>';
 const dx=document.getElementById('doubt-extra');
 if(dx&&D.doubtLinks&&D.doubtLinks.length)dx.innerHTML='<div style="margin-top:3rem;border-top:1px solid #ffffff22;padding-top:2rem"><div class="btns">'+D.doubtLinks.map(l=>`<a href="${l.url}" target="_blank" rel="noopener">${esc(l.label)}</a>`).join('')+'</div></div>';
 const el=$('#app');if(el&&R[el.dataset.page])R[el.dataset.page](el);
