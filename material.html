@@ -16,39 +16,12 @@
 <meta name="theme-color" content="#06070d">
 </head>
 <body>
+<div id="splash"><img src="logo-full.png" alt=""><b>Emerging Sciences</b></div>
+<script>try{if(sessionStorage.getItem('es_splash')){document.getElementById('splash').remove()}else{sessionStorage.setItem('es_splash','1');setTimeout(function(){var s=document.getElementById('splash');s&&s.remove()},1900)}}catch(e){}</script>
 
-<nav>
-  <div class="nav-inner">
-    <a href="index.html" class="nav-logo">
-      <img src="logo-icon.png" alt="Emerging Sciences" class="logo-icon">
-      Emerging Sciences
-    </a>
-    <div class="nav-links">
-      <a href="index.html">Home</a>
-      <a href="lectures.html">Lectures</a>
-      <a href="material.html">Study Material</a>
-      <a href="about.html">About</a>
-      <a href="contact.html">Contact</a>
-      <a href="doubts.html">Doubts</a>
-      <a href="search.html">Search</a>
-      <a href="more.html">More</a>
-      <a href="#" class="nav-ask" onclick="openChat(event)">Ask</a>
-    </div>
-    <a href="https://t.me/emer816" target="_blank" class="btn-nav">Join Free →</a>
-    <button class="hamburger" onclick="toggleMenu()" aria-label="Menu">☰</button>
-  </div>
-  <div class="mobile-menu" id="mobileMenu">
-    <a href="index.html">Home</a>
-    <a href="lectures.html">Lectures</a>
-    <a href="material.html">Study Material</a>
-    <a href="about.html">About</a>
-    <a href="contact.html">Contact</a>
-    <a href="doubts.html">Doubts</a>
-      <a href="search.html">Search</a>
-      <a href="more.html">More</a>
-    <a href="#" class="nav-ask" onclick="openChat(event)">Ask</a>
-  </div>
-</nav>
+
+<header class="hdr"><a href="index.html" class="hdr-logo"><img src="logo-icon.png" alt="">Emerging Sciences</a>
+<div class="hdr-r"><a href="search.html" aria-label="Search"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg></a><a href="more.html" aria-label="Updates and saved"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0112 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10 21a2 2 0 004 0"/></svg></a></div></header>
 
 <main id="app" data-page="material"></main>
 
@@ -60,6 +33,7 @@
   </div>
 </footer>
 
+<div class="bnav"><a href="index.html"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l9-8 9 8v10a1 1 0 01-1 1h-5v-7H9v7H4a1 1 0 01-1-1z"/></svg><span>Home</span></a><a href="lectures.html"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="3"/><path d="M10 9l5 3-5 3z"/></svg><span>Lectures</span></a><a href="material.html" class=on><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5a2 2 0 012-2h13v16H6a2 2 0 00-2 2z"/><path d="M4 21V5"/></svg><span>Material</span></a><a href="doubts.html"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 015 .5c0 1.5-2.5 2-2.5 3.5M12 17h.01"/></svg><span>Doubts</span></a><a href="#" onclick="openChat(event)"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a8 8 0 01-11.6 7.1L4 20l1-4.6A8 8 0 1121 12z"/></svg><span>Ask</span></a></div>
 <script src="data.js"></script>
 <script src="main.js"></script>
 <script src="app.js"></script>

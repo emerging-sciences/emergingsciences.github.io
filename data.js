@@ -332,6 +332,8 @@ window.ES_DATA = {
    "drive": "1SVOy9FxNQ5sQhPeT9att3y4D-Ryt-pba"
   }
  ],
+ "faq": [],
+ "doubtLinks": [],
  "updates": [
   {
    "date": "2026-10-04",

@@ -55,8 +55,13 @@ more(el){const sv=saved(),L=D.lectures.filter(l=>sv[l.id]),M=D.material.filter(m
  el.innerHTML=`<section class="section"><div class="section-inner"><h1 class="a-h">More</h1><h3>🔖 Saved</h3>${L.map(lecRow).join('')}<div class="a-grid">${M.map(matCard).join('')}</div>${L.length+M.length?'':'<p>Nothing saved yet.</p>'}
  <h3>📢 Updates</h3>${D.updates.map(u=>`<p><b>${u.date}</b> — ${esc(u.text)}</p>`).join('')}
  <h3>⚙ Settings</h3><p>Daily goal (minutes): <input id="g" type="number" min="5" max="600" value="${goal()/60}" class="a-in" style="width:90px"></p>
- <div class="btns"><a href="doubts.html">💬 Doubts</a><a href="about.html">About</a><a href="contact.html">Contact</a><a href="${D.links.telegram}" target="_blank">Telegram</a><a href="${D.links.youtube}" target="_blank">YouTube</a><a href="${D.links.x}" target="_blank">X</a>
+ <div class="btns"><a href="doubts.html">💬 Doubts</a><a href="index.html#about">About</a><a href="index.html#community">Community</a><a href="${D.links.telegram}" target="_blank">Telegram</a><a href="${D.links.youtube}" target="_blank">YouTube</a><a href="${D.links.x}" target="_blank">X</a>
  <button id="rst">Reset my progress</button></div><small>Progress is saved on this device only.</small></div></section>`;
  $('#g').onchange=e=>LS.s('goal',Math.max(5,+e.target.value||30));$('#rst').onclick=()=>{if(confirm('Delete progress, saved items and streak on this device?')){['done','saved','study'].forEach(k=>localStorage.removeItem('es_'+k));location.reload()}}}};
+
+const fq=document.getElementById('faq');
+if(fq&&D.faq&&D.faq.length)fq.innerHTML='<h3 class="a-h" style="margin-top:3rem">❓ FAQ</h3><div class="faq">'+D.faq.map(f=>`<details><summary>${esc(f.q)}</summary><p>${esc(f.a)}</p></details>`).join('')+'</div>';
+const dx=document.getElementById('doubt-extra');
+if(dx&&D.doubtLinks&&D.doubtLinks.length)dx.innerHTML='<div style="margin-top:3rem;border-top:1px solid #ffffff22;padding-top:2rem"><div class="btns">'+D.doubtLinks.map(l=>`<a href="${l.url}" target="_blank" rel="noopener">${esc(l.label)}</a>`).join('')+'</div></div>';
 const el=$('#app');if(el&&R[el.dataset.page])R[el.dataset.page](el);
 })();
