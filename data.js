@@ -376,8 +376,24 @@ window.ES_DATA = {
     "k": "Notes",
     "s": "bm",
     "drive": "1hmWm0tRjCC9dPwsUlUBuBd1EpDY0AUxc"
-  }
- ],
+  },
+  {
+  "id": "bm6",
+    "t": "Inequalities",
+    "d": "theory",
+    "k": "Notes",
+    "s": "bm",
+    "drive": "1wDnyQ5spWkWFJ1AWri_gqyQ5cG2PS6Om"
+  },
+  {
+    "id": "bm7",
+    "t": "Trigonometry",
+    "d": "theory",
+    "k": "Notes",
+    "s": "bm",
+    "drive": "1wqCv3D7DOtP71G-1jRab7MssQOYNZukU"
+  }; 
+    ],
  "faq": [
  {
   "q": "Is everything really free?",
@@ -413,3 +429,4 @@ window.ES_DATA = {
   "x": "https://x.com/emergingsc28041"
  }
 };
+
