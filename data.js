@@ -344,8 +344,39 @@ window.ES_DATA = {
   "k": "Notes",
   "s": "bm",
   "drive": "1bUriJ0FrUV7KOIOOLJLUtja5DL956hl3"
-}
-    
+},
+  {
+   "id": "bm2" ,
+   "t": "Co-ordinate geometry",
+   "d": "theory",
+   "k": "Notes",
+   "s": "bm",
+   "drive": "1-BNFd45vsZ4gBvo2HwUCI-BstxTwG4aP"
+  },
+  {
+    "id": "bm3",
+    "t": "Conic sections",
+    "d": "theory",
+    "k": "Notes",
+    "s": "bm",
+    "drive": "1l-qfJQJQtCLOyrVqfLdN6L7mfvCBgs1r"
+  },
+  {
+    "id": "bm4",
+    "t": "Matrices and determinants",
+    "d": "theory",
+    "k": "Notes",
+    "s": "bm",
+    "drive": "10BPhX3uoOP6eOTQ8mGA2AHihGMeUMDFA"
+  },
+  {
+    "id": "bm5",
+    "t": "Sequence and Series",
+    "d": "theory",
+    "k": "Notes",
+    "s": "bm",
+    "drive": "1hmWm0tRjCC9dPwsUlUBuBd1EpDY0AUxc"
+  }
  ],
  "faq": [
  {
