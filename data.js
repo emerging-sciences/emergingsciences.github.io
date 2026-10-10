@@ -20,6 +20,11 @@ window.ES_DATA = {
    "live": true
   },
   {
+   "id": "bm" ,
+   "name": "Basic Maths for JAM" ,
+   "icon": "📐",
+   "live": true
+  {
    "id": "alg",
    "name": "Abstract Algebra",
    "icon": "G/H"
@@ -330,7 +335,16 @@ window.ES_DATA = {
    "k": "PYQ",
    "s": "ra",
    "drive": "1SVOy9FxNQ5sQhPeT9att3y4D-Ryt-pba"
-  }
+  },
+   {
+    "id": "bm1",
+  "t": "Sets,Relations and functions",
+  "d": "theory",
+  "k": "Notes",
+  "s": "bm",
+  "drive": "1bUriJ0FrUV7KOIOOLJLUtja5DL956hl3"
+}
+    
  ],
  "faq": [
  {
