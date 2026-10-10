@@ -24,6 +24,7 @@ window.ES_DATA = {
    "name": "Basic Maths for JAM" ,
    "icon": "📐",
    "live": true
+  },
   {
    "id": "alg",
    "name": "Abstract Algebra",
