@@ -16,23 +16,56 @@
 <link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#06070d">
 <style>
-
 /* Other learning platform */
-.platform-switcher{margin:34px auto 0;padding:26px;border:1px solid #24283a;border-radius:20px;background:linear-gradient(135deg,#101522 0%,#0b0d15 100%);max-width:1100px}
-.platform-switcher .platform-eyebrow{color:#8ca9ff;font-size:11px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;margin-bottom:8px}
-.platform-switcher .platform-title{font-size:clamp(22px,3vw,30px);font-weight:700;letter-spacing:-.03em;line-height:1.2;margin:0 0 8px;color:#f5f6fc}
-.platform-switcher .platform-intro{color:#9ba3bb;font-size:14px;line-height:1.7;margin:0 0 20px;max-width:620px}
-.platform-switcher-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
-.platform-switcher-card{display:flex;flex-direction:column;align-items:flex-start;gap:10px;min-width:0;padding:20px;border:1px solid #272c40;border-radius:15px;background:rgba(255,255,255,.025);color:#f5f6fc;text-decoration:none;transition:transform .2s,border-color .2s,background .2s}
-.platform-switcher-card:hover{transform:translateY(-2px);border-color:#627fe5;background:rgba(91,119,220,.07)}
-.platform-switcher-card .platform-symbol{display:grid;place-items:center;width:44px;height:44px;border-radius:13px;background:#182342;color:#9bb4ff;font-size:23px;font-weight:700}
-.platform-switcher-card strong{font-size:16px;line-height:1.4}
-.platform-switcher-card .platform-desc{color:#a3abc0;font-size:13px;line-height:1.65}
-.platform-switcher-card .platform-cta{margin-top:auto;padding-top:4px;color:#a7bbff;font-size:13px;font-weight:700}
-@media(max-width:600px){.platform-switcher{padding:19px}.platform-switcher-grid{grid-template-columns:1fr}.platform-switcher-card{padding:17px}}
-
+.platform-switcher {margin: 34px auto 0; padding: 26px; border: 1px solid #24283a; border-radius: 20px; background: linear-gradient(135deg, #101522 0%, #0b0d15 100%); max-width: 1100px;}
+.platform-switcher .platform-eyebrow {color: #8ca9ff; font-size: 11px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; margin-bottom: 8px;}
+.platform-switcher .platform-title {font-size: clamp(22px, 3vw, 30px); font-weight: 700; letter-spacing: -.03em; line-height: 1.2; margin: 0 0 8px; color: #f5f6fc;}
+.platform-switcher .platform-intro {color: #9ba3bb; font-size: 14px; line-height: 1.7; margin: 0 0 20px; max-width: 620px;}
+.platform-switcher-grid {display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px;}
+.platform-switcher-card {display: flex; flex-direction: column; align-items: flex-start; gap: 10px; min-width: 0; padding: 20px; border: 1px solid #272c40; border-radius: 15px; background: rgba(255,255,255,.025); color: #f5f6fc; text-decoration: none; transition: transform .2s, border-color .2s, background .2s;}
+.platform-switcher-card:hover {transform: translateY(-2px); border-color: #627fe5; background: rgba(91,119,220,.07);}
+.platform-switcher-card .platform-symbol {display: grid; place-items: center; width: 44px; height: 44px; border-radius: 13px; background: #182342; color: #9bb4ff; font-size: 23px; font-weight: 700;}
+.platform-switcher-card strong {font-size: 16px; line-height: 1.4;}
+.platform-switcher-card .platform-desc {color: #a3abc0; font-size: 13px; line-height: 1.65;}
+.platform-switcher-card .platform-cta {margin-top: auto; padding-top: 4px; color: #a7bbff; font-size: 13px; font-weight: 700;}
+@media (max-width: 600px) {
+  .platform-switcher {padding: 19px;}
+  .platform-switcher-grid {grid-template-columns: 1fr;}
+  .platform-switcher-card {padding: 17px;}
+}
 </style>
-</head>
+
+<!-- Explore Other Platform Section -->
+<section class="section">
+    <div class="section-inner">
+        <div class="platform-switcher" aria-labelledby="platform-switcher-title">
+            <div class="platform-eyebrow">Keep learning with us</div>
+            <h2 class="platform-title" id="platform-switcher-title">Explore Our Other Platform</h2>
+            <p class="platform-intro">Ek hi mission — har student tak quality education free mein pahunchana.</p>
+            <div class="platform-switcher-grid">
+                
+                <!-- Card 1: IIT JAM Platform -->
+                <a class="platform-switcher-card" href="https://emerging-sciences.github.io/emergingsciences.github.io/index.html" target="_blank" rel="noopener noreferrer">
+                    <span class="platform-symbol" aria-hidden="true">∑</span>
+                    <strong>IIT JAM &amp; Higher Mathematics</strong>
+                    <span class="platform-desc">IIT JAM, CUET PG, TIFR, Real Analysis aur MSc entrance preparation.</span>
+                    <span class="platform-cta">You are here · Open platform ↗</span>
+                </a>
+
+                <!-- Card 2: Class 11-12 & Competitive Exams Platform -->
+                <a class="platform-switcher-card" href="https://emerging-sciences.github.io/emergingsciences/" target="_blank" rel="noopener noreferrer">
+                    <span class="platform-symbol" aria-hidden="true">π</span>
+                    <strong>Class 11–12 &amp; Competitive Exams</strong>
+                    <span class="platform-desc">JEE, NDA, CUET UG aur NCERT-based learning ke liye hamara doosra platform.</span>
+                    <span class="platform-cta">Explore School &amp; Competitive Platform ↗</span>
+                </a>
+
+            </div>
+        </div>
+    </div>
+</section>
+
+<head></head>
   <body>
 <div id="splash"><img src="logo-full.png" alt=""><b>Emerging Sciences</b></div>
 <script>try{if(sessionStorage.getItem('es_splash')){document.getElementById('splash').remove()}else{sessionStorage.setItem('es_splash','1');setTimeout(function(){var s=document.getElementById('splash');s&&s.remove()},1900)}}catch(e){}</script>
