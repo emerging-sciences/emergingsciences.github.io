@@ -26,6 +26,12 @@ window.ES_DATA = {
    "live": true
   },
   {
+   "id": "ba",
+   "name": "Basic Algebra and Algebra",
+   "icon": "n!",
+   "live": true
+  },
+  {
    "id": "alg",
    "name": "Abstract Algebra",
    "icon": "G/H"
@@ -401,6 +407,22 @@ window.ES_DATA = {
     "s": "bm",
     "drive": "1u7KYLauszzNlh_WlPg7o0DjqV8veCCIS"
   },
+   {
+    "id": "bm9",
+    "t": "Principle of mathematical induction",
+    "d": "theory",
+    "k": "Notes",
+    "s": "bm",
+    "drive": "1jDqzQhCeaQQMF8U6MzVEnBJ_-TVh5l80"
+  },
+  {
+  "id": "ba-01",
+   "t": "Permutations and combinations",
+  "d": "one shot revision sheet ",
+  "k": "theory with examples",
+  "s": "Basic algebra and algebra",
+  "pdf": "1aEXD-gJn9Gfqo1LYxSqiqHjJxP7c7rY9"
+}
     ],
  "faq": [
  {
