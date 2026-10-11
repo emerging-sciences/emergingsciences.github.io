@@ -420,7 +420,7 @@ window.ES_DATA = {
    "t": "Permutations and combinations",
   "d": "one shot revision sheet ",
   "k": "theory with examples",
-  "s": "Basic algebra and algebra",
+  "s": "ba",
   "pdf": "1aEXD-gJn9Gfqo1LYxSqiqHjJxP7c7rY9"
 },
     ],
