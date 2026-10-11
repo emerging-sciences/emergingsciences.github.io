@@ -38,3 +38,65 @@ body{padding-bottom:100px}
 .photo{display:flex;gap:10px;align-items:center;color:var(--text2);cursor:pointer;margin:10px 2px}
 .send{width:100%;padding:14px;border:0;border-radius:99px;background:var(--blue);color:#fff;font-size:16px;font-weight:600;cursor:pointer;margin-top:8px}
 .ask small{display:block;text-align:center;margin-top:8px}
+/* ---- Platform Switch Cards Styling ---- */
+.platform-switch-container {
+    margin: 24px auto 16px;
+    padding: 0 4px;
+}
+
+.platform-cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 12px;
+    margin-top: 10px;
+}
+
+.platform-card {
+    display: block;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 16px;
+    color: var(--text);
+    text-decoration: none;
+    transition: border-color 0.2s ease, transform 0.2s ease;
+}
+
+.platform-card:hover {
+    border-color: var(--blue);
+    transform: translateY(-2px);
+}
+
+.platform-card h3 {
+    margin: 6px 0;
+    font-size: 16px;
+    color: var(--text);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.platform-card p {
+    color: var(--text2);
+    font-size: 13px;
+    margin: 6px 0 12px;
+    line-height: 1.4;
+}
+
+.platform-link-btn {
+    display: inline-block;
+    padding: 6px 12px;
+    background: var(--blue-light);
+    color: var(--text);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 500;
+    text-decoration: none;
+}
+
+.platform-card:hover .platform-link-btn {
+    background: var(--blue);
+    color: #fff;
+    border-color: var(--blue);
+}
