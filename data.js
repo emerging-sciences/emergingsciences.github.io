@@ -421,7 +421,7 @@ window.ES_DATA = {
   "d": "one shot revision sheet ",
   "k": "theory with examples",
   "s": "ba",
-  "pdf": "1aEXD-gJn9Gfqo1LYxSqiqHjJxP7c7rY9"
+  "drive": "1aEXD-gJn9Gfqo1LYxSqiqHjJxP7c7rY9"
 },
     ],
  "faq": [
