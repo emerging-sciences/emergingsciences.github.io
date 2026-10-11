@@ -422,7 +422,7 @@ window.ES_DATA = {
   "k": "theory with examples",
   "s": "Basic algebra and algebra",
   "pdf": "1aEXD-gJn9Gfqo1LYxSqiqHjJxP7c7rY9"
-}
+},
     ],
  "faq": [
  {
