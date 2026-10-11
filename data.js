@@ -393,6 +393,14 @@ window.ES_DATA = {
     "s": "bm",
     "drive": "1wqCv3D7DOtP71G-1jRab7MssQOYNZukU"
   },
+   {
+    "id": "bm8",
+    "t": "Theory of equations",
+    "d": "theory",
+    "k": "Notes",
+    "s": "bm",
+    "drive": "1u7KYLauszzNlh_WlPg7o0DjqV8veCCIS"
+  },
     ],
  "faq": [
  {
