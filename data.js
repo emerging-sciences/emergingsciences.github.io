@@ -42,9 +42,9 @@ window.ES_DATA = {
    "icon": "Ax=λx"
   },
   {
-   "id": "ca",
-   "name": "Complex Analysis",
-   "icon": "∮f(z)"
+   "id": "IC",
+   "name": "Integral Calculus",
+   "icon": "$\int f(x)dx$ "
   },
   {
    "id": "top",
