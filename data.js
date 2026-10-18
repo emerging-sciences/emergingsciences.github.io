@@ -42,9 +42,9 @@ window.ES_DATA = {
    "icon": "Ax=λx"
   },
   {
-   "id": "IC",
+   "id": "ic",
    "name": "Integral Calculus",
-   "icon": "$\int f(x)dx$ "
+   "icon": "∫ f(x)dx"
   },
   {
    "id": "top",
@@ -423,6 +423,13 @@ window.ES_DATA = {
   "s": "ba",
   "drive": "1aEXD-gJn9Gfqo1LYxSqiqHjJxP7c7rY9"
 },
+  {
+   "id": "ic1",
+   "t": "Indefinite integration",
+   "d": "one shot revision ",
+   "k": "theory + examples",
+   "s": "ic",
+   "drive": "1AoEYOyIp03TTZ2_Z5Ph1Wl51eu0hnrDS"
     ],
  "faq": [
  {
