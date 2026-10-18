@@ -44,7 +44,8 @@ window.ES_DATA = {
   {
    "id": "ic",
    "name": "Integral Calculus",
-   "icon": "∫ f(x)dx"
+   "icon": "∫ f(x)dx",
+   "live": true
   },
   {
    "id": "top",
@@ -424,7 +425,7 @@ window.ES_DATA = {
   "drive": "1aEXD-gJn9Gfqo1LYxSqiqHjJxP7c7rY9"
 },
   {
-   "id": "ic1",
+   "id": "ic-01",
    "t": "Indefinite integration",
    "d": "one shot revision ",
    "k": "theory + examples",
