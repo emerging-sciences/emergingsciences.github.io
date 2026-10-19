@@ -434,6 +434,10 @@ window.ES_DATA = {
   },
     ],
  "faq": [
+  {
+   "q": "Why choose us?",
+   "a": "Garib ki duwaye lagengi aapko."
+  },
  {
   "q": "Is everything really free?",
   "a": "Yes. Every lecture, note and PDF is free forever. No fees, no registration."
