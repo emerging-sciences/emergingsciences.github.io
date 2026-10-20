@@ -7,8 +7,8 @@
     --blue-mid: rgba(79, 140, 255, 0.25);
     --green: #34D399;
     --green-light: rgba(52, 211, 153, 0.12);
-    --bg: #000000;
-    --surface: #000000;
+    --bg: #06070d;
+    --surface: #0e1430;
     --border: rgba(255, 255, 255, 0.09);
     --border-strong: rgba(255, 255, 255, 0.18);
     --text: #E8EAF0;
@@ -21,7 +21,7 @@
 
 body {
     font-family: var(--font-b);
-    background: #000000 fixed;
+    background: radial-gradient(circle at 50% 0%, #151d3b 0%, #06070d 70%) fixed;
     color: var(--text);
     line-height: 1.6;
 }
@@ -33,7 +33,7 @@ a { color: inherit; text-decoration: none; }
 .announce-bar a { color: #fff; text-decoration: underline; }
 
 /* NAV */
-nav { position: sticky; top: 0; z-index: 100; background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); }
+nav { position: sticky; top: 0; z-index: 100; background: rgba(6, 7, 13, 0.85); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); }
 .nav-inner { max-width: 1100px; margin: 0 auto; padding: 0 1.5rem; height: 62px; display: flex; align-items: center; gap: 2rem; }
 .nav-logo { display: flex; align-items: center; gap: 9px; font-family: var(--font-d); font-size: 16px; font-weight: 700; flex-shrink: 0; }
 .logo-icon { width: 32px; height: 32px; border-radius: 0; object-fit: contain; flex-shrink: 0; }
