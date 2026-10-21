@@ -14,8 +14,9 @@ function dash(){const el=$('#dash');if(!el)return;const t=study()[day()]||0,g=go
  el.innerHTML=`<div class="a-card"><b>Daily goal</b><div class="bar"><i style="width:${pct}%"></i></div><small>${Math.floor(t/60)} / ${g/60} min · counts while a lecture plays</small></div>
  <div class="a-card"><b>🔥 ${streak()} days</b><small>Study streak</small></div>
  <div class="a-card"><b>${dl} days</b><small>to ${esc(D.exam.name)} (${D.exam.note})</small></div>`}
-function subjCards(){const d=done();return `<div class="a-grid">`+D.subjects.map(s=>{if(!s.live)return `<div class="a-card dim"><span class="ic">${s.icon}</span><h3>${s.name}</h3><small>Coming soon</small></div>`;
- const L=LECS(s.id),c=L.filter(l=>d[l.id]).length;return `<a class="a-card" href="lectures.html?s=${s.id}"><span class="ic">${s.icon}</span><h3>${s.name}</h3><small>${L.length} lectures · ${c}/${L.length} completed</small><div class="bar"><i style="width:${c/L.length*100}%"></i></div></a>`}).join('')+`</div>`}
+function subjCards(page){page=page||'lectures';const d=done(),isM=page=='material';return `<div class="a-grid">`+D.subjects.map(s=>{if(!s.live)return `<div class="a-card dim"><span class="ic">${s.icon}</span><h3>${s.name}</h3><small>Coming soon</small></div>`;
+ if(isM){const M=D.material.filter(m=>m.s==s.id);return `<a class="a-card" href="material.html?s=${s.id}"><span class="ic">${s.icon}</span><h3>${s.name}</h3><small>${M.length} PDF${M.length==1?'':'s'}</small></a>`}
+ const L=LECS(s.id),c=L.filter(l=>d[l.id]).length;return `<a class="a-card" href="lectures.html?s=${s.id}"><span class="ic">${s.icon}</span><h3>${s.name}</h3><small>${L.length} lectures · ${c}/${L.length} completed</small><div class="bar"><i style="width:${L.length?c/L.length*100:0}%"></i></div></a>`}).join('')+`</div>`}
 function lecRow(l){const d=done(),sv=saved();return `<a class="a-row" href="watch.html?id=${l.id}"><span class="num">${l.n}</span><span class="tt">${esc(l.t)}</span><span class="tag">${l.k=='P'?'Practice':'Theory'}</span><span>${d[l.id]?'✅':''}${sv[l.id]?'🔖':''}</span></a>`}
 function matCard(m){const sv=saved();return `<div class="a-card"><h3>${esc(m.t)}</h3><small>${esc(m.d)}</small><div class="tags"><span class="tag">${m.k}</span><span class="tag">${S(m.s).name}</span></div>
  <div class="btns"><button onclick="ES.read('${m.id}')">📖 Read</button><a href="https://drive.google.com/uc?export=download&id=${m.drive}" target="_blank" rel="noopener">⬇ Download</a><button onclick="ES.save('${m.id}',this)">${sv[m.id]?'🔖 Saved':'🔖 Save'}</button></div></div>`}
@@ -24,7 +25,8 @@ window.ES={
   o.innerHTML=`<div class="mbar"><b>${esc(m.t)}</b><span><button onclick="this.closest('.modal').classList.toggle('night')">🌙 Night</button><button onclick="this.closest('.modal').remove()">✕</button></span></div><iframe src="https://drive.google.com/file/d/${m.drive}/preview" allow="autoplay"></iframe>`;document.body.appendChild(o)},
  save(id,b){const on=toggle('saved',id);b.textContent=on?'🔖 Saved':'🔖 Save'}};
 const R={
-home(el){el.innerHTML=`<section class="section"><div class="section-inner"><div id="dash" class="a-grid3"></div><h2 class="a-h">Subjects</h2>${subjCards()}</div></section>`;dash()},
+home(el){el.innerHTML=`<section class="section"><div class="section-inner"><div id="dash" class="a-grid3"></div></div></section>`;dash();
+ const n=(id,v)=>{const x=document.getElementById(id);if(x)x.textContent=v};n('st-lec',D.lectures.length+'+');n('st-sub',D.subjects.filter(x=>x.live).length+'+')},
 lectures(el){const s=P.get('s'),sub=S(s);if(!sub||!sub.live){el.innerHTML=`<section class="section"><div class="section-inner"><h1 class="a-h">Lectures</h1>${subjCards()}</div></section>`;return}
  const L=LECS(s),c=L.filter(l=>done()[l.id]).length,f=P.get('f')||'all';
  el.innerHTML=`<section class="section"><div class="section-inner"><a href="lectures.html">← Lectures</a><h1 class="a-h">${sub.icon} ${sub.name}</h1><p>${c} of ${L.length} completed</p>
@@ -42,11 +44,12 @@ watch(el){const l=LEC(P.get('id'));if(!l){el.innerHTML=`<section class="section"
  $('#spd').onclick=e=>{const v=e.target.dataset.v;if(v){e.preventDefault();pl&&pl.setPlaybackRate(+v)}};
  const s=document.createElement('script');s.src='https://www.youtube.com/iframe_api';document.head.appendChild(s);window.onYouTubeIframeAPIReady=mk;
  setInterval(()=>{if(pl&&pl.getPlayerState&&pl.getPlayerState()==1)addSec()},1000)},
-material(el){const s=P.get('s')||'all',k=P.get('k')||'all',q=(a,b)=>`?s=${a}&k=${b}`;
- el.innerHTML=`<section class="section"><div class="section-inner"><h1 class="a-h">Study Material</h1><p>Watch the lecture → read the notes → practice</p>
- <div class="chips">${[['all','All subjects'],...D.subjects.filter(x=>x.live).map(x=>[x.id,x.name])].map(([a,n])=>`<a class="${s==a?'on':''}" href="${q(a,k)}">${n}</a>`).join('')}</div>
- <div class="chips">${['all','Notes','PYQ','Practice'].map(a=>`<a class="${k==a?'on':''}" href="${q(s,a)}">${a=='all'?'All':a}</a>`).join('')}</div>
- <div class="a-grid">${D.material.filter(m=>(s=='all'||m.s==s)&&(k=='all'||m.k==k)).map(matCard).join('')}</div></div></section>`},
+material(el){const s=P.get('s'),sub=S(s);
+ if(!sub||!sub.live){el.innerHTML=`<section class="section"><div class="section-inner"><h1 class="a-h">Study Material</h1><p>Subject chuno → PDFs khulengi</p>${subjCards('material')}</div></section>`;return}
+ const all=D.material.filter(m=>m.s==s),kinds=[...new Set(all.map(m=>m.k))],k=P.get('k')||'all';
+ el.innerHTML=`<section class="section"><div class="section-inner"><a href="material.html">← Study Material</a><h1 class="a-h">${sub.icon} ${sub.name}</h1><p>${all.length} PDF${all.length==1?'':'s'}</p>
+ ${kinds.length>1?`<div class="chips">${['all',...kinds].map(a=>`<a class="${k==a?'on':''}" href="?s=${s}&k=${encodeURIComponent(a)}">${a=='all'?'All':esc(a)}</a>`).join('')}</div>`:''}
+ <div class="a-grid">${all.filter(m=>k=='all'||m.k==k).map(matCard).join('')||'<p>Is subject ki PDFs jaldi aayengi.</p>'}</div></div></section>`},
 search(el){el.innerHTML=`<section class="section"><div class="section-inner"><h1 class="a-h">Search</h1><input id="q" class="a-in" placeholder="Search lectures and notes…" value="${esc(P.get('q')||'')}"><div id="res"></div></div></section>`;
  const go=()=>{const q=$('#q').value.toLowerCase().trim();if(!q){$('#res').innerHTML='';return}
   const l=D.lectures.filter(x=>(x.t+' '+x.n+' '+S(x.s).name).toLowerCase().includes(q)),m=D.material.filter(x=>(x.t+' '+x.d+' '+x.k).toLowerCase().includes(q));
