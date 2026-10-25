@@ -424,15 +424,7 @@ window.ES_DATA = {
   "s": "ba",
   "drive": "1aEXD-gJn9Gfqo1LYxSqiqHjJxP7c7rY9"
 },
-  {
-    "id": "ba-01",
-   "t": "Permutations and combinations",
-  "d": "One-shot revision sheet · Theory with examples", 
-  "k": "Notes",
-  "s": "ba",
-  "drive": "1aEXD-gJn9Gfqo1LYxSqiqHjJxP7c7rY9"
-},
-  {
+   {
   "id": "ba-02",
    "t": "Bionomial theorem",
   "d": "One-shot revision sheet · Theory with examples", 
@@ -489,3 +481,5 @@ window.ES_DATA = {
  }
 };
 
+
+ 
