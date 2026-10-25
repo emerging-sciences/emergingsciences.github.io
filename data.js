@@ -27,7 +27,7 @@ window.ES_DATA = {
   },
   {
    "id": "ba",
-   "name": "Basic Algebra and Algebra",
+   "name": "Basic Algebra",
    "icon": "n!",
    "live": true
   },
@@ -419,24 +419,39 @@ window.ES_DATA = {
   {
   "id": "ba-01",
    "t": "Permutations and combinations",
-  "d": "one shot revision sheet ",
-  "k": "theory with examples",
+  "d": "One-shot revision sheet · Theory with examples", 
+  "k": "Notes",
   "s": "ba",
   "drive": "1aEXD-gJn9Gfqo1LYxSqiqHjJxP7c7rY9"
 },
   {
+    "id": "ba-01",
+   "t": "Permutations and combinations",
+  "d": "One-shot revision sheet · Theory with examples", 
+  "k": "Notes",
+  "s": "ba",
+  "drive": "1aEXD-gJn9Gfqo1LYxSqiqHjJxP7c7rY9"
+},
+  {
+  "id": "ba-02",
+   "t": "Bionomial theorem",
+  "d": "One-shot revision sheet · Theory with examples", 
+  "k": "Notes",
+  "s": "ba",
+  "drive": "1lbbw4SsGr1Qw-hGDbmgbTunKsVVTwEqu"
+},
    "id": "ic-01",
    "t": "Indefinite integration",
-   "d": "one shot revision ",
-   "k": "theory + examples",
+   "d": "One-shot revision sheet · Theory with examples",
+   "k": "Notes",
    "s": "ic",
    "drive": "1AoEYOyIp03TTZ2_Z5Ph1Wl51eu0hnrDS"
   },
     ],
  "faq": [
   {
-   "q": "Why choose us?",
-   "a": "Garib ki duwaye lagengi aapko."
+   "q": "Why Emerging Sciences?",
+   "a": "Yahan lecture, notes aur practice ek hi flow me milte hain: pehle video dekho, phir PDF padho, phir questions solve karo. Sab free."
   },
  {
   "q": "Is everything really free?",
