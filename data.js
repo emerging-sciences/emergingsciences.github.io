@@ -619,7 +619,16 @@ window.ES_DATA = {
    "dateText": "2 – 31 Mar 2027",
    "note": "tentative",
    "site": "https://exams.nta.nic.in/cuet-pg/",
-   "desc": "Common entrance for M.Sc. Mathematics at central universities (DU, BHU, JNU and more) and participating institutions.",
+   "desc": "Common entrance for M.Sc. Mathematics at central universities (DU, BHU, JNU and more) and participating institutions. Papers: Mathematics, Physics, Chemistry, Biotechnology, Economics, Geology and Mathematical Statistics.",
+  "papers": [
+    "ma",
+    "ph",
+    "cy",
+    "bt",
+    "en",
+    "gg",
+    "ms"
+   ],
    "subjects": [
     "alg",
     "la",
