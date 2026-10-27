@@ -28,7 +28,7 @@ function chooser(page){return `<section class="section"><div class="section-inne
 function crumbs(page,e,sub){return `<div class="crumbs"><a href="${page}.html">${pageTitle[page]}</a>${e?` › <a href="${page}.html?e=${e.id}">${esc(e.short)}</a>`:''}${sub?` › <span>${esc(sub)}</span>`:''}</div>`}
 function subjCards(page,ex){page=page||'lectures';const d=done(),q=`?e=${ex.id}&s=`,list=ex.subjects.map(S).filter(Boolean);
  const full=page=='mock'?[{id:'full',name:'Full-Length Mock Tests',icon:'📝',live:true}]:[];
- return `<div class="a-grid">`+full.concat(list).map(s=>{
+ return `<div class="a-grid">`+(page=='material'?matExtra(ex):'')+full.concat(list).map(s=>{
   if(page=='mock'){const T=(D.mocks||[]).filter(m=>m.e==ex.id&&m.s==s.id);if(!T.length)return `<div class="a-card dim"><span class="ic">${s.icon}</span><h3>${s.name}</h3><small>Coming soon</small></div>`;
    return `<a class="a-card" href="mock.html${q}${s.id}"><span class="ic">${s.icon}</span><h3>${s.name}</h3><small>${T.length} test${T.length==1?'':'s'}</small></a>`}
   if(page=='material'){const M=D.material.filter(m=>m.s==s.id);if(!M.length)return `<div class="a-card dim"><span class="ic">${s.icon}</span><h3>${s.name}</h3><small>Coming soon</small></div>`;return `<a class="a-card" href="material.html${q}${s.id}"><span class="ic">${s.icon}</span><h3>${s.name}</h3><small>${M.length} PDF${M.length==1?'':'s'}</small></a>`}
@@ -38,7 +38,31 @@ function resolve(){const sid=P.get('s'),sub=sid=='full'?{id:'full',name:'Full-Le
 function lecRow(l){const d=done(),sv=saved(),e=P.get('e');return `<a class="a-row" href="watch.html?id=${l.id}${e?'&e='+encodeURIComponent(e):''}"><span class="num">${l.n}</span><span class="tt">${esc(l.t)}</span><span class="tag">${l.k=='P'?'Practice':'Theory'}</span><span>${d[l.id]?'✅':''}${sv[l.id]?'🔖':''}</span></a>`}
 function matCard(m){const sv=saved();return `<div class="a-card"><h3>${esc(m.t)}</h3><small>${esc(m.d)}</small><div class="tags"><span class="tag">${m.k}</span><span class="tag">${S(m.s).name}</span></div>
  <div class="btns"><button onclick="ES.read('${m.id}')">📖 Read</button><a href="https://drive.google.com/uc?export=download&id=${m.drive}" target="_blank" rel="noopener">⬇ Download</a><button onclick="ES.save('${m.id}',this)">${sv[m.id]?'🔖 Saved':'🔖 Save'}</button></div></div>`}
+/* ---- Syllabus + year-wise PYQs (data.js: syllabus, pyqs, pyqPortals) ---- */
+const syEx=id=>(D.syllabus||[]).filter(r=>r.e==id), pyEx=id=>(D.pyqs||[]).filter(r=>r.e==id).sort((a,b)=>b.y-a.y), portal=id=>(D.pyqPortals||{})[id];
+const rng=a=>{const x=Math.min(...a),y=Math.max(...a);return x==y?''+x:x+'–'+y};
+const href=u=>/^https?:\/\//i.test(u)?esc(u):'#';
+const dlink=id=>esc('https://drive.google.com/uc?export=download&id='+encodeURIComponent(id));
+function fbtn(lbl,url,drv,t){
+ if(drv)return `<button data-t="${esc(t)}" onclick="ES.drv('${encodeURIComponent(drv)}',this.dataset.t)">${lbl}</button><a href="${dlink(drv)}" target="_blank" rel="noopener" title="Download">⬇</a>`;
+ return url?`<a href="${href(url)}" target="_blank" rel="noopener noreferrer">${lbl} ↗</a>`:''}
+function synCard(r){return `<div class="a-card"><h3>${esc(r.t)}</h3><small>${esc(r.src||'')}${r.n?(r.src?' · ':'')+esc(r.n):''}</small><div class="btns">${fbtn('📄 Open',r.url,r.drive,r.t)}</div></div>`}
+function pyqCard(r){return `<div class="a-card"><h3>${esc(r.y)}${r.g?' · '+esc(r.g):''}</h3><small>${esc(r.t)}${r.n?' — '+esc(r.n):''}</small><div class="btns">${fbtn('📄 Paper',r.qp,r.qpDrive,r.t+' — Paper')}${fbtn('🔑 Key',r.key,r.keyDrive,r.t+' — Key')}</div></div>`}
+function portalBox(id){const p=portal(id);if(!p)return '';
+ return `<div class="a-card"><h3>🌐 Official source</h3><small>All years and the latest papers are always on the official page.</small><div class="btns"><a href="${href(p.url)}" target="_blank" rel="noopener noreferrer">${esc(p.label||'Official page')} ↗</a>${p.more?`<a href="${href(p.more)}" target="_blank" rel="noopener noreferrer">${esc(p.moreLabel||'More')} ↗</a>`:''}</div></div>`}
+function matExtra(ex){const q=`?e=${ex.id}&s=`,sy=syEx(ex.id),py=pyEx(ex.id),pt=portal(ex.id),yr=py.map(r=>+r.y);
+ return (sy.length?`<a class="a-card" href="material.html${q}syllabus"><span class="ic">📋</span><h3>Syllabus</h3><small>${sy.length} document${sy.length==1?'':'s'}</small></a>`:`<div class="a-card dim"><span class="ic">📋</span><h3>Syllabus</h3><small>Coming soon</small></div>`)
+ +(py.length||pt?`<a class="a-card" href="material.html${q}pyqs"><span class="ic">🗂️</span><h3>PYQs · Year-wise</h3><small>${py.length?py.length+' paper'+(py.length==1?'':'s')+' · '+rng(yr):'Official papers page'}</small></a>`:`<div class="a-card dim"><span class="ic">🗂️</span><h3>PYQs · Year-wise</h3><small>Coming soon</small></div>`)}
+function sylView(ex){const L=syEx(ex.id);
+ return `<section class="section"><div class="section-inner">${crumbs('material',ex,'Syllabus')}<h1 class="a-h">📋 ${esc(ex.short)} Syllabus</h1><p>${esc(ex.name)} · ${L.length} document${L.length==1?'':'s'}</p>
+ <div class="a-grid">${L.map(synCard).join('')||'<p>Syllabus for this exam is coming soon.</p>'}</div></div></section>`}
+function pyqView(ex){const all=pyEx(ex.id),gs=[...new Set(all.map(r=>r.g).filter(Boolean))],g=P.get('g')||'all',L=all.filter(r=>g=='all'||r.g==g),yr=all.map(r=>+r.y);
+ return `<section class="section"><div class="section-inner">${crumbs('material',ex,'PYQs')}<h1 class="a-h">🗂️ ${esc(ex.short)} · Year-wise PYQs</h1><p>${all.length?`${all.length} paper${all.length==1?'':'s'} · ${rng(yr)} · 📄 Paper, 🔑 Answer key`:'Year-wise PDFs for this exam are being added. Use the official page below meanwhile.'}</p>
+ ${gs.length>1?`<div class="chips">${['all',...gs].map(a=>`<a class="${g==a?'on':''}" href="?e=${ex.id}&s=pyqs&g=${encodeURIComponent(a)}">${a=='all'?'All':esc(a)}</a>`).join('')}</div>`:''}
+ <div class="a-grid">${L.map(pyqCard).join('')}</div>
+ <div class="a-grid" style="margin-top:1.2rem">${portalBox(ex.id)}</div></div></section>`}
 window.ES={
+ drv(id,t){const o=document.createElement('div');o.className='modal';o.innerHTML=`<div class="mbar"><b>${esc(t)}</b><span><button onclick="this.closest('.modal').classList.toggle('night')">🌙 Night</button><button onclick="this.closest('.modal').remove()">✕</button></span></div><iframe src="https://drive.google.com/file/d/${id}/preview" allow="autoplay"></iframe>`;document.body.appendChild(o)},
  read(id){const m=D.material.find(x=>x.id==id);const o=document.createElement('div');o.className='modal';
   o.innerHTML=`<div class="mbar"><b>${esc(m.t)}</b><span><button onclick="this.closest('.modal').classList.toggle('night')">🌙 Night</button><button onclick="this.closest('.modal').remove()">✕</button></span></div><iframe src="https://drive.google.com/file/d/${m.drive}/preview" allow="autoplay"></iframe>`;document.body.appendChild(o)},
  save(id,b){const on=toggle('saved',id);b.textContent=on?'🔖 Saved':'🔖 Save'}};
@@ -63,8 +87,9 @@ watch(el){const l=LEC(P.get('id'));if(!l){el.innerHTML=`<section class="section"
  $('#spd').onclick=e=>{const v=e.target.dataset.v;if(v){e.preventDefault();pl&&pl.setPlaybackRate(+v)}};
  const s=document.createElement('script');s.src='https://www.youtube.com/iframe_api';document.head.appendChild(s);window.onYouTubeIframeAPIReady=mk;
  setInterval(()=>{if(pl&&pl.getPlayerState&&pl.getPlayerState()==1)addSec()},1000)},
-material(el){const {ex,sub}=resolve();if(!ex){el.innerHTML=chooser('material');return}
- if(!sub||!sub.live&&!D.material.some(m=>m.s==sub.id)){el.innerHTML=`<section class="section"><div class="section-inner">${crumbs('material',ex)}<h1 class="a-h">${esc(ex.name)}</h1><p>Step 2 — choose a subject to open its PDFs</p>${subjCards('material',ex)}</div></section>`;return}
+material(el){const sp=P.get('s'),ex0=EX(P.get('e'));if(ex0&&(sp=='syllabus'||sp=='pyqs')){el.innerHTML=sp=='syllabus'?sylView(ex0):pyqView(ex0);return}
+ const {ex,sub}=resolve();if(!ex){el.innerHTML=chooser('material');return}
+ if(!sub||!sub.live&&!D.material.some(m=>m.s==sub.id)){el.innerHTML=`<section class="section"><div class="section-inner">${crumbs('material',ex)}<h1 class="a-h">${esc(ex.name)}</h1><p>Step 2 — choose Syllabus, year-wise PYQs or a subject</p>${subjCards('material',ex)}</div></section>`;return}
  const s=sub.id,all=D.material.filter(m=>m.s==s),kinds=[...new Set(all.map(m=>m.k))],k=P.get('k')||'all';
  el.innerHTML=`<section class="section"><div class="section-inner">${crumbs('material',ex,sub.name)}<h1 class="a-h">${sub.icon} ${sub.name}</h1><p>${all.length} PDF${all.length==1?'':'s'}</p>
  ${kinds.length>1?`<div class="chips">${['all',...kinds].map(a=>`<a class="${k==a?'on':''}" href="?e=${ex.id}&s=${s}&k=${encodeURIComponent(a)}">${a=='all'?'All':esc(a)}</a>`).join('')}</div>`:''}
