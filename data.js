@@ -653,7 +653,15 @@ window.ES_DATA = {
    "dateText": "13 Dec 2026",
    "note": "confirmed",
    "site": "https://www.tifr.res.in/academics/",
-   "desc": "Admission to the Ph.D., Integrated Ph.D. and M.Sc. programmes in Mathematics at TIFR Mumbai and Bengaluru.",
+   "desc": "Admission to the Ph.D., Integrated Ph.D. and M.Sc. programmes in Mathematics at TIFR Mumbai and Bengaluru. Papers: Mathematics, Physics, Chemistry, Biology, Computer science and lids, science education."
+     "papers": [
+    "ma",
+    "ph",
+    "cy",
+    "bg",
+    "se",
+    "cs"
+    ],
    "subjects": [
     "alg",
     "la",
