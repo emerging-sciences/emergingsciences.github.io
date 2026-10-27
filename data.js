@@ -2,8 +2,52 @@
 // SYLLABUS rows: { "e":"jam", "t":"Title", "url":"https://official-link.pdf" }  or  "drive":"<Google Drive file id>" instead of url.
 // PYQS rows: { "e":"jam", "y":2026, "t":"Title", "qp":"https://...", "key":"https://..." }  (use "qpDrive"/"keyDrive" for Drive file ids; "g" = optional group, "n" = optional note)
 // pyqPortals: the official 'all years' page for each exam id; shown for exams that have no year rows yet.
+// ---- PAPERS (subjects of an exam, e.g. IIT JAM Physics) ----
+// papers: top-level list { "id":"ph", "name":"Physics", "icon":"⚛️" }. An exam lists the ones it has: "papers":["ma","ph",...].
+//   Exams WITHOUT "papers" (CUET PG, TIFR ...) skip the subject step and open topics directly, as before.
+// TOPICS of a paper = entries in "subjects" with  "p":"<paper id>"  (no "p" means Mathematics "ma").
+//   A topic only shows up for an exam if its id is also in that exam's "subjects" list.
+// SYLLABUS / PYQS / MOCKS rows: add  "p":"ph"  to attach a row to a paper (no "p" means Mathematics).
+// pyqPortals: key "jam" = fallback for every paper; use key "jam-ph" for a Physics-specific official page.
 window.ES_DATA = {
  "goalMin": 30,
+ "papers": [
+  {
+   "id": "ma",
+   "name": "Mathematics",
+   "icon": "∑"
+  },
+  {
+   "id": "ph",
+   "name": "Physics",
+   "icon": "⚛️"
+  },
+  {
+   "id": "cy",
+   "name": "Chemistry",
+   "icon": "🧪"
+  },
+  {
+   "id": "bt",
+   "name": "Biotechnology",
+   "icon": "🧬"
+  },
+  {
+   "id": "en",
+   "name": "Economics",
+   "icon": "📈"
+  },
+  {
+   "id": "gg",
+   "name": "Geology",
+   "icon": "🪨"
+  },
+  {
+   "id": "ms",
+   "name": "Mathematical Statistics",
+   "icon": "📊"
+  }
+ ],
  "subjects": [
   {
    "id": "ode",
@@ -537,13 +581,22 @@ window.ES_DATA = {
    "short": "IIT JAM",
    "tag": "IIT<br>JAM",
    "color": "#4F8CFF",
-   "name": "IIT JAM Mathematics",
+   "name": "IIT JAM",
    "body": "IIT Kharagpur (JAM 2027)",
    "date": "2027-02-14",
    "dateText": "14 Feb 2027",
    "note": "confirmed",
    "site": "https://jam.iitkgp.ac.in/",
-   "desc": "Joint Admission Test for M.Sc. admission to IITs, IISc and other premier institutes.",
+   "desc": "Joint Admission Test for M.Sc. admission to IITs, IISc and other premier institutes. Papers: Mathematics, Physics, Chemistry, Biotechnology, Economics, Geology and Mathematical Statistics.",
+   "papers": [
+    "ma",
+    "ph",
+    "cy",
+    "bt",
+    "en",
+    "gg",
+    "ms"
+   ],
    "subjects": [
     "ode",
     "ra",
