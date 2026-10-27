@@ -1,0 +1,138 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Mock Test — Emerging Sciences</title>
+<link rel="stylesheet" href="nav.css">
+<link rel="icon" type="image/png" href="favicon.png?v=2">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css">
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.js"></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/contrib/auto-render.min.js"></script>
+<style>
+:root{--gold:#d4af37;--dark:#06070d;--g:#2e9b3e;--r:#d9381e;--p:#6b3fa0}
+*{box-sizing:border-box}body{margin:0;font-family:Segoe UI,Arial,sans-serif;background:#eef1f6;color:#222}
+header{background:var(--dark);color:#fff;display:flex;align-items:center;gap:12px;padding:8px 14px;border-bottom:3px solid var(--gold);height:60px}
+header img{height:40px;border-radius:6px}header b{color:var(--gold);font-size:18px}.sp{flex:1}
+#timer{background:#fff;color:#000;padding:5px 12px;border-radius:4px;font-weight:700;font-size:17px;display:none}
+.card{max-width:820px;margin:18px auto;background:#fff;padding:20px 26px;border:1px solid #ccd;border-radius:6px;line-height:1.55}
+.card h2{margin-top:0}.go,.btn{border:0;border-radius:3px;padding:10px 18px;font-weight:600;cursor:pointer;font-size:14px}
+.go{background:var(--g);color:#fff}.go:disabled{background:#999}.btn{background:#e8ecf3;border:1px solid #aab}.btn.pri{background:#1f6fd1;color:#fff}.btn.war{background:#fff;border-color:var(--p);color:var(--p)}
+input[type=text]{padding:8px;font-size:15px;border:1px solid #99a;border-radius:3px;width:260px}
+.wrap{display:flex;gap:10px;padding:10px;height:calc(100vh - 60px)}
+.main{flex:1;display:flex;flex-direction:column;background:#fff;border:1px solid #ccd;min-width:0}
+.side{width:290px;background:#fff;border:1px solid #ccd;display:flex;flex-direction:column}
+.tabs{display:flex;gap:4px;padding:6px;border-bottom:1px solid #ccd;flex-wrap:wrap}.tabs button{border:1px solid #99a;background:#f4f6fa;padding:7px 12px;cursor:pointer;border-radius:3px}.tabs .on{background:#1f6fd1;color:#fff}
+.qh{padding:8px 14px;background:#f4f6fa;border-bottom:1px solid #ccd;display:flex;justify-content:space-between;flex-wrap:wrap;gap:6px}
+.qb{flex:1;overflow:auto;padding:16px 18px;font-size:17px}
+.opt{display:flex;gap:10px;align-items:center;border:1px solid #ccd;border-radius:4px;padding:9px 12px;margin:8px 0;cursor:pointer}.opt:hover{background:#f4f8ff}
+.nat{font-size:20px;padding:8px;width:220px;border:1px solid #666;border-radius:3px}
+.kp{display:grid;grid-template-columns:repeat(3,56px);gap:5px;margin-top:10px}.kp button{padding:10px 0;font-size:16px;cursor:pointer}
+.btns{display:flex;gap:8px;padding:10px;border-top:1px solid #ccd;flex-wrap:wrap}
+.pal{flex:1;overflow:auto;padding:8px}.sh{background:#1f6fd1;color:#fff;padding:6px 10px;font-weight:600}
+.pb{width:40px;height:36px;margin:3px;border:1px solid #888;background:#ddd;font-weight:700;cursor:pointer;position:relative}
+.n{background:var(--r);color:#fff;border-radius:16px 16px 0 0}.a{background:var(--g);color:#fff;border-radius:0 0 16px 16px}
+.m{background:var(--p);color:#fff;border-radius:50%}.am{background:var(--p);color:#fff;border-radius:50%}.am:after{content:"";position:absolute;right:0;bottom:1px;width:11px;height:11px;border-radius:50%;background:var(--g);border:1px solid #fff}
+.cur{outline:3px solid var(--gold)}
+.leg{display:grid;grid-template-columns:1fr 1fr;gap:5px;font-size:12px;padding:8px}.leg span{display:flex;align-items:center;gap:6px}.leg i{display:inline-block;width:26px;height:24px;border:1px solid #888;background:#ddd;color:#fff;font-style:normal;text-align:center;font-weight:700;line-height:22px;position:relative}
+.who{display:flex;gap:8px;align-items:center;padding:8px;border-bottom:1px solid #ccd}.who img{height:44px;border-radius:6px}
+.ov{position:fixed;inset:0;background:#000a;display:flex;align-items:center;justify-content:center;z-index:9}.ov .card{margin:0;max-height:90vh;overflow:auto}
+table{border-collapse:collapse;width:100%;margin:10px 0}td,th{border:1px solid #bbc;padding:6px 10px;text-align:center}th{background:#f0f3f8}
+.rv{border:1px solid #ccd;border-left:6px solid #999;border-radius:4px;padding:10px 14px;margin:12px 0}.rv.ok{border-left-color:var(--g)}.rv.bad{border-left-color:var(--r)}
+.big{font-size:34px;font-weight:700;color:#1f6fd1}
+@media(max-width:820px){.wrap{flex-direction:column;height:auto}.side{width:auto}.qb{min-height:50vh}}
+body{padding-bottom:96px}body.testing{padding-bottom:0}body.testing .bnav{display:none}
+</style></head><body>
+<header><img src="logo-icon.png" alt=""><b>Emerging Sciences</b><span style="opacity:.8">| Mock Test</span><span class="sp"></span><span id="timer"></span><a id="exit" href="mock.html" style="color:#fff;text-decoration:none;font-size:13px;border:1px solid #fff5;border-radius:6px;padding:5px 10px">✕ Exit</a></header>
+<div id="app"></div>
+<script src="mocks.js"></script>
+<script>
+/* ===== EDIT HERE: test settings ===== */
+const T=(window.ES_MOCKS||{})[new URLSearchParams(location.search).get('t')];
+if(!T){document.getElementById('app').innerHTML='<div class=card><h2>Test not found</h2><p><a href="mock.html">Back to Mock Tests</a></p></div>';throw 0}
+const CFG=T.cfg,Q=T.q;
+/* ===== Engine ===== */
+const $=s=>document.querySelector(s),app=$('#app'),LET='ABCD',f=n=>String(n).padStart(2,'0');
+let S,endT,tm,nm='';
+const has=i=>Q[i].t=='NAT'?S.ans[i]!=='':S.ans[i].length>0;
+const mk=i=>S.st[i]==3||S.st[i]==4;
+const pen=q=>q.t=='MCQ'?'Negative −'+(q.m/3).toFixed(2):'No negative';
+const mth=()=>window.renderMathInElement&&renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}],throwOnError:false});
+const CL=['nv','n','a','m','am'];
+const leg=`<div class=leg><span><i>1</i>Not Visited</span><span><i class=n>2</i>Not Answered</span><span><i class=a>3</i>Answered</span><span><i class=m>4</i>Marked for Review</span><span style="grid-column:span 2"><i class=am>5</i>Answered &amp; Marked for Review (will be evaluated)</span></div>`;
+function intro(){
+ const tot=Q.reduce((a,q)=>a+q.m,0);
+ app.innerHTML=`<div class=card><h2>${CFG.title}</h2><p>Total Questions: <b>${Q.length}</b> &nbsp;·&nbsp; Maximum Marks: <b>${tot}</b> &nbsp;·&nbsp; Duration: <b>${CFG.minutes} minutes</b></p>
+ <h3>Instructions &amp; Marking Scheme (IIT JAM pattern)</h3><ul>
+ <li><b>Section A – MCQ:</b> one correct option. 1-mark question: −1/3 for a wrong answer. 2-mark question: −2/3 for a wrong answer.</li>
+ <li><b>Section B – MSQ:</b> one or more correct options. Full marks only if <i>all</i> correct options (and no wrong option) are selected. No negative marking and no partial marking.</li>
+ <li><b>Section C – NAT:</b> type the numerical answer using the on-screen keypad. No negative marking.</li>
+ <li>Unattempted questions carry zero marks. The test auto-submits when the timer ends.</li>
+ <li>Questions "Marked for Review" with an answer are evaluated; without an answer they are treated as unattempted.</li></ul>${leg}
+ <p>Candidate name: <input type=text id=nm placeholder="Your name"></p>
+ <label><input type=checkbox id=ag> I have read and understood the instructions.</label><br><br><button class=go id=gb disabled>Start Test</button></div>`;
+ $('#ag').onchange=e=>$('#gb').disabled=!e.target.checked;
+ $('#gb').onclick=()=>{nm=$('#nm').value.trim()||'Candidate';start()};
+}
+function start(){
+ S={i:0,ans:Q.map(q=>q.t=='NAT'?'':[]),st:Q.map(()=>0)};S.st[0]=1;
+ endT=Date.now()+CFG.minutes*60000;tm=setInterval(tick,500);tick();
+ onbeforeunload=e=>{e.preventDefault();e.returnValue=''};$('#timer').style.display='block';document.body.classList.add('testing');draw();
+}
+function tick(){
+ const r=Math.max(0,Math.ceil((endT-Date.now())/1000));
+ $('#timer').textContent='Time Left: '+f(Math.floor(r/3600))+':'+f(Math.floor(r%3600/60))+':'+f(r%60);
+ if(!r)finish();
+}
+function commit(i,m){S.st[i]=has(i)?(m?4:2):(m?3:1)}
+function nav(n,m){commit(S.i,m);S.i=n;if(!S.st[n])S.st[n]=1;draw()}
+function pick(j,c){const q=Q[S.i];if(q.t=='MCQ')S.ans[S.i]=[j];else{const a=S.ans[S.i];S.ans[S.i]=c?[...a,j]:a.filter(x=>x!=j)}}
+function nat(v,inp){v=v.replace(/[^0-9.\-]/g,'');S.ans[S.i]=v;if(!inp)$('#nat').value=v}
+function clr(){S.ans[S.i]=Q[S.i].t=='NAT'?'':[];S.st[S.i]=1;draw()}
+function draw(){
+ const q=Q[S.i],secs=[...new Set(Q.map(x=>x.s))];
+ let body;
+ if(q.t=='NAT')body=`<input id=nat class=nat value="${S.ans[S.i]}" oninput="nat(this.value,1)" inputmode=decimal placeholder="Type answer"><div class=kp>${[7,8,9,4,5,6,1,2,3,0,'.','-'].map(k=>`<button class=btn onclick="nat(S.ans[S.i]+'${k}')">${k}</button>`).join('')}<button class=btn onclick="nat(S.ans[S.i].slice(0,-1))">⌫</button><button class=btn style="grid-column:span 2" onclick="nat('')">Clear</button></div>`;
+ else body=q.o.map((o,j)=>`<label class=opt><input type=${q.t=='MCQ'?'radio':'checkbox'} name=o ${S.ans[S.i].includes(j)?'checked':''} onchange="pick(${j},this.checked)"><b>${LET[j]}.</b> <span>${o}</span></label>`).join('');
+ const cnt=CL.map((_,k)=>S.st.filter(x=>x==k).length),cs=q.s;
+ app.innerHTML=`<div class=wrap><div class=main>
+ <div class=tabs>${secs.map(s=>`<button class="${s==cs?'on':''}" onclick="nav(${Q.findIndex(x=>x.s==s)},mk(S.i))">${CFG.secs[s]}</button>`).join('')}</div>
+ <div class=qh><b>Question ${S.i+1} of ${Q.length}</b><span>${q.t} &nbsp;|&nbsp; Marks: +${q.m} &nbsp;|&nbsp; ${pen(q)}</span></div>
+ <div class=qb><p>${q.q}</p>${q.t=='MSQ'?'<small><i>One or more options may be correct.</i></small>':''}${body}</div>
+ <div class=btns><button class="btn war" onclick="nav((S.i+1)%Q.length,1)">Mark for Review &amp; Next</button><button class=btn onclick="clr()">Clear Response</button><span class=sp style="flex:1"></span><button class=btn onclick="nav(Math.max(0,S.i-1),mk(S.i))">&lt; Previous</button><button class="btn pri" onclick="nav((S.i+1)%Q.length,0)">Save &amp; Next</button></div></div>
+ <div class=side><div class=who><img src="logo-icon.png" alt=""><div><b>${nm}</b><br><small>Emerging Sciences</small></div></div>
+ <div class=leg style="grid-template-columns:1fr 1fr 1fr;padding:6px 8px"><span><i>${cnt[0]}</i>Not Visited</span><span><i class=n>${cnt[1]}</i>Not Ans.</span><span><i class=a>${cnt[2]}</i>Answered</span><span><i class=m>${cnt[3]}</i>Marked</span><span style="grid-column:span 2"><i class=am>${cnt[4]}</i>Ans. &amp; Marked</span></div>
+ <div class=sh>${CFG.secs[cs]}</div><div class=pal>${Q.map((x,i)=>x.s==cs?`<button class="pb ${CL[S.st[i]]} ${i==S.i?'cur':''}" onclick="nav(${i},mk(S.i))">${i+1}</button>`:'').join('')}</div>
+ <div style="padding:8px"><button class="go" style="width:100%" onclick="summary()">Submit Test</button></div></div></div>`;
+ mth();
+}
+function summary(){
+ const secs=[...new Set(Q.map(x=>x.s))];commit(S.i,mk(S.i));
+ const rows=secs.map(s=>{const ix=Q.map((_,i)=>i).filter(i=>Q[i].s==s),c=k=>ix.filter(i=>S.st[i]==k).length;
+ return `<tr><td>${CFG.secs[s]}</td><td>${ix.length}</td><td>${c(2)+c(4)}</td><td>${c(1)+c(3)}</td><td>${c(3)+c(4)}</td><td>${c(0)}</td></tr>`}).join('');
+ const o=document.createElement('div');o.className='ov';
+ o.innerHTML=`<div class=card><h3>Exam Summary</h3><table><tr><th>Section</th><th>Questions</th><th>Answered</th><th>Not Answered</th><th>Marked for Review</th><th>Not Visited</th></tr>${rows}</table><p>Are you sure you want to submit? You cannot change answers after submitting.</p><button class=btn onclick="this.closest('.ov').remove()">No, go back</button> <button class=go onclick="finish()">Yes, Submit</button></div>`;
+ document.body.appendChild(o);
+}
+function score(i){
+ const q=Q[i],a=S.ans[i];if(!has(i))return 0;
+ if(q.t=='MCQ')return a[0]==q.a[0]?q.m:-q.m/3;
+ if(q.t=='MSQ')return a.length==q.a.length&&a.every(x=>q.a.includes(x))?q.m:0;
+ const v=parseFloat(a);return !isNaN(v)&&v>=q.a[0]-1e-6&&v<=q.a[1]+1e-6?q.m:0;
+}
+function finish(){
+ clearInterval(tm);onbeforeunload=null;document.body.classList.remove('testing');$('#timer').style.display='none';document.querySelectorAll('.ov').forEach(e=>e.remove());
+ const sc=Q.map((_,i)=>score(i)),tot=Q.reduce((a,q)=>a+q.m,0),sum=sc.reduce((a,b)=>a+b,0);
+ const att=Q.filter((_,i)=>has(i)).length,ok=sc.filter(x=>x>0).length,bad=sc.filter(x=>x<0).length;
+ const secs=[...new Set(Q.map(x=>x.s))];
+ const srows=secs.map(s=>{const ix=Q.map((_,i)=>i).filter(i=>Q[i].s==s);return `<tr><td>${CFG.secs[s]}</td><td>${(ix.reduce((a,i)=>a+sc[i],0)).toFixed(2)}</td><td>${ix.reduce((a,i)=>a+Q[i].m,0)}</td></tr>`}).join('');
+ const ans=(q,a)=>q.t=='NAT'?(a===''?'—':a):(a.length?[...a].sort().map(j=>LET[j]).join(', '):'—');
+ const rev=Q.map((q,i)=>{const correct=q.t=='NAT'?(q.a[0]==q.a[1]?q.a[0]:q.a[0]+' to '+q.a[1]):q.a.map(j=>LET[j]).join(', ');
+ return `<div class="rv ${sc[i]>0?'ok':sc[i]<0||has(i)?'bad':''}"><b>Q${i+1}</b> · ${q.t} · <b>${sc[i]>0?'+':''}${+sc[i].toFixed(2)}</b> / ${q.m}<p>${q.q}</p>${q.o?'<ol type=A>'+q.o.map(o=>`<li>${o}</li>`).join('')+'</ol>':''}<p>Your answer: <b>${ans(q,S.ans[i])}</b> &nbsp;|&nbsp; Correct answer: <b>${correct}</b></p><p><i>Solution:</i> ${q.e}</p></div>`}).join('');
+ app.innerHTML=`<div class=card><h2>Result — ${nm}</h2><div class=big>${sum.toFixed(2)} / ${tot}</div>
+ <p>Attempted: <b>${att}</b> · Correct: <b>${ok}</b> · Wrong: <b>${bad}</b> · Not attempted: <b>${Q.length-att}</b> · Accuracy: <b>${att?Math.round(ok/att*100):0}%</b></p>
+ <table><tr><th>Section</th><th>Score</th><th>Max</th></tr>${srows}</table>
+ <button class="btn pri" onclick="location.reload()">Retake Test</button> <a class=btn href="mock.html" style="text-decoration:none;color:#000;display:inline-block">Back to Mock Tests</a>
+ <h3>Detailed Solutions</h3>${rev}</div>`;
+ mth();scrollTo(0,0);
+}
+intro();
+</script>
+<script src="nav.js" data-part="nav"></script>
+</body></html>

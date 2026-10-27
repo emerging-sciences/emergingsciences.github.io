@@ -9,15 +9,33 @@ const goal=()=>(LS.g('goal',D.goalMin))*60;
 function toggle(key,id){const o=LS.g(key,{});o[id]?delete o[id]:o[id]=1;LS.s(key,o);return !!o[id]}
 function streak(){const st=study(),g=goal();let n=0,d=new Date();if((st[day(d)]||0)<g)d.setDate(d.getDate()-1);while((st[day(d)]||0)>=g){n++;d.setDate(d.getDate()-1)}return n}
 function addSec(){const st=study(),k=day();st[k]=(st[k]||0)+1;LS.s('study',st);dash()}
+const EX=id=>(D.exams||[]).find(x=>x.id==id), examOf=sid=>(D.exams||[]).find(x=>x.subjects.includes(sid));
+const days=e=>{const t=new Date();t.setHours(0,0,0,0);return Math.round((new Date(e.date+'T00:00:00')-t)/864e5)};
+const cd=e=>{const d=days(e);return d>0?`<b>${d}</b> day${d==1?'':'s'} left`:d==0?'<b>Today</b>':'Exam held · next date awaited'};
+const pageTitle={lectures:'Lectures',material:'Study Material',mock:'Mock Tests'};
 function dash(){const el=$('#dash');if(!el)return;const t=study()[day()]||0,g=goal(),pct=Math.min(100,t/g*100);
- const dl=Math.max(0,Math.ceil((new Date(D.exam.date)-new Date())/864e5));
+ const up=(D.exams||[]).filter(e=>days(e)>=0).sort((a,b)=>days(a)-days(b))[0];
  el.innerHTML=`<div class="a-card"><b>Daily goal</b><div class="bar"><i style="width:${pct}%"></i></div><small>${Math.floor(t/60)} / ${g/60} min · counts while a lecture plays</small></div>
  <div class="a-card"><b>🔥 ${streak()} days</b><small>Study streak</small></div>
- <div class="a-card"><b>${dl} days</b><small>to ${esc(D.exam.name)} (${D.exam.note})</small></div>`}
-function subjCards(page){page=page||'lectures';const d=done(),isM=page=='material';return `<div class="a-grid">`+D.subjects.map(s=>{if(!s.live)return `<div class="a-card dim"><span class="ic">${s.icon}</span><h3>${s.name}</h3><small>Coming soon</small></div>`;
- if(isM){const M=D.material.filter(m=>m.s==s.id);return `<a class="a-card" href="material.html?s=${s.id}"><span class="ic">${s.icon}</span><h3>${s.name}</h3><small>${M.length} PDF${M.length==1?'':'s'}</small></a>`}
- const L=LECS(s.id),c=L.filter(l=>d[l.id]).length;return `<a class="a-card" href="lectures.html?s=${s.id}"><span class="ic">${s.icon}</span><h3>${s.name}</h3><small>${L.length} lectures · ${c}/${L.length} completed</small><div class="bar"><i style="width:${L.length?c/L.length*100:0}%"></i></div></a>`}).join('')+`</div>`}
-function lecRow(l){const d=done(),sv=saved();return `<a class="a-row" href="watch.html?id=${l.id}"><span class="num">${l.n}</span><span class="tt">${esc(l.t)}</span><span class="tag">${l.k=='P'?'Practice':'Theory'}</span><span>${d[l.id]?'✅':''}${sv[l.id]?'🔖':''}</span></a>`}
+ ${up?`<a class="a-card" href="#exams"><b>${days(up)} days</b><small>to ${esc(up.short)} · ${esc(up.dateText)} (${esc(up.note)})</small></a>`:''}`}
+function examCard(e){return `<div class="exam-card x-card"><div class="exam-icon" style="background:${e.color}22;color:${e.color}">${e.tag}</div><div class="x-body">
+ <div class="exam-name">${esc(e.name)}</div><div class="x-org">${esc(e.body)}</div><div class="exam-desc">${esc(e.desc)}</div>
+ <div class="x-meta"><span class="x-cd">${cd(e)}</span><span class="x-date">📅 ${esc(e.dateText)} · ${esc(e.note)}</span></div>
+ <div class="x-btns"><a class="x-go" href="lectures.html?e=${e.id}">▶ Lectures</a><a href="material.html?e=${e.id}">📄 Material</a><a href="mock.html?e=${e.id}">📝 Mock</a><a href="${e.site}" target="_blank" rel="noopener noreferrer">Official site ↗</a></div></div></div>`}
+function examPick(e,page){const n=page=='mock'?(D.mocks||[]).filter(m=>m.e==e.id).length+' test'+((D.mocks||[]).filter(m=>m.e==e.id).length==1?'':'s'):page=='material'?e.subjects.filter(i=>D.material.some(m=>m.s==i)).length+' of '+e.subjects.length+' subjects with PDFs':e.subjects.filter(i=>(S(i)||{}).live).length+' of '+e.subjects.length+' subjects live';
+ return `<a class="a-card pick" href="${page}.html?e=${e.id}"><span class="pk" style="color:${e.color}">${e.short}</span><h3>${esc(e.name)}</h3><small>${esc(e.body)}</small><small>${n}</small><span class="x-cd">${cd(e)}</span></a>`}
+function chooser(page){return `<section class="section"><div class="section-inner"><h1 class="a-h">${pageTitle[page]}</h1><p>Step 1 — choose your exam</p><div class="a-grid">${D.exams.map(e=>examPick(e,page)).join('')}</div></div></section>`}
+function crumbs(page,e,sub){return `<div class="crumbs"><a href="${page}.html">${pageTitle[page]}</a>${e?` › <a href="${page}.html?e=${e.id}">${esc(e.short)}</a>`:''}${sub?` › <span>${esc(sub)}</span>`:''}</div>`}
+function subjCards(page,ex){page=page||'lectures';const d=done(),q=`?e=${ex.id}&s=`,list=ex.subjects.map(S).filter(Boolean);
+ const full=page=='mock'?[{id:'full',name:'Full-Length Mock Tests',icon:'📝',live:true}]:[];
+ return `<div class="a-grid">`+full.concat(list).map(s=>{
+  if(page=='mock'){const T=(D.mocks||[]).filter(m=>m.e==ex.id&&m.s==s.id);if(!T.length)return `<div class="a-card dim"><span class="ic">${s.icon}</span><h3>${s.name}</h3><small>Coming soon</small></div>`;
+   return `<a class="a-card" href="mock.html${q}${s.id}"><span class="ic">${s.icon}</span><h3>${s.name}</h3><small>${T.length} test${T.length==1?'':'s'}</small></a>`}
+  if(page=='material'){const M=D.material.filter(m=>m.s==s.id);if(!M.length)return `<div class="a-card dim"><span class="ic">${s.icon}</span><h3>${s.name}</h3><small>Coming soon</small></div>`;return `<a class="a-card" href="material.html${q}${s.id}"><span class="ic">${s.icon}</span><h3>${s.name}</h3><small>${M.length} PDF${M.length==1?'':'s'}</small></a>`}
+  if(!s.live)return `<div class="a-card dim"><span class="ic">${s.icon}</span><h3>${s.name}</h3><small>Coming soon</small></div>`;
+  const L=LECS(s.id),c=L.filter(l=>d[l.id]).length;return `<a class="a-card" href="lectures.html${q}${s.id}"><span class="ic">${s.icon}</span><h3>${s.name}</h3><small>${L.length} lectures · ${c}/${L.length} completed</small><div class="bar"><i style="width:${L.length?c/L.length*100:0}%"></i></div></a>`}).join('')+`</div>`}
+function resolve(){const sid=P.get('s'),sub=sid=='full'?{id:'full',name:'Full-Length Mock Tests',icon:'📝',live:true}:S(sid);let ex=EX(P.get('e'));if(sub&&(!ex||(sid!='full'&&!ex.subjects.includes(sub.id))))ex=sid=='full'?ex:examOf(sub.id);return {ex,sub:ex?sub:null}}
+function lecRow(l){const d=done(),sv=saved(),e=P.get('e');return `<a class="a-row" href="watch.html?id=${l.id}${e?'&e='+encodeURIComponent(e):''}"><span class="num">${l.n}</span><span class="tt">${esc(l.t)}</span><span class="tag">${l.k=='P'?'Practice':'Theory'}</span><span>${d[l.id]?'✅':''}${sv[l.id]?'🔖':''}</span></a>`}
 function matCard(m){const sv=saved();return `<div class="a-card"><h3>${esc(m.t)}</h3><small>${esc(m.d)}</small><div class="tags"><span class="tag">${m.k}</span><span class="tag">${S(m.s).name}</span></div>
  <div class="btns"><button onclick="ES.read('${m.id}')">📖 Read</button><a href="https://drive.google.com/uc?export=download&id=${m.drive}" target="_blank" rel="noopener">⬇ Download</a><button onclick="ES.save('${m.id}',this)">${sv[m.id]?'🔖 Saved':'🔖 Save'}</button></div></div>`}
 window.ES={
@@ -26,15 +44,16 @@ window.ES={
  save(id,b){const on=toggle('saved',id);b.textContent=on?'🔖 Saved':'🔖 Save'}};
 const R={
 home(el){el.innerHTML=`<section class="section"><div class="section-inner"><div id="dash" class="a-grid3"></div></div></section>`;dash();
- const n=(id,v)=>{const x=document.getElementById(id);if(x)x.textContent=v};n('st-lec',D.lectures.length+'+');n('st-sub',D.subjects.filter(x=>x.live).length+'+')},
-lectures(el){const s=P.get('s'),sub=S(s);if(!sub||!sub.live){el.innerHTML=`<section class="section"><div class="section-inner"><h1 class="a-h">Lectures</h1>${subjCards()}</div></section>`;return}
- const L=LECS(s),c=L.filter(l=>done()[l.id]).length,f=P.get('f')||'all';
- el.innerHTML=`<section class="section"><div class="section-inner"><a href="lectures.html">← Lectures</a><h1 class="a-h">${sub.icon} ${sub.name}</h1><p>${c} of ${L.length} completed</p>
- <div class="chips">${[['all','All'],['T','Theory'],['P','Practice']].map(([k,n])=>`<a class="${f==k?'on':''}" href="?s=${s}&f=${k}">${n}</a>`).join('')}</div>${L.filter(l=>f=='all'||l.k==f).map(lecRow).join('')}</div></section>`},
+ const xl=$('#exam-list');if(xl)xl.innerHTML=D.exams.map(examCard).join('')+`<div class="exam-card x-card"><div class="exam-icon" style="background:#9333EA22;color:#C084FC">MSc<br>+</div><div class="x-body"><div class="exam-name">Other MSc Entrances</div><div class="exam-desc">DU, BHU, JNU and many other central and state universities admit to M.Sc. Mathematics through CUET PG or their own entrance tests — the CUET PG and IIT JAM content covers the core syllabus.</div><div class="x-btns"><a class="x-go" href="lectures.html?e=cuetpg">▶ Start with CUET PG</a></div></div></div>`},
+lectures(el){const {ex,sub}=resolve();if(!ex){el.innerHTML=chooser('lectures');return}
+ if(!sub||!sub.live){el.innerHTML=`<section class="section"><div class="section-inner">${crumbs('lectures',ex)}<h1 class="a-h">${esc(ex.name)}</h1><p>Step 2 — choose a subject · ${cd(ex)} (${esc(ex.dateText)}, ${esc(ex.note)})</p>${subjCards('lectures',ex)}</div></section>`;return}
+ const s=sub.id,L=LECS(s),c=L.filter(l=>done()[l.id]).length,f=P.get('f')||'all';
+ el.innerHTML=`<section class="section"><div class="section-inner">${crumbs('lectures',ex,sub.name)}<h1 class="a-h">${sub.icon} ${sub.name}</h1><p>${c} of ${L.length} completed</p>
+ <div class="chips">${[['all','All'],['T','Theory'],['P','Practice']].map(([k,n])=>`<a class="${f==k?'on':''}" href="?e=${ex.id}&s=${s}&f=${k}">${n}</a>`).join('')}</div>${L.filter(l=>f=='all'||l.k==f).map(lecRow).join('')}</div></section>`},
 watch(el){const l=LEC(P.get('id'));if(!l){el.innerHTML=`<section class="section"><div class="section-inner">Lecture not found. <a href="lectures.html">All lectures</a></div></section>`;return}
  const L=LECS(l.s),i=L.indexOf(l),nx=L[i+1],auto=LS.g('auto',true);document.title=l.n+' '+l.t+' — Emerging Sciences';
- el.innerHTML=`<section class="section"><div class="section-inner"><a href="lectures.html?s=${l.s}">← ${S(l.s).name}</a><h1 class="a-h">${l.n} · ${esc(l.t)}</h1>
- <div class="vid"><div id="yt"></div></div><div class="btns"><button id="bDone"></button><button id="bSave"></button><button id="bShare">🔗 Share</button><a href="material.html?s=${l.s}">📄 Notes</a>
+ el.innerHTML=`<section class="section"><div class="section-inner"><a href="lectures.html?e=${(EX(P.get('e'))&&EX(P.get('e')).subjects.includes(l.s)?P.get('e'):(examOf(l.s)||{}).id)||''}&s=${l.s}">← ${S(l.s).name}</a><h1 class="a-h">${l.n} · ${esc(l.t)}</h1>
+ <div class="vid"><div id="yt"></div></div><div class="btns"><button id="bDone"></button><button id="bSave"></button><button id="bShare">🔗 Share</button><a href="material.html?e=${(EX(P.get('e'))&&EX(P.get('e')).subjects.includes(l.s)?P.get('e'):(examOf(l.s)||{}).id)||''}&s=${l.s}">📄 Notes</a>
  <label><input type="checkbox" id="auto" ${auto?'checked':''}> Auto-play next</label></div><div class="chips" id="spd">${[.75,1,1.25,1.5,2].map(x=>`<a href="#" data-v="${x}">${x}x</a>`).join('')}</div>
  <h2 class="a-h">Up next</h2>${L.slice(i+1,i+6).map(lecRow).join('')||'<p>Last lecture of this subject 🎉</p>'}</div></section>`;
  const bd=$('#bDone'),bs=$('#bSave'),paint=()=>{bd.textContent=done()[l.id]?'✅ Completed':'☐ Mark complete';bs.textContent=saved()[l.id]?'🔖 Saved':'🔖 Save'};paint();
@@ -44,12 +63,16 @@ watch(el){const l=LEC(P.get('id'));if(!l){el.innerHTML=`<section class="section"
  $('#spd').onclick=e=>{const v=e.target.dataset.v;if(v){e.preventDefault();pl&&pl.setPlaybackRate(+v)}};
  const s=document.createElement('script');s.src='https://www.youtube.com/iframe_api';document.head.appendChild(s);window.onYouTubeIframeAPIReady=mk;
  setInterval(()=>{if(pl&&pl.getPlayerState&&pl.getPlayerState()==1)addSec()},1000)},
-material(el){const s=P.get('s'),sub=S(s);
- if(!sub||!sub.live){el.innerHTML=`<section class="section"><div class="section-inner"><h1 class="a-h">Study Material</h1><p>Subject chuno → PDFs khulengi</p>${subjCards('material')}</div></section>`;return}
- const all=D.material.filter(m=>m.s==s),kinds=[...new Set(all.map(m=>m.k))],k=P.get('k')||'all';
- el.innerHTML=`<section class="section"><div class="section-inner"><a href="material.html">← Study Material</a><h1 class="a-h">${sub.icon} ${sub.name}</h1><p>${all.length} PDF${all.length==1?'':'s'}</p>
- ${kinds.length>1?`<div class="chips">${['all',...kinds].map(a=>`<a class="${k==a?'on':''}" href="?s=${s}&k=${encodeURIComponent(a)}">${a=='all'?'All':esc(a)}</a>`).join('')}</div>`:''}
- <div class="a-grid">${all.filter(m=>k=='all'||m.k==k).map(matCard).join('')||'<p>Is subject ki PDFs jaldi aayengi.</p>'}</div></div></section>`},
+material(el){const {ex,sub}=resolve();if(!ex){el.innerHTML=chooser('material');return}
+ if(!sub||!sub.live&&!D.material.some(m=>m.s==sub.id)){el.innerHTML=`<section class="section"><div class="section-inner">${crumbs('material',ex)}<h1 class="a-h">${esc(ex.name)}</h1><p>Step 2 — choose a subject to open its PDFs</p>${subjCards('material',ex)}</div></section>`;return}
+ const s=sub.id,all=D.material.filter(m=>m.s==s),kinds=[...new Set(all.map(m=>m.k))],k=P.get('k')||'all';
+ el.innerHTML=`<section class="section"><div class="section-inner">${crumbs('material',ex,sub.name)}<h1 class="a-h">${sub.icon} ${sub.name}</h1><p>${all.length} PDF${all.length==1?'':'s'}</p>
+ ${kinds.length>1?`<div class="chips">${['all',...kinds].map(a=>`<a class="${k==a?'on':''}" href="?e=${ex.id}&s=${s}&k=${encodeURIComponent(a)}">${a=='all'?'All':esc(a)}</a>`).join('')}</div>`:''}
+ <div class="a-grid">${all.filter(m=>k=='all'||m.k==k).map(matCard).join('')||'<p>PDFs for this subject are coming soon.</p>'}</div></div></section>`},
+mock(el){const {ex,sub}=resolve();if(!ex){el.innerHTML=chooser('mock');return}
+ if(!sub){el.innerHTML=`<section class="section"><div class="section-inner">${crumbs('mock',ex)}<h1 class="a-h">${esc(ex.name)}</h1><p>Step 2 — choose full-length tests or a subject · ${cd(ex)} (${esc(ex.dateText)}, ${esc(ex.note)})</p>${subjCards('mock',ex)}</div></section>`;return}
+ const T=(D.mocks||[]).filter(m=>m.e==ex.id&&m.s==sub.id);
+ el.innerHTML=`<section class="section"><div class="section-inner">${crumbs('mock',ex,sub.name)}<h1 class="a-h">${sub.icon} ${sub.name}</h1><p>${T.length} test${T.length==1?'':'s'}</p>${T.map(m=>`<a class="a-row" href="test.html?t=${m.id}"><span class="num">▶</span><span class="tt">${esc(m.t)}</span><span class="tag">${m.q} Qs · ${m.min} min</span></a>`).join('')||'<p>Tests for this subject are coming soon.</p>'}</div></section>`},
 search(el){el.innerHTML=`<section class="section"><div class="section-inner"><h1 class="a-h">Search</h1><input id="q" class="a-in" placeholder="Search lectures and notes…" value="${esc(P.get('q')||'')}"><div id="res"></div></div></section>`;
  const go=()=>{const q=$('#q').value.toLowerCase().trim();if(!q){$('#res').innerHTML='';return}
   const l=D.lectures.filter(x=>(x.t+' '+x.n+' '+S(x.s).name).toLowerCase().includes(q)),m=D.material.filter(x=>(x.t+' '+x.d+' '+x.k).toLowerCase().includes(q));
@@ -73,12 +96,12 @@ if(af){const subs=D.subjects.filter(s=>s.live).map(s=>s.name).concat(['Other / G
  <button id="dsend" class="send">✈ Send via Telegram</button><small>🔒 No login needed</small><small id="dmsg"></small></div>`;
  $('#dp').onchange=e=>{$('#pn').textContent=e.target.files[0]?e.target.files[0].name:'Add a photo of the problem (optional)'};
  $('#dsend').onclick=async()=>{const q=$('#dq').value.trim(),nm=$('#dn').value.trim(),sb=$('#ds').value,f=$('#dp').files[0];
-  if(!q&&!f){$('#dmsg').textContent='Pehle apna question likho.';return}
+  if(!q&&!f){$('#dmsg').textContent='Please write your question first.';return}
   const text=`Doubt${nm?' from '+nm:''}\nSubject: ${sb}\n\n${q}`;
   if(f&&navigator.canShare&&navigator.canShare({files:[f]})){try{await navigator.share({files:[f],text});return}catch(e){if(e.name==='AbortError')return}}
   try{navigator.clipboard.writeText(text)}catch(e){}
   window.open(D.links.telegram,'_blank','noopener');
-  $('#dmsg').textContent='Question copy ho gaya. Telegram me paste karke bhej do'+(f?' (photo wahin attach karna)':'')+'.'}}
+  $('#dmsg').textContent='Your question has been copied. Paste it in Telegram to send it'+(f?' (attach the photo there)':'')+'.'}}
 const fq=document.getElementById('faq');
 if(fq&&D.faq&&D.faq.length)fq.innerHTML='<h3 class="a-h" style="margin-top:2.5rem">Frequently asked</h3><div class="faq">'+D.faq.map(f=>`<details><summary>${esc(f.q)}</summary><p>${esc(f.a)}</p></details>`).join('')+'</div>';
 const dx=document.getElementById('doubt-extra');
