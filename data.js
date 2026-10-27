@@ -1,4 +1,7 @@
 // EDIT THIS FILE to add lectures / PDFs / exams. Site pages build themselves from it.
+// SYLLABUS rows: { "e":"jam", "t":"Title", "url":"https://official-link.pdf" }  or  "drive":"<Google Drive file id>" instead of url.
+// PYQS rows: { "e":"jam", "y":2026, "t":"Title", "qp":"https://...", "key":"https://..." }  (use "qpDrive"/"keyDrive" for Drive file ids; "g" = optional group, "n" = optional note)
+// pyqPortals: the official 'all years' page for each exam id; shown for exams that have no year rows yet.
 window.ES_DATA = {
  "goalMin": 30,
  "subjects": [
@@ -718,6 +721,640 @@ window.ES_DATA = {
    ]
   }
  ],
+ "syllabus": [
+  {
+   "e": "jam",
+   "t": "IIT JAM Mathematics (MA) — Syllabus 2027",
+   "url": "https://jam.iitkgp.ac.in/docs/ma_2027_syllabus.pdf",
+   "src": "Official · jam.iitkgp.ac.in"
+  },
+  {
+   "e": "jam",
+   "t": "JAM 2027 Information Brochure (pattern, eligibility)",
+   "url": "https://jam.iitkgp.ac.in/docs/Info_Brochure_v3.pdf",
+   "src": "Official · jam.iitkgp.ac.in"
+  },
+  {
+   "e": "cuetpg",
+   "t": "CUET (PG) — Syllabus page (open the Mathematics paper)",
+   "url": "https://exams.nta.nic.in/cuet-pg/syllabus/",
+   "src": "Official · NTA",
+   "n": "Link taken from NTA's own notice; NTA refreshes this page every year."
+  },
+  {
+   "e": "tifr",
+   "t": "TIFR GS — Mathematics syllabus & exam instructions",
+   "url": "https://www.tifr.res.in/academics/docs/Maths_syllabus_exam_instructions.pdf",
+   "src": "Official · tifr.res.in"
+  },
+  {
+   "e": "gate",
+   "t": "GATE 2027 Mathematics (MA) — Syllabus",
+   "url": "https://gate2027.iitm.ac.in/static/doc/GATE2027_Syllabus/MA_GATE2027_Syllabus.pdf",
+   "src": "Official · IIT Madras"
+  },
+  {
+   "e": "gate",
+   "t": "GATE 2027 General Aptitude (GA) — common 15 marks",
+   "url": "https://gate2027.iitm.ac.in/static/doc/GATE2027_Syllabus/GA_GATE2027_Syllabus.pdf",
+   "src": "Official · IIT Madras"
+  },
+  {
+   "e": "csir",
+   "t": "CSIR-UGC NET Mathematical Sciences — Syllabus",
+   "url": "https://www.csirhrdg.res.in/old_website/mcs_ma_sylbs.pdf",
+   "src": "CSIR-HRDG (older copy)",
+   "n": "Older CSIR-HRDG copy of the syllabus; cross-check with the Dec 2026 bulletin below."
+  },
+  {
+   "e": "csir",
+   "t": "Joint CSIR-UGC NET Dec 2026 — Information Bulletin (scheme, dates)",
+   "url": "https://cdnbbsr.s3waas.gov.in/s3efdf562ce2fb0ad460fd8e9d33e57f57/uploads/2026/10/202610071407707951.pdf",
+   "src": "Official · NTA"
+  },
+  {
+   "e": "nbhm",
+   "t": "NBHM — no prescribed syllabus (official FAQ). Study from past papers.",
+   "url": "https://www.imsc.res.in/~nbhm/ST_current/faq.html",
+   "src": "Official · NBHM",
+   "n": "NBHM publishes no syllabus; question papers from 2005 onward are the guide."
+  },
+  {
+   "e": "isi",
+   "t": "ISI M.Math (PMA & PMB) — Syllabus 2026",
+   "url": "https://admission.isical.ac.in/Syllabus/MMath-Syllabus-PMA-PMB-2026.pdf",
+   "src": "Official · ISI"
+  },
+  {
+   "e": "cmi",
+   "t": "CMI MSc/PhD Mathematics — Syllabus & reading material",
+   "url": "https://www.cmi.ac.in/admissions/syllabus/pgmath-syllabus.pdf",
+   "src": "Official · cmi.ac.in"
+  }
+ ],
+ "pyqs": [
+  {
+   "e": "jam",
+   "y": 2026,
+   "t": "IIT JAM 2026 Mathematics (MA)",
+   "qp": "https://jam.iitkgp.ac.in/docs/2026_MA_QP_AK.pdf",
+   "n": "Question paper + answer key (one PDF)"
+  },
+  {
+   "e": "jam",
+   "y": 2025,
+   "t": "IIT JAM 2025 Mathematics (MA)",
+   "qp": "https://jam.iitkgp.ac.in/docs/2025_MA_QP_AK.pdf",
+   "n": "Question paper + answer key (one PDF)"
+  },
+  {
+   "e": "jam",
+   "y": 2024,
+   "t": "IIT JAM 2024 Mathematics (MA)",
+   "qp": "https://jam.iitkgp.ac.in/docs/2024_MA_QP_AK.pdf",
+   "n": "Question paper + answer key (one PDF)"
+  },
+  {
+   "e": "jam",
+   "y": 2023,
+   "t": "IIT JAM 2023 Mathematics (MA)",
+   "qp": "https://jam.iitkgp.ac.in/docs/2023_MA_QP_AK.pdf",
+   "n": "Question paper + answer key (one PDF)"
+  },
+  {
+   "e": "jam",
+   "y": 2022,
+   "t": "IIT JAM 2022 Mathematics (MA)",
+   "qp": "https://jam.iitkgp.ac.in/docs/2022_MA_QP.pdf",
+   "n": "Question paper"
+  },
+  {
+   "e": "gate",
+   "y": 2026,
+   "t": "GATE 2026 Mathematics (MA)",
+   "qp": "https://gate2027.iitm.ac.in/static/doc/download/2026/QPs/MA.pdf",
+   "key": "https://gate2027.iitm.ac.in/static/doc/download/2026/Keys/MA_Keys.pdf"
+  },
+  {
+   "e": "gate",
+   "y": 2025,
+   "t": "GATE 2025 Mathematics (MA)",
+   "qp": "https://gate2027.iitm.ac.in/static/doc/download/2025/MA2025.pdf",
+   "key": "https://gate2027.iitm.ac.in/static/doc/download/2025_Key/MA_Keys.pdf"
+  },
+  {
+   "e": "gate",
+   "y": 2024,
+   "t": "GATE 2024 Mathematics (MA)",
+   "qp": "https://gate2027.iitm.ac.in/static/doc/download/2024/MA24S4.pdf",
+   "key": "https://gate2027.iitm.ac.in/static/doc/download/2024/MAFinalAnswerKey.pdf"
+  },
+  {
+   "e": "gate",
+   "y": 2023,
+   "t": "GATE 2023 Mathematics (MA)",
+   "qp": "https://gate2027.iitm.ac.in/static/doc/download/2023/ma_2023.pdf",
+   "key": "https://gate2027.iitm.ac.in/static/doc/download/Answer_keys2023/MA_ANS_GATE2023.pdf"
+  },
+  {
+   "e": "gate",
+   "y": 2022,
+   "t": "GATE 2022 Mathematics (MA)",
+   "qp": "https://gate2027.iitm.ac.in/static/doc/download/2022/ma_2022.pdf",
+   "key": "https://gate2027.iitm.ac.in/static/doc/download/Answer_keys2022/ma_2022.pdf"
+  },
+  {
+   "e": "gate",
+   "y": 2021,
+   "t": "GATE 2021 Mathematics (MA)",
+   "qp": "https://gate2027.iitm.ac.in/static/doc/download/2021/ma_2021.pdf",
+   "key": "https://gate2027.iitm.ac.in/static/doc/download/Answer_keys2021/ma_2021.pdf"
+  },
+  {
+   "e": "nbhm",
+   "y": 2026,
+   "g": "Combined",
+   "t": "NBHM Scholarship Test (Master's + Doctoral) — 2026",
+   "qp": "https://www.imsc.res.in/~nbhm/qp/comb26.pdf",
+   "key": "https://www.imsc.res.in/~nbhm/qp/comb26key.pdf"
+  },
+  {
+   "e": "nbhm",
+   "y": 2025,
+   "g": "Combined",
+   "t": "NBHM Scholarship Test (Master's + Doctoral) — 2025",
+   "qp": "https://www.imsc.res.in/~nbhm/qp/comb25.pdf",
+   "key": "https://www.imsc.res.in/~nbhm/qp/comb25key.pdf"
+  },
+  {
+   "e": "nbhm",
+   "y": 2024,
+   "g": "Combined",
+   "t": "NBHM Scholarship Test (Master's + Doctoral) — Jan 2024",
+   "qp": "https://www.imsc.res.in/~nbhm/qp/comb24.pdf",
+   "key": "https://www.imsc.res.in/~nbhm/qp/comb24key.pdf"
+  },
+  {
+   "e": "nbhm",
+   "y": 2023,
+   "g": "Combined",
+   "t": "NBHM Scholarship Test (Master's + Doctoral) — Apr 2023",
+   "qp": "https://www.imsc.res.in/~nbhm/qp/comb23.pdf",
+   "key": "https://www.imsc.res.in/~nbhm/qp/comb23key.pdf"
+  },
+  {
+   "e": "nbhm",
+   "y": 2022,
+   "g": "Doctoral",
+   "t": "NBHM Doctoral Scholarship Test — 2022",
+   "qp": "https://www.imsc.res.in/~nbhm/qp/nbhmra22.pdf",
+   "key": "https://www.imsc.res.in/~nbhm/qp/nbhmra22key.pdf"
+  },
+  {
+   "e": "nbhm",
+   "y": 2021,
+   "g": "Doctoral",
+   "t": "NBHM Doctoral Scholarship Test — 2021",
+   "qp": "https://www.imsc.res.in/~nbhm/qp/nbhmra21.pdf",
+   "key": "https://www.imsc.res.in/~nbhm/qp/nbhmra21key.pdf"
+  },
+  {
+   "e": "nbhm",
+   "y": 2020,
+   "g": "Doctoral",
+   "t": "NBHM Doctoral Scholarship Test — 2020",
+   "qp": "https://www.imsc.res.in/~nbhm/qp/nbhmra20.pdf",
+   "key": "https://www.imsc.res.in/~nbhm/qp/nbhmra20key.pdf"
+  },
+  {
+   "e": "nbhm",
+   "y": 2019,
+   "g": "Doctoral",
+   "t": "NBHM Doctoral Scholarship Test — 2019",
+   "qp": "https://www.imsc.res.in/~nbhm/qp/nbhmra19.pdf",
+   "key": "https://www.imsc.res.in/~nbhm/qp/nbhmra19key.pdf"
+  },
+  {
+   "e": "nbhm",
+   "y": 2019,
+   "g": "Master's",
+   "t": "NBHM M.A./M.Sc. Scholarship Test — 2019",
+   "qp": "https://www.imsc.res.in/~nbhm/qp/msc19.pdf",
+   "key": "https://www.imsc.res.in/~nbhm/qp/msc19key.pdf"
+  },
+  {
+   "e": "nbhm",
+   "y": 2018,
+   "g": "Doctoral",
+   "t": "NBHM Doctoral Scholarship Test — 2018",
+   "qp": "https://www.imsc.res.in/~nbhm/qp/nbhmra18.pdf",
+   "key": "https://www.imsc.res.in/~nbhm/qp/nbhmra18key.pdf"
+  },
+  {
+   "e": "nbhm",
+   "y": 2018,
+   "g": "Master's",
+   "t": "NBHM M.A./M.Sc. Scholarship Test — 2018",
+   "qp": "https://www.imsc.res.in/~nbhm/qp/msc18.pdf",
+   "key": "https://www.imsc.res.in/~nbhm/qp/msc18key.pdf"
+  },
+  {
+   "e": "nbhm",
+   "y": 2017,
+   "g": "Doctoral",
+   "t": "NBHM Doctoral Scholarship Test — 2017",
+   "qp": "https://www.imsc.res.in/~nbhm/qp/nbhmra17.pdf",
+   "key": "https://www.imsc.res.in/~nbhm/qp/nbhmra17key.pdf"
+  },
+  {
+   "e": "nbhm",
+   "y": 2017,
+   "g": "Master's",
+   "t": "NBHM M.A./M.Sc. Scholarship Test — 2017",
+   "qp": "https://www.imsc.res.in/~nbhm/qp/msc17.pdf",
+   "key": "https://www.imsc.res.in/~nbhm/qp/msc17key.pdf"
+  },
+  {
+   "e": "nbhm",
+   "y": 2016,
+   "g": "Doctoral",
+   "t": "NBHM Doctoral Scholarship Test — 2016",
+   "qp": "https://www.imsc.res.in/~nbhm/qp/nbhmra16.pdf",
+   "key": "https://www.imsc.res.in/~nbhm/qp/nbhmra16key.pdf"
+  },
+  {
+   "e": "nbhm",
+   "y": 2016,
+   "g": "Master's",
+   "t": "NBHM M.A./M.Sc. Scholarship Test — 2016",
+   "qp": "https://www.imsc.res.in/~nbhm/qp/msc16.pdf",
+   "key": "https://www.imsc.res.in/~nbhm/qp/msc16key.pdf"
+  },
+  {
+   "e": "nbhm",
+   "y": 2015,
+   "g": "Doctoral",
+   "t": "NBHM Doctoral Scholarship Test — 2015",
+   "qp": "https://www.imsc.res.in/~nbhm/qp/nbhmra15.pdf",
+   "key": "https://www.imsc.res.in/~nbhm/qp/nbhmra15key.pdf"
+  },
+  {
+   "e": "nbhm",
+   "y": 2015,
+   "g": "Master's",
+   "t": "NBHM M.A./M.Sc. Scholarship Test — 2015",
+   "qp": "https://www.imsc.res.in/~nbhm/qp/msc15.pdf",
+   "key": "https://www.imsc.res.in/~nbhm/qp/msc15key.pdf"
+  },
+  {
+   "e": "nbhm",
+   "y": 2014,
+   "g": "Doctoral",
+   "t": "NBHM Doctoral Scholarship Test — 2014",
+   "qp": "https://www.imsc.res.in/~nbhm/qp/nbhmra14.pdf",
+   "key": "https://www.imsc.res.in/~nbhm/qp/nbhmra14key.pdf"
+  },
+  {
+   "e": "nbhm",
+   "y": 2014,
+   "g": "Master's",
+   "t": "NBHM M.A./M.Sc. Scholarship Test — 2014",
+   "qp": "https://www.imsc.res.in/~nbhm/qp/msc14.pdf",
+   "key": "https://www.imsc.res.in/~nbhm/qp/msc14key.pdf"
+  },
+  {
+   "e": "nbhm",
+   "y": 2013,
+   "g": "Doctoral",
+   "t": "NBHM Doctoral Scholarship Test — 2013",
+   "qp": "https://www.imsc.res.in/~nbhm/qp/nbhmra13.pdf",
+   "key": "https://www.imsc.res.in/~nbhm/qp/nbhmra13key.pdf"
+  },
+  {
+   "e": "nbhm",
+   "y": 2013,
+   "g": "Master's",
+   "t": "NBHM M.A./M.Sc. Scholarship Test — 2013",
+   "qp": "https://www.imsc.res.in/~nbhm/qp/msc13.pdf",
+   "key": "https://www.imsc.res.in/~nbhm/qp/msc13key.pdf"
+  },
+  {
+   "e": "nbhm",
+   "y": 2012,
+   "g": "Doctoral",
+   "t": "NBHM Doctoral Scholarship Test — 2012",
+   "qp": "https://www.imsc.res.in/~nbhm/qp/nbhmra12.pdf",
+   "key": "https://www.imsc.res.in/~nbhm/qp/nbhmra12key.pdf"
+  },
+  {
+   "e": "nbhm",
+   "y": 2012,
+   "g": "Master's",
+   "t": "NBHM M.A./M.Sc. Scholarship Test — 2012",
+   "qp": "https://www.imsc.res.in/~nbhm/qp/msc12.pdf",
+   "key": "https://www.imsc.res.in/~nbhm/qp/msc12key.pdf"
+  },
+  {
+   "e": "nbhm",
+   "y": 2011,
+   "g": "Doctoral",
+   "t": "NBHM Doctoral Scholarship Test — 2011",
+   "qp": "https://www.imsc.res.in/~nbhm/qp/nbhmra11.pdf",
+   "key": "https://www.imsc.res.in/~nbhm/qp/nbhmra11key.pdf"
+  },
+  {
+   "e": "nbhm",
+   "y": 2011,
+   "g": "Master's",
+   "t": "NBHM M.A./M.Sc. Scholarship Test — 2011",
+   "qp": "https://www.imsc.res.in/~nbhm/qp/msc11.pdf",
+   "key": "https://www.imsc.res.in/~nbhm/qp/msc11key.pdf"
+  },
+  {
+   "e": "nbhm",
+   "y": 2010,
+   "g": "Doctoral",
+   "t": "NBHM Doctoral Scholarship Test — 2010",
+   "qp": "https://www.imsc.res.in/~nbhm/qp/nbhmra10.pdf",
+   "key": "https://www.imsc.res.in/~nbhm/qp/nbhmra10key.pdf"
+  },
+  {
+   "e": "nbhm",
+   "y": 2010,
+   "g": "Master's",
+   "t": "NBHM M.A./M.Sc. Scholarship Test — 2010",
+   "qp": "https://www.imsc.res.in/~nbhm/qp/msc10.pdf",
+   "key": "https://www.imsc.res.in/~nbhm/qp/msc10key.pdf"
+  },
+  {
+   "e": "nbhm",
+   "y": 2009,
+   "g": "Doctoral",
+   "t": "NBHM Doctoral Scholarship Test — 2009",
+   "qp": "https://www.imsc.res.in/~nbhm/qp/nbhmra09.pdf",
+   "key": "https://www.imsc.res.in/~nbhm/qp/nbhmra09key.pdf"
+  },
+  {
+   "e": "nbhm",
+   "y": 2009,
+   "g": "Master's",
+   "t": "NBHM M.A./M.Sc. Scholarship Test — 2009",
+   "qp": "https://www.imsc.res.in/~nbhm/qp/msc09.pdf",
+   "key": "https://www.imsc.res.in/~nbhm/qp/msc09key.pdf"
+  },
+  {
+   "e": "nbhm",
+   "y": 2008,
+   "g": "Doctoral",
+   "t": "NBHM Doctoral Scholarship Test — 2008",
+   "qp": "https://www.imsc.res.in/~nbhm/qp/nbhmra08.pdf",
+   "key": "https://www.imsc.res.in/~nbhm/qp/nbhmra08key.pdf"
+  },
+  {
+   "e": "nbhm",
+   "y": 2008,
+   "g": "Master's",
+   "t": "NBHM M.A./M.Sc. Scholarship Test — 2008",
+   "qp": "https://www.imsc.res.in/~nbhm/qp/msc08.pdf",
+   "key": "https://www.imsc.res.in/~nbhm/qp/msc08key.pdf"
+  },
+  {
+   "e": "nbhm",
+   "y": 2007,
+   "g": "Doctoral",
+   "t": "NBHM Doctoral Scholarship Test — 2007",
+   "qp": "https://www.imsc.res.in/~nbhm/qp/nbhmra07.pdf",
+   "key": "https://www.imsc.res.in/~nbhm/qp/nbhmra07key.pdf"
+  },
+  {
+   "e": "nbhm",
+   "y": 2007,
+   "g": "Master's",
+   "t": "NBHM M.A./M.Sc. Scholarship Test — 2007",
+   "qp": "https://www.imsc.res.in/~nbhm/qp/msc07.pdf",
+   "key": "https://www.imsc.res.in/~nbhm/qp/msc07key.pdf"
+  },
+  {
+   "e": "nbhm",
+   "y": 2006,
+   "g": "Doctoral",
+   "t": "NBHM Doctoral Scholarship Test — 2006",
+   "qp": "https://www.imsc.res.in/~nbhm/qp/nbhmra06.pdf",
+   "key": "https://www.imsc.res.in/~nbhm/qp/nbhmra06key.pdf"
+  },
+  {
+   "e": "nbhm",
+   "y": 2006,
+   "g": "Master's",
+   "t": "NBHM M.A./M.Sc. Scholarship Test — 2006",
+   "qp": "https://www.imsc.res.in/~nbhm/qp/msc06.pdf",
+   "key": "https://www.imsc.res.in/~nbhm/qp/msc06key.pdf"
+  },
+  {
+   "e": "nbhm",
+   "y": 2005,
+   "g": "Doctoral",
+   "t": "NBHM Doctoral Scholarship Test — 2005",
+   "qp": "https://www.imsc.res.in/~nbhm/qp/nbhmra05.pdf",
+   "key": "https://www.imsc.res.in/~nbhm/qp/nbhmra05ans.pdf"
+  },
+  {
+   "e": "nbhm",
+   "y": 2005,
+   "g": "Master's",
+   "t": "NBHM M.A./M.Sc. Scholarship Test — 2005",
+   "qp": "https://www.imsc.res.in/~nbhm/qp/msc05.pdf",
+   "key": "https://www.imsc.res.in/~nbhm/qp/msc05key.pdf"
+  },
+  {
+   "e": "isi",
+   "y": 2026,
+   "t": "ISI M.Math 2026 — question paper (open on ISI's page)",
+   "qp": "https://admission.isical.ac.in/Programs/MMath.html",
+   "n": "Opens ISI's official M.Math page; pick the year there."
+  },
+  {
+   "e": "isi",
+   "y": 2024,
+   "t": "ISI M.Math 2024 — question paper (open on ISI's page)",
+   "qp": "https://admission.isical.ac.in/Programs/MMath.html",
+   "n": "Opens ISI's official M.Math page; pick the year there."
+  },
+  {
+   "e": "isi",
+   "y": 2023,
+   "t": "ISI M.Math 2023 — question paper (open on ISI's page)",
+   "qp": "https://admission.isical.ac.in/Programs/MMath.html",
+   "n": "Opens ISI's official M.Math page; pick the year there."
+  },
+  {
+   "e": "isi",
+   "y": 2022,
+   "t": "ISI M.Math 2022 — question paper (open on ISI's page)",
+   "qp": "https://admission.isical.ac.in/Programs/MMath.html",
+   "n": "Opens ISI's official M.Math page; pick the year there."
+  },
+  {
+   "e": "isi",
+   "y": 2020,
+   "t": "ISI M.Math 2020 — question paper (open on ISI's page)",
+   "qp": "https://admission.isical.ac.in/Programs/MMath.html",
+   "n": "Opens ISI's official M.Math page; pick the year there."
+  },
+  {
+   "e": "cmi",
+   "y": 2026,
+   "t": "CMI MSc/PhD Mathematics 2026",
+   "qp": "https://www.cmi.ac.in/admissions/sample-qp/pgmath2026.pdf",
+   "key": "https://www.cmi.ac.in/admissions/sample-qp/pgmath2026-solutions.pdf"
+  },
+  {
+   "e": "cmi",
+   "y": 2025,
+   "t": "CMI MSc/PhD Mathematics 2025",
+   "qp": "https://www.cmi.ac.in/admissions/sample-qp/pgmath2025.pdf",
+   "key": "https://www.cmi.ac.in/admissions/sample-qp/pgmath2025-solutions.pdf"
+  },
+  {
+   "e": "cmi",
+   "y": 2024,
+   "t": "CMI MSc/PhD Mathematics 2024",
+   "qp": "https://www.cmi.ac.in/admissions/sample-qp/pgmath2024.pdf",
+   "key": "https://www.cmi.ac.in/admissions/sample-qp/pgmath2024-solutions.pdf"
+  },
+  {
+   "e": "cmi",
+   "y": 2023,
+   "t": "CMI MSc/PhD Mathematics 2023",
+   "qp": "https://www.cmi.ac.in/admissions/sample-qp/pgmath2023.pdf",
+   "key": "https://www.cmi.ac.in/admissions/sample-qp/pgmath2023-solutions.pdf"
+  },
+  {
+   "e": "cmi",
+   "y": 2022,
+   "t": "CMI MSc/PhD Mathematics 2022",
+   "qp": "https://www.cmi.ac.in/admissions/sample-qp/pgmath2022.pdf",
+   "key": "https://www.cmi.ac.in/admissions/sample-qp/pgmath2022-solutions.pdf"
+  },
+  {
+   "e": "cmi",
+   "y": 2021,
+   "t": "CMI MSc/PhD Mathematics 2021",
+   "qp": "https://www.cmi.ac.in/admissions/sample-qp/pgmath2021.pdf",
+   "key": "https://www.cmi.ac.in/admissions/sample-qp/pgmath2021-solutions.pdf"
+  },
+  {
+   "e": "cmi",
+   "y": 2020,
+   "t": "CMI MSc/PhD Mathematics 2020",
+   "qp": "https://www.cmi.ac.in/admissions/sample-qp/pgmath2020.pdf",
+   "key": "https://www.cmi.ac.in/admissions/sample-qp/pgmath2020-solutions.pdf"
+  },
+  {
+   "e": "cmi",
+   "y": 2019,
+   "t": "CMI MSc/PhD Mathematics 2019",
+   "qp": "https://www.cmi.ac.in/admissions/sample-qp/pgmath2019.pdf",
+   "key": "https://www.cmi.ac.in/admissions/sample-qp/pgmath2019-solutions.pdf"
+  },
+  {
+   "e": "cmi",
+   "y": 2018,
+   "t": "CMI MSc/PhD Mathematics 2018",
+   "qp": "https://www.cmi.ac.in/admissions/sample-qp/pgmath2018.pdf",
+   "key": "https://www.cmi.ac.in/admissions/sample-qp/pgmath2018-solutions.pdf"
+  },
+  {
+   "e": "cmi",
+   "y": 2017,
+   "t": "CMI MSc/PhD Mathematics 2017",
+   "qp": "https://www.cmi.ac.in/admissions/sample-qp/pgmath2017.pdf",
+   "key": "https://www.cmi.ac.in/admissions/sample-qp/pgmath2017-solutions.pdf"
+  },
+  {
+   "e": "cmi",
+   "y": 2016,
+   "t": "CMI MSc/PhD Mathematics 2016",
+   "qp": "https://www.cmi.ac.in/admissions/sample-qp/pgmath2016.pdf",
+   "key": "https://www.cmi.ac.in/admissions/sample-qp/pgmath2016-solutions.pdf"
+  },
+  {
+   "e": "cmi",
+   "y": 2015,
+   "t": "CMI MSc/PhD Mathematics 2015",
+   "qp": "https://www.cmi.ac.in/admissions/sample-qp/pgmath2015.pdf",
+   "key": "https://www.cmi.ac.in/admissions/sample-qp/pgmath2015-solutions.pdf"
+  },
+  {
+   "e": "cmi",
+   "y": 2014,
+   "t": "CMI MSc/PhD Mathematics 2014",
+   "qp": "https://www.cmi.ac.in/admissions/sample-qp/pgmath2014.pdf",
+   "key": "https://www.cmi.ac.in/admissions/sample-qp/pgmath2014-solutions.pdf"
+  },
+  {
+   "e": "cmi",
+   "y": 2013,
+   "t": "CMI MSc/PhD Mathematics 2013",
+   "qp": "https://www.cmi.ac.in/admissions/sample-qp/pgmath2013.pdf",
+   "key": "https://www.cmi.ac.in/admissions/sample-qp/pgmath2013-solutions.pdf"
+  },
+  {
+   "e": "cmi",
+   "y": 2012,
+   "t": "CMI MSc/PhD Mathematics 2012",
+   "qp": "https://www.cmi.ac.in/admissions/sample-qp/pgmath2012.pdf",
+   "key": "https://www.cmi.ac.in/admissions/sample-qp/pgmath2012-solutions.pdf"
+  },
+  {
+   "e": "cmi",
+   "y": 2011,
+   "t": "CMI MSc/PhD Mathematics 2011",
+   "qp": "https://www.cmi.ac.in/admissions/sample-qp/pgmath2011.pdf"
+  },
+  {
+   "e": "cmi",
+   "y": 2010,
+   "t": "CMI MSc/PhD Mathematics 2010",
+   "qp": "https://www.cmi.ac.in/admissions/sample-qp/pgmath2010.pdf"
+  }
+ ],
+ "pyqPortals": {
+  "jam": {
+   "url": "https://jam.iitkgp.ac.in/download.html",
+   "label": "JAM official downloads"
+  },
+  "cuetpg": {
+   "url": "https://exams.nta.nic.in/cuet-pg/",
+   "label": "NTA CUET (PG) official page"
+  },
+  "tifr": {
+   "url": "https://www.tifr.res.in/academics/",
+   "label": "TIFR Graduate School official page"
+  },
+  "gate": {
+   "url": "https://gate2027.iitm.ac.in/download",
+   "label": "GATE official downloads",
+   "more": "https://drive.google.com/drive/folders/1xUn7rGTzKlfvJDoo4SzCRi8jRlBD63ud?usp=sharing",
+   "moreLabel": "All GATE papers 2007–2026 (official bulk folder)"
+  },
+  "csir": {
+   "url": "https://csirnet.nta.nic.in/archive/",
+   "label": "NTA CSIR NET archive"
+  },
+  "nbhm": {
+   "url": "https://www.imsc.res.in/~nbhm/qp/",
+   "label": "NBHM official repository"
+  },
+  "isi": {
+   "url": "https://admission.isical.ac.in/Programs/MMath.html",
+   "label": "ISI M.Math official page"
+  },
+  "cmi": {
+   "url": "https://www.cmi.ac.in/admissions/syllabus.php",
+   "label": "CMI official past papers page"
+  }
+ },
  "mocks": [
   {
    "id": "jam-full-1",
