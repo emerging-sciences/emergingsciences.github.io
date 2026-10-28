@@ -1173,7 +1173,7 @@ window.ES_DATA = {
   {
    "e": "csir",
    "t": "CSIR-UGC NET Mathematical Sciences — Syllabus",
-   "url": "https://www.csirhrdg.res.in/old_website/mcs_ma_sylbs.pdf",
+   "url": "https://static.pw.live/5eb393ee95fab7468a79d189/GLOBAL_CMS_BLOGS/fb9c697b-44fb-48d4-abcd-f221c63322f3.pdf",
    "src": "CSIR-HRDG (older copy)",
    "n": "Older CSIR-HRDG copy of the syllabus; cross-check with the Dec 2026 bulletin below."
   },
@@ -1462,7 +1462,7 @@ window.ES_DATA = {
    "e": "csir",
    "p": "pys",
    "t": "CSIR-UGC NET Physical Sciences — Syllabus",
-   "url": "https://csirnet.nta.nic.in/",
+   "url": "https://static.pw.live/5eb393ee95fab7468a79d189/GLOBAL_CMS_BLOGS/f9f3abe4-43a6-4697-b750-fc118f297178.pdf",
    "src": "Official · NTA",
    "n": "Syllabus is in the Information Bulletin / syllabus section of the NTA CSIR NET site."
   },
@@ -1470,7 +1470,7 @@ window.ES_DATA = {
    "e": "csir",
    "p": "chs",
    "t": "CSIR-UGC NET Chemical Sciences — Syllabus",
-   "url": "https://csirnet.nta.nic.in/",
+   "url": "https://static.pw.live/5eb393ee95fab7468a79d189/GLOBAL_CMS_BLOGS/de4b9683-9026-43c9-abf8-c8e6c5b51e1a.pdf",
    "src": "Official · NTA",
    "n": "Syllabus is in the Information Bulletin / syllabus section of the NTA CSIR NET site."
   },
@@ -1478,7 +1478,7 @@ window.ES_DATA = {
    "e": "csir",
    "p": "ls",
    "t": "CSIR-UGC NET Life Sciences — Syllabus",
-   "url": "https://csirnet.nta.nic.in/",
+   "url": "https://static.pw.live/5eb393ee95fab7468a79d189/GLOBAL_CMS_BLOGS/15d32d75-dfb3-4642-b328-6e08f0ba07e6.pdf",
    "src": "Official · NTA",
    "n": "Syllabus is in the Information Bulletin / syllabus section of the NTA CSIR NET site."
   },
@@ -1486,7 +1486,7 @@ window.ES_DATA = {
    "e": "csir",
    "p": "eas",
    "t": "CSIR-UGC NET Earth, Atmospheric, Ocean & Planetary Sciences — Syllabus",
-   "url": "https://csirnet.nta.nic.in/",
+   "url": "https://static.pw.live/5eb393ee95fab7468a79d189/GLOBAL_CMS_BLOGS/e0f45290-390e-4447-8ee4-c2c48435fb0c.pdf",
    "src": "Official · NTA",
    "n": "Syllabus is in the Information Bulletin / syllabus section of the NTA CSIR NET site."
   }
