@@ -83,7 +83,7 @@ window.ES={
  save(id,b){const on=toggle('saved',id);b.textContent=on?'🔖 Saved':'🔖 Save'}};
 const R={
 home(el){el.innerHTML=`<section class="section"><div class="section-inner"><div id="dash" class="a-grid3"></div></div></section>`;dash();
- const xl=$('#exam-list');if(xl)xl.innerHTML=D.exams.map(examCard).join('')+`<div class="exam-card x-card"><div class="exam-icon" style="background:#9333EA22;color:#C084FC">MSc<br>+</div><div class="x-body"><div class="exam-name">Other MSc Entrances</div><div class="exam-desc">DU, BHU, JNU and many other central and state universities admit to M.Sc. Mathematics through CUET PG or their own entrance tests — the CUET PG and IIT JAM content covers the core syllabus.</div><div class="x-btns"><a class="x-go" href="lectures.html?e=cuetpg">▶ Start with CUET PG</a></div></div></div>`},
+ const xl=$('#exam-list');if(xl)xl.innerHTML=D.exams.map(examCard).join('')+`<div class="exam-card x-card"><div class="exam-icon" style="background:#9333EA22;color:#C084FC">MSc<br>+</div><div class="x-body"><div class="exam-name">Other MSc Entrances</div><div class="exam-desc">DU, BHU, JNU and many other central and state universities admit to M.Sc. programmes in Mathematics, Physics, Chemistry, Biotechnology and more through CUET PG or their own entrance tests — the CUET PG and IIT JAM content covers the core syllabus.</div><div class="x-btns"><a class="x-go" href="lectures.html?e=cuetpg">▶ Start with CUET PG</a></div></div></div>`},
 lectures(el){const {ex,sub,p}=resolve();if(!ex){el.innerHTML=chooser('lectures');return}
  if(!sub||!sub.live){el.innerHTML=stepView('lectures',ex,p);return}
  const s=sub.id,L=LECS(s),c=L.filter(l=>done()[l.id]).length,f=P.get('f')||'all';
