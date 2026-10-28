@@ -307,6 +307,48 @@ window.ES_DATA = {
    "icon": "logx",
    "p": "cy",
    "live": true
+  },
+  {
+    "id": "bt-gen",
+    "name": "General Biology",
+    "icon": "DNA",
+    "p": "bt",
+    "live": true
+  },
+  {
+    "id": "bt-mpa",
+    "name": "Microbial, Plant & Animal Biotechnology",
+    "icon": "Cell",
+    "p": "bt",
+    "live": true
+  },
+  {
+    "id": "bt-tech",
+    "name": "Biotechniques",
+    "icon": "PCR",
+    "p": "bt",
+    "live": true
+  },
+  {
+    "id": "bt-chem",
+    "name": "Chemistry",
+    "icon": "ΔG",
+    "p": "bt",
+    "live": true
+  },
+  {
+    "id": "bt-math",
+    "name": "Mathematics",
+    "icon": "f(x)",
+    "p": "bt",
+    "live": true
+  },
+  {
+    "id": "bt-phys",
+    "name": "Physics",
+    "icon": "E=mc^2",
+    "p": "bt",
+    "live": true
   }
  ],
  "lectures": [
@@ -784,7 +826,13 @@ window.ES_DATA = {
     "cy-bmc",
     "cy-pc",
     "cy-oc",
-    "cy-ic"
+    "cy-ic",
+    "bt-gen",
+    "bt-mpa",
+    "bt-tech",
+    "bt-chem",
+    "bt-math",
+    "bt-phys"
    ],
   },
   {
