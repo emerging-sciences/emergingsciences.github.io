@@ -59,3 +59,4 @@ body{padding-bottom:100px}
 .hdr-logo{white-space:nowrap}@media(max-width:400px){.hdr-logo{font-size:15px;gap:7px}}
 /* Hide Botpress floating bubble; chat opens from the Ask button */
 .bpFab,.bpFabImage{display:none!important}
+#fab-root{display:none!important}
