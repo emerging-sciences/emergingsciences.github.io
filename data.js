@@ -279,6 +279,34 @@ window.ES_DATA = {
    "icon": "a=2r",
    "p": "ph",
    "live": true
+  },
+  {
+   "id": "cy-bmc",
+   "name": "Basic mathematical concepts",
+   "icon": "y=mx",
+   "p": "cy",
+   "live": true
+  },
+  {
+   "id": "cy-pc",
+   "name": "Physical Chemistry",
+   "icon": "ΔG",
+   "p": "cy",
+   "live": true
+  },
+  {
+   "id": "cy-oc",
+   "name": "Organic Chemistry",
+   "icon": "R-OH",
+   "p": "cy",
+   "live": true
+  },
+  {
+   "id": "cy-ic",
+   "name": "Inorganic chemistry",
+   "icon": "logx",
+   "p": "cy",
+   "live": true
   }
  ],
  "lectures": [
@@ -752,7 +780,11 @@ window.ES_DATA = {
     "ph-emt",
     "ph-ktt",
     "ph-mopy",
-    "ph-sspe"
+    "ph-sspe",
+    "cy-bmc",
+    "cy-pc",
+    "cy-oc",
+    "cy-ic"
    ],
   },
   {
