@@ -1206,7 +1206,7 @@ window.ES_DATA = {
    "e": "jam",
    "p": "ph",
    "t": "IIT JAM Physics (PH) — Syllabus 2027",
-   "url": "https://jam.iitkgp.ac.in/",
+   "url": "https://jam.iitkgp.ac.in/docs/ph_2027_syllabus.pdf",
    "src": "Official · jam.iitkgp.ac.in",
    "n": "Opens the official JAM site — the syllabus PDF of this paper is listed there. Later you can replace this url with the direct PDF link."
   },
@@ -1214,7 +1214,7 @@ window.ES_DATA = {
    "e": "jam",
    "p": "cy",
    "t": "IIT JAM Chemistry (CY) — Syllabus 2027",
-   "url": "https://jam.iitkgp.ac.in/",
+   "url": "https://jam.iitkgp.ac.in/docs/cy_2027_syllabus.pdf",
    "src": "Official · jam.iitkgp.ac.in",
    "n": "Opens the official JAM site — the syllabus PDF of this paper is listed there. Later you can replace this url with the direct PDF link."
   },
@@ -1222,7 +1222,7 @@ window.ES_DATA = {
    "e": "jam",
    "p": "bt",
    "t": "IIT JAM Biotechnology (BT) — Syllabus 2027",
-   "url": "https://jam.iitkgp.ac.in/",
+   "url": "https://jam.iitkgp.ac.in/docs/bt_2027_syllabus.pdf",
    "src": "Official · jam.iitkgp.ac.in",
    "n": "Opens the official JAM site — the syllabus PDF of this paper is listed there. Later you can replace this url with the direct PDF link."
   },
@@ -1230,7 +1230,7 @@ window.ES_DATA = {
    "e": "jam",
    "p": "en",
    "t": "IIT JAM Economics (EN) — Syllabus 2027",
-   "url": "https://jam.iitkgp.ac.in/",
+   "url": "https://jam.iitkgp.ac.in/docs/en_2027_syllabus.pdf",
    "src": "Official · jam.iitkgp.ac.in",
    "n": "Opens the official JAM site — the syllabus PDF of this paper is listed there. Later you can replace this url with the direct PDF link."
   },
@@ -1238,7 +1238,7 @@ window.ES_DATA = {
    "e": "jam",
    "p": "gg",
    "t": "IIT JAM Geology (GG) — Syllabus 2027",
-   "url": "https://jam.iitkgp.ac.in/",
+   "url": "https://jam.iitkgp.ac.in/docs/gg_2027_syllabus.pdf",
    "src": "Official · jam.iitkgp.ac.in",
    "n": "Opens the official JAM site — the syllabus PDF of this paper is listed there. Later you can replace this url with the direct PDF link."
   },
@@ -1246,7 +1246,7 @@ window.ES_DATA = {
    "e": "jam",
    "p": "ms",
    "t": "IIT JAM Mathematical Statistics (MS) — Syllabus 2027",
-   "url": "https://jam.iitkgp.ac.in/",
+   "url": "https://jam.iitkgp.ac.in/docs/ms_2027_syllabus.pdf",
    "src": "Official · jam.iitkgp.ac.in",
    "n": "Opens the official JAM site — the syllabus PDF of this paper is listed there. Later you can replace this url with the direct PDF link."
   },
