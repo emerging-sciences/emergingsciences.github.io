@@ -57,3 +57,5 @@ body{padding-bottom:100px}
 .crumbs{font-size:13px;color:var(--text3);margin-bottom:4px}.crumbs a{color:var(--blue)}.crumbs span{color:var(--text2)}
 .hdr-r a{min-width:36px;min-height:36px;align-items:center;justify-content:center}
 .hdr-logo{white-space:nowrap}@media(max-width:400px){.hdr-logo{font-size:15px;gap:7px}}
+   /* Hide Botpress floating bubble; chat opens from the Ask button */
+   .bpFab{display:none!important}
