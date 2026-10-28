@@ -1390,7 +1390,7 @@ window.ES_DATA = {
    "e": "gate",
    "p": "ph",
    "t": "GATE 2027 Physics (PH) — Syllabus",
-   "url": "https://gate2027.iitm.ac.in/exam_papers_and_syllabus",
+   "url": "https://gate2027.iitm.ac.in/static/doc/GATE2027_Syllabus/PH_GATE2027_Syllabus.pdf",
    "src": "Official · IIT Madras",
    "n": "Click this paper's code on the official page to download its syllabus PDF."
   },
@@ -1398,7 +1398,7 @@ window.ES_DATA = {
    "e": "gate",
    "p": "cy",
    "t": "GATE 2027 Chemistry (CY) — Syllabus",
-   "url": "https://gate2027.iitm.ac.in/exam_papers_and_syllabus",
+   "url": "https://gate2027.iitm.ac.in/static/doc/GATE2027_Syllabus/CY_GATE2027_Syllabus.pdf",
    "src": "Official · IIT Madras",
    "n": "Click this paper's code on the official page to download its syllabus PDF."
   },
@@ -1406,7 +1406,7 @@ window.ES_DATA = {
    "e": "gate",
    "p": "bt",
    "t": "GATE 2027 Biotechnology (BT) — Syllabus",
-   "url": "https://gate2027.iitm.ac.in/exam_papers_and_syllabus",
+   "url": "https://gate2027.iitm.ac.in/static/doc/GATE2027_Syllabus/BT_GATE2027_Syllabus.pdf",
    "src": "Official · IIT Madras",
    "n": "Click this paper's code on the official page to download its syllabus PDF."
   },
@@ -1414,7 +1414,7 @@ window.ES_DATA = {
    "e": "gate",
    "p": "ls",
    "t": "GATE 2027 Life Sciences (XL) — Syllabus",
-   "url": "https://gate2027.iitm.ac.in/exam_papers_and_syllabus",
+   "url": "https://gate2027.iitm.ac.in/static/doc/GATE2027_Syllabus/XL_GATE2027_CombinedSyllabus.pdf",
    "src": "Official · IIT Madras",
    "n": "Click this paper's code on the official page to download its syllabus PDF."
   },
@@ -1422,7 +1422,7 @@ window.ES_DATA = {
    "e": "gate",
    "p": "gg",
    "t": "GATE 2027 Geology (GG) — Syllabus",
-   "url": "https://gate2027.iitm.ac.in/exam_papers_and_syllabus",
+   "url": "https://gate2027.iitm.ac.in/static/doc/GATE2027_Syllabus/GG_GATE2027_Syllabus.pdf",
    "src": "Official · IIT Madras",
    "n": "Click this paper's code on the official page to download its syllabus PDF."
   },
@@ -1430,7 +1430,7 @@ window.ES_DATA = {
    "e": "gate",
    "p": "st",
    "t": "GATE 2027 Statistics (ST) — Syllabus",
-   "url": "https://gate2027.iitm.ac.in/exam_papers_and_syllabus",
+   "url": "https://gate2027.iitm.ac.in/static/doc/GATE2027_Syllabus/ST_GATE2027_Syllabus.pdf",
    "src": "Official · IIT Madras",
    "n": "Click this paper's code on the official page to download its syllabus PDF."
   },
@@ -1438,7 +1438,7 @@ window.ES_DATA = {
    "e": "gate",
    "p": "xh",
    "t": "GATE 2027 Humanities & Social Sciences (XH) — Syllabus",
-   "url": "https://gate2027.iitm.ac.in/exam_papers_and_syllabus",
+   "url": "https://gate2027.iitm.ac.in/static/doc/GATE2027_Syllabus/XH_GATE2027_CombinedSyllabus.pdf",
    "src": "Official · IIT Madras",
    "n": "Click this paper's code on the official page to download its syllabus PDF."
   },
@@ -1446,7 +1446,7 @@ window.ES_DATA = {
    "e": "gate",
    "p": "ey",
    "t": "GATE 2027 Ecology & Evolution (EY) — Syllabus",
-   "url": "https://gate2027.iitm.ac.in/exam_papers_and_syllabus",
+   "url": "https://gate2027.iitm.ac.in/static/doc/GATE2027_Syllabus/EY_GATE2027_Syllabus.pdf",
    "src": "Official · IIT Madras",
    "n": "Click this paper's code on the official page to download its syllabus PDF."
   },
@@ -1454,7 +1454,7 @@ window.ES_DATA = {
    "e": "gate",
    "p": "da",
    "t": "GATE 2027 Data Science & AI (DA) — Syllabus",
-   "url": "https://gate2027.iitm.ac.in/exam_papers_and_syllabus",
+   "url": "https://gate2027.iitm.ac.in/static/doc/GATE2027_Syllabus/DA_GATE2027_Syllabus.pdf",
    "src": "Official · IIT Madras",
    "n": "Click this paper's code on the official page to download its syllabus PDF."
   },
