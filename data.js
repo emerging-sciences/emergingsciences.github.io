@@ -237,6 +237,48 @@ window.ES_DATA = {
    "icon": "W=mg",
    "p": "ph",
    "live": true
+  },
+  {
+   "id": "ph-mm",
+   "name": "Mathematical Methods",
+   "icon": "dy/dx",
+   "p": "ph",
+   "live": true
+  },
+  {
+   "id": "ph-shmo",
+   "name": "Oscillations, Waves and Optics",
+   "icon": "R=2f",
+   "p": "ph",
+   "live": true
+  },
+  {
+   "id": "ph-emt",
+   "name": "Electricity and Magnetism",
+   "icon": "V=IR",
+   "p": "ph",
+   "live": true
+  },
+  {
+   "id": "ph-ktt",
+   "name": "Kinetic theroy and thermodynamics",
+   "icon": "PV=nRT",
+   "p": "ph",
+   "live": true
+  },
+  {
+   "id": "ph-mopy",
+   "name": "Modern Physics",
+   "icon": "E=mc^2",
+    "p": "ph",
+   "live": true
+  },
+  {
+   "id": "ph-sspe",
+   "name": "Solid state physics , Devices & Electronics",
+   "icon": "a=2r",
+   "p": "ph",
+   "live": true
   }
  ],
  "lectures": [
@@ -704,7 +746,13 @@ window.ES_DATA = {
     "la",
     "ic",
     "top",
-    "ph-mech"
+    "ph-mech",
+    "ph-mm",
+    "ph-shmo",
+    "ph-emt",
+    "ph-ktt",
+    "ph-mopy",
+    "ph-sspe"
    ],
   },
   {
