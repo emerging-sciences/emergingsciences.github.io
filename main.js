@@ -20,3 +20,22 @@ function openChat(e) {
     }
   })();
 }
+
+// --- Hide Botpress floating logo (it lives inside a shadow DOM, so page CSS can't reach it) ---
+// The chat still opens from the "Ask" button via openChat() above.
+(function hideBpFab() {
+  var tries = 0;
+  (function look() {
+    var hosts = document.querySelectorAll('body *');
+    for (var i = 0; i < hosts.length; i++) {
+      var root = hosts[i].shadowRoot;
+      if (root && root.querySelector('.bpFab') && !root.getElementById('es-hide-fab')) {
+        var st = document.createElement('style');
+        st.id = 'es-hide-fab';
+        st.textContent = '.bpFabWrapper,.bpFab{display:none!important}';
+        root.appendChild(st);
+      }
+    }
+    if (tries++ < 60) setTimeout(look, 500);   // keep checking for 30 sec while Botpress loads
+  })();
+})();
