@@ -230,6 +230,13 @@ window.ES_DATA = {
    "id": "comb",
    "name": "Combinatorics & Number Theory",
    "icon": "C(n,r)"
+  },
+  {
+   "id": "ph-mech",
+   "name": "Mechanics & General Properties of Matter",
+   "icon": "W=mg",
+   "p": "ph",
+   "live": true
   }
  ],
  "lectures": [
@@ -696,8 +703,9 @@ window.ES_DATA = {
     "alg",
     "la",
     "ic",
-    "top"
-   ]
+    "top",
+    "ph-mech"
+   ],
   },
   {
    "id": "cuetpg",
