@@ -1148,7 +1148,7 @@ window.ES_DATA = {
   {
    "e": "cuetpg",
    "t": "CUET (PG) — Syllabus page (open the Mathematics paper)",
-   "url": "https://exams.nta.nic.in/cuet-pg/syllabus/",
+   "url": "https://cdnbbsr.s3waas.gov.in/s388a839f2f6f1427879fc33ee4acf4f66/uploads/2025/12/202512131193303366.pdf",
    "src": "Official · NTA",
    "n": "Link taken from NTA's own notice; NTA refreshes this page every year."
   },
@@ -1254,7 +1254,7 @@ window.ES_DATA = {
    "e": "cuetpg",
    "p": "ph",
    "t": "CUET (PG) Physics — Syllabus (open the Physics paper)",
-   "url": "https://exams.nta.nic.in/cuet-pg/syllabus/",
+   "url": "https://cdnbbsr.s3waas.gov.in/s388a839f2f6f1427879fc33ee4acf4f66/uploads/2025/12/20251213919524650.pdf",
    "src": "Official · NTA",
    "n": "Link taken from NTA's own syllabus page; NTA refreshes it every year."
   },
@@ -1262,7 +1262,7 @@ window.ES_DATA = {
    "e": "cuetpg",
    "p": "cy",
    "t": "CUET (PG) Chemistry — Syllabus (open the Chemistry paper)",
-   "url": "https://exams.nta.nic.in/cuet-pg/syllabus/",
+   "url": "https://cdnbbsr.s3waas.gov.in/s388a839f2f6f1427879fc33ee4acf4f66/uploads/2025/12/202512131554419698.pdf",
    "src": "Official · NTA",
    "n": "Link taken from NTA's own syllabus page; NTA refreshes it every year."
   },
@@ -1270,7 +1270,7 @@ window.ES_DATA = {
    "e": "cuetpg",
    "p": "bt",
    "t": "CUET (PG) Biotechnology — Syllabus (open the Biotechnology paper)",
-   "url": "https://exams.nta.nic.in/cuet-pg/syllabus/",
+   "url": "https://cdnbbsr.s3waas.gov.in/s388a839f2f6f1427879fc33ee4acf4f66/uploads/2025/12/20251213827098906.pdf",
    "src": "Official · NTA",
    "n": "Link taken from NTA's own syllabus page; NTA refreshes it every year."
   },
@@ -1278,7 +1278,7 @@ window.ES_DATA = {
    "e": "cuetpg",
    "p": "bc",
    "t": "CUET (PG) Biochemistry — Syllabus (open the Biochemistry paper)",
-   "url": "https://exams.nta.nic.in/cuet-pg/syllabus/",
+   "url": "https://cdnbbsr.s3waas.gov.in/s388a839f2f6f1427879fc33ee4acf4f66/uploads/2025/12/202512131280793017.pdf",
    "src": "Official · NTA",
    "n": "Link taken from NTA's own syllabus page; NTA refreshes it every year."
   },
@@ -1286,7 +1286,7 @@ window.ES_DATA = {
    "e": "cuetpg",
    "p": "bo",
    "t": "CUET (PG) Botany — Syllabus (open the Botany paper)",
-   "url": "https://exams.nta.nic.in/cuet-pg/syllabus/",
+   "url": "https://cdnbbsr.s3waas.gov.in/s388a839f2f6f1427879fc33ee4acf4f66/uploads/2025/12/20251213317989370.pdf",
    "src": "Official · NTA",
    "n": "Link taken from NTA's own syllabus page; NTA refreshes it every year."
   },
@@ -1294,7 +1294,7 @@ window.ES_DATA = {
    "e": "cuetpg",
    "p": "zo",
    "t": "CUET (PG) Zoology — Syllabus (open the Zoology paper)",
-   "url": "https://exams.nta.nic.in/cuet-pg/syllabus/",
+   "url": "https://cdnbbsr.s3waas.gov.in/s388a839f2f6f1427879fc33ee4acf4f66/uploads/2025/12/202512131883563265.pdf",
    "src": "Official · NTA",
    "n": "Link taken from NTA's own syllabus page; NTA refreshes it every year."
   },
@@ -1302,7 +1302,7 @@ window.ES_DATA = {
    "e": "cuetpg",
    "p": "mb",
    "t": "CUET (PG) Microbiology — Syllabus (open the Microbiology paper)",
-   "url": "https://exams.nta.nic.in/cuet-pg/syllabus/",
+   "url": "https://cdnbbsr.s3waas.gov.in/s388a839f2f6f1427879fc33ee4acf4f66/uploads/2025/12/202512131882235238.pdf",
    "src": "Official · NTA",
    "n": "Link taken from NTA's own syllabus page; NTA refreshes it every year."
   },
@@ -1310,7 +1310,7 @@ window.ES_DATA = {
    "e": "cuetpg",
    "p": "st",
    "t": "CUET (PG) Statistics — Syllabus (open the Statistics paper)",
-   "url": "https://exams.nta.nic.in/cuet-pg/syllabus/",
+   "url": "https://cdnbbsr.s3waas.gov.in/s388a839f2f6f1427879fc33ee4acf4f66/uploads/2025/12/202512131046725928.pdf",
    "src": "Official · NTA",
    "n": "Link taken from NTA's own syllabus page; NTA refreshes it every year."
   },
@@ -1318,7 +1318,7 @@ window.ES_DATA = {
    "e": "cuetpg",
    "p": "cs",
    "t": "CUET (PG) Computer Science — Syllabus (open the Computer Science paper)",
-   "url": "https://exams.nta.nic.in/cuet-pg/syllabus/",
+   "url": "https://cdnbbsr.s3waas.gov.in/s388a839f2f6f1427879fc33ee4acf4f66/uploads/2025/12/202512202087109989.pdf",
    "src": "Official · NTA",
    "n": "Link taken from NTA's own syllabus page; NTA refreshes it every year."
   },
@@ -1326,7 +1326,7 @@ window.ES_DATA = {
    "e": "cuetpg",
    "p": "es",
    "t": "CUET (PG) Environmental Science — Syllabus (open the Environmental Science paper)",
-   "url": "https://exams.nta.nic.in/cuet-pg/syllabus/",
+   "url": "https://cdnbbsr.s3waas.gov.in/s388a839f2f6f1427879fc33ee4acf4f66/uploads/2025/12/202512131107149321.pdf",
    "src": "Official · NTA",
    "n": "Link taken from NTA's own syllabus page; NTA refreshes it every year."
   },
@@ -1334,7 +1334,7 @@ window.ES_DATA = {
    "e": "cuetpg",
    "p": "gg",
    "t": "CUET (PG) Geology — Syllabus (open the Geology paper)",
-   "url": "https://exams.nta.nic.in/cuet-pg/syllabus/",
+   "url": "https://cdnbbsr.s3waas.gov.in/s388a839f2f6f1427879fc33ee4acf4f66/uploads/2025/12/202512131860128075.pdf",
    "src": "Official · NTA",
    "n": "Link taken from NTA's own syllabus page; NTA refreshes it every year."
   },
@@ -1342,7 +1342,7 @@ window.ES_DATA = {
    "e": "cuetpg",
    "p": "en",
    "t": "CUET (PG) Economics — Syllabus (open the Economics paper)",
-   "url": "https://exams.nta.nic.in/cuet-pg/syllabus/",
+   "url": "https://cdnbbsr.s3waas.gov.in/s388a839f2f6f1427879fc33ee4acf4f66/uploads/2025/12/20251213312317592.pdf",
    "src": "Official · NTA",
    "n": "Link taken from NTA's own syllabus page; NTA refreshes it every year."
   },
