@@ -349,6 +349,84 @@ window.ES_DATA = {
     "icon": "E=mc^2",
     "p": "bt",
     "live": true
+  },
+  
+  {
+    "id": "en-micro",
+    "name": "Microeconomics",
+    "icon": "📈",
+    "p": "en",
+    "live": true
+  },
+  {
+    "id": "en-macro",
+    "name": "Macroeconomics",
+    "icon": "🏛️",
+    "p": "en",
+    "live": true
+  },
+  {
+    "id": "en-mathstat",
+    "name": "Maths Stats & Econometrics",
+    "icon": "📊",
+    "p": "en",
+    "live": true
+  },
+  {
+    "id": "en-indian",
+    "name": "Indian Economy",
+    "icon": "🇮🇳",
+    "p": "en",
+    "live": true
+  },
+  {
+    "id": "gg-planet",
+    "name": "Planet Earth & Geomorphology",
+    "icon": "🌍",
+    "p": "gg",
+    "live": true
+  },
+  {
+    "id": "gg-struct",
+    "name": "Structural Geology & Mineralogy",
+    "icon": "🪨",
+    "p": "gg",
+    "live": true
+  },
+  {
+    "id": "gg-strat",
+    "name": "Stratigraphy & Palaeontology",
+    "icon": "🦴",
+    "p": "gg",
+    "live": true
+  },
+  {
+    "id": "gg-peteco",
+    "name": "Petrology & Economic Geology",
+    "icon": "⛏️",
+    "p": "gg",
+    "live": true
+  },
+  {
+    "id": "ms-math",
+    "name": "Mathematics (Calculus & Matrices)",
+    "icon": "∫dx",
+    "p": "ms",
+    "live": true
+  },
+  {
+    "id": "ms-prob",
+    "name": "Probability & Distributions",
+    "icon": "P(A)",
+    "p": "ms",
+    "live": true
+  },
+  {
+    "id": "ms-inf",
+    "name": "Inference, Hypothesis & Stochastic",
+    "icon": "σ²",
+    "p": "ms",
+    "live": true
   }
  ],
  "lectures": [
@@ -832,7 +910,18 @@ window.ES_DATA = {
     "bt-tech",
     "bt-chem",
     "bt-math",
-    "bt-phys"
+    "bt-phys",
+    "en-micro",
+    "en-macro",
+    "en-mathstat",
+    "en-indian",
+    "gg-planet",
+    "gg-struct",
+    "gg-strat",
+    "gg-peteco",
+    "ms-math",
+    "ms-prob",
+    "ms-inf"
    ],
   },
   {
