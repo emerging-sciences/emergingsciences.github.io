@@ -1,14 +1,21 @@
 // EDIT THIS FILE to add lectures / PDFs / exams. Site pages build themselves from it.
-// SYLLABUS rows: { "e":"jam", "t":"Title", "url":"https://official-link.pdf" }  or  "drive":"<Google Drive file id>" instead of url.
-// PYQS rows: { "e":"jam", "y":2026, "t":"Title", "qp":"https://...", "key":"https://..." }  (use "qpDrive"/"keyDrive" for Drive file ids; "g" = optional group, "n" = optional note)
-// pyqPortals: the official 'all years' page for each exam id; shown for exams that have no year rows yet.
-// ---- PAPERS (subjects of an exam, e.g. IIT JAM Physics) ----
-// papers: top-level list { "id":"ph", "name":"Physics", "icon":"⚛️" }. An exam lists the ones it has: "papers":["ma","ph",...].
-//   Exams WITHOUT "papers" (CUET PG, TIFR ...) skip the subject step and open topics directly, as before.
-// TOPICS of a paper = entries in "subjects" with  "p":"<paper id>"  (no "p" means Mathematics "ma").
-//   A topic only shows up for an exam if its id is also in that exam's "subjects" list.
-// SYLLABUS / PYQS / MOCKS rows: add  "p":"ph"  to attach a row to a paper (no "p" means Mathematics).
-// pyqPortals: key "jam" = fallback for every paper; use key "jam-ph" for a Physics-specific official page.
+// After every edit: check for a missing comma "," or quote. One mistake = blank black page.
+//
+// FLOW:  Exam  ->  Subject ("papers")  ->  Topic ("subjects")  ->  lectures / material / mocks
+//
+// ADD A NEW EXAM    : add a block in "exams" (id, short, tag, color, name, body, date, dateText, note, site, desc,
+//                     "papers":[ids of subjects it has], "subjects":[ids of topics it has]).
+// ADD A NEW SUBJECT : add { "id":"xy", "name":"Name", "icon":"emoji" } in "papers", then put "xy" in the exam's "papers" list.
+// ADD A NEW TOPIC   : add { "id":"ph-mech", "name":"Mechanics", "icon":"F=ma", "p":"ph", "live":true } in "subjects"
+//                     ("p" = subject id; no "p" means Mathematics), then put "ph-mech" in the exam's "subjects" list.
+// ADD A LECTURE     : in "lectures": { "id":"ph-mech-01", "s":"ph-mech", "n":"L-01", "t":"Title", "k":"T", "yt":"YouTubeVideoId" }   (k: T = theory, P = practice)
+// ADD MATERIAL      : in "material": { "id":"m99", "t":"Title", "d":"short note", "k":"Notes", "s":"ph-mech", "drive":"<Google Drive file id>" }
+// ADD A MOCK        : in "mocks": { "id":"jam-ph-1", "e":"jam", "p":"ph", "s":"full", "t":"Title", "q":12, "min":30 }
+// SYLLABUS rows     : { "e":"jam", "p":"ph", "t":"Title", "url":"https://official-link.pdf", "src":"Official · site" }  (or "drive":"<id>"; no "p" = Mathematics)
+// PYQS rows         : { "e":"jam", "p":"ph", "y":2026, "t":"Title", "qp":"https://...", "key":"https://..." }  ("g" = optional group, "n" = optional note)
+// pyqPortals        : official 'all years' page. Key "jam" = fallback for every subject of that exam; key "jam-ph" = only for Physics.
+//                     Shown for any exam+subject that has no year rows yet. Once you add PYQS rows for it, the rows are shown.
+// Exams WITHOUT "papers" (NBHM, ISI, CMI) skip the subject step and open topics directly.
 window.ES_DATA = {
  "goalMin": 30,
  "papers": [
@@ -46,6 +53,86 @@ window.ES_DATA = {
    "id": "ms",
    "name": "Mathematical Statistics",
    "icon": "📊"
+  },
+  {
+   "id": "bc",
+   "name": "Biochemistry",
+   "icon": "🔬"
+  },
+  {
+   "id": "bo",
+   "name": "Botany",
+   "icon": "🌿"
+  },
+  {
+   "id": "zo",
+   "name": "Zoology",
+   "icon": "🦎"
+  },
+  {
+   "id": "mb",
+   "name": "Microbiology",
+   "icon": "🦠"
+  },
+  {
+   "id": "st",
+   "name": "Statistics",
+   "icon": "📉"
+  },
+  {
+   "id": "cs",
+   "name": "Computer Science",
+   "icon": "💻"
+  },
+  {
+   "id": "es",
+   "name": "Environmental Science",
+   "icon": "🌍"
+  },
+  {
+   "id": "bg",
+   "name": "Biology",
+   "icon": "🧫"
+  },
+  {
+   "id": "se",
+   "name": "Science Education",
+   "icon": "🎓"
+  },
+  {
+   "id": "ls",
+   "name": "Life Sciences",
+   "icon": "🌱"
+  },
+  {
+   "id": "xh",
+   "name": "Humanities & Social Sciences",
+   "icon": "📚"
+  },
+  {
+   "id": "ey",
+   "name": "Ecology & Evolution",
+   "icon": "🌳"
+  },
+  {
+   "id": "da",
+   "name": "Data Science & AI",
+   "icon": "🤖"
+  },
+  {
+   "id": "pys",
+   "name": "Physical Sciences",
+   "icon": "🔭"
+  },
+  {
+   "id": "chs",
+   "name": "Chemical Sciences",
+   "icon": "⚗️"
+  },
+  {
+   "id": "eas",
+   "name": "Earth, Atmospheric, Ocean & Planetary Sciences",
+   "icon": "🌊"
   }
  ],
  "subjects": [
@@ -562,6 +649,10 @@ window.ES_DATA = {
  "doubtLinks": [],
  "updates": [
   {
+   "date": "2026-10-28",
+   "text": "Subjects added in every exam: choose Exam → Subject → Topic. New subjects for IIT JAM, CUET PG, TIFR, GATE and CSIR NET, each with Syllabus and PYQ cards."
+  },
+  {
    "date": "2026-10-27",
    "text": "Lectures, Study Material and Mock Tests are now organised exam-wise: IIT JAM, CUET PG, TIFR, GATE, CSIR NET, NBHM, ISI and CMI."
   },
@@ -613,21 +704,27 @@ window.ES_DATA = {
    "short": "CUET PG",
    "tag": "CUET<br>PG",
    "color": "#34D399",
-   "name": "CUET PG Mathematics",
+   "name": "CUET PG",
    "body": "National Testing Agency (NTA)",
    "date": "2027-03-02",
    "dateText": "2 – 31 Mar 2027",
    "note": "tentative",
    "site": "https://exams.nta.nic.in/cuet-pg/",
-   "desc": "Common entrance for M.Sc. Mathematics at central universities (DU, BHU, JNU and more) and participating institutions. Papers: Mathematics, Physics, Chemistry, Biotechnology, Economics, Geology and Mathematical Statistics.",
-  "papers": [
+   "desc": "Common entrance for M.Sc. at central universities (DU, BHU, JNU and more) and participating institutions. Science papers: Mathematics, Physics, Chemistry, Biotechnology, Biochemistry, Botany, Zoology, Microbiology, Statistics, Computer Science, Environmental Science, Geology and Economics.",
+   "papers": [
     "ma",
     "ph",
     "cy",
     "bt",
-    "en",
+    "bc",
+    "bo",
+    "zo",
+    "mb",
+    "st",
+    "cs",
+    "es",
     "gg",
-    "ms"
+    "en"
    ],
    "subjects": [
     "alg",
@@ -653,15 +750,15 @@ window.ES_DATA = {
    "dateText": "13 Dec 2026",
    "note": "confirmed",
    "site": "https://www.tifr.res.in/academics/",
-   "desc": "Admission to the Ph.D., Integrated Ph.D. and M.Sc. programmes in Mathematics at TIFR Mumbai and Bengaluru. Papers: Mathematics, Physics, Chemistry, Biology, Computer science and lids, science education."
-     "papers": [
+   "desc": "Admission to the Ph.D., Integrated Ph.D. and M.Sc. programmes at TIFR Mumbai and Bengaluru. Papers: Mathematics, Physics, Chemistry, Biology, Computer Science and Science Education.",
+   "papers": [
     "ma",
     "ph",
     "cy",
     "bg",
-    "se",
-    "cs"
-    ],
+    "cs",
+    "se"
+   ],
    "subjects": [
     "alg",
     "la",
@@ -675,15 +772,27 @@ window.ES_DATA = {
   {
    "id": "gate",
    "short": "GATE",
-   "tag": "GATE<br>MA",
+   "tag": "GATE",
    "color": "#A78BFA",
-   "name": "GATE Mathematics (MA)",
+   "name": "GATE",
    "body": "IIT Madras (GATE 2027)",
    "date": "2027-02-06",
    "dateText": "6 – 21 Feb 2027",
    "note": "paper-wise schedule awaited",
    "site": "https://gate2027.iitm.ac.in/",
-   "desc": "Graduate Aptitude Test in Engineering — Mathematics paper for M.Tech/Ph.D. admissions and PSU recruitment.",
+   "desc": "Graduate Aptitude Test in Engineering — science-side papers for M.Tech/Ph.D. admissions and PSU recruitment: Mathematics, Physics, Chemistry, Biotechnology, Life Sciences, Geology & Geophysics, Statistics, Humanities & Social Sciences, Ecology & Evolution, Data Science & AI.",
+   "papers": [
+    "ma",
+    "ph",
+    "cy",
+    "bt",
+    "ls",
+    "gg",
+    "st",
+    "xh",
+    "ey",
+    "da"
+   ],
    "subjects": [
     "calc",
     "la",
@@ -703,13 +812,20 @@ window.ES_DATA = {
    "short": "CSIR NET",
    "tag": "CSIR<br>NET",
    "color": "#F472B6",
-   "name": "CSIR-UGC NET Mathematical Sciences",
+   "name": "CSIR-UGC NET",
    "body": "National Testing Agency (NTA)",
    "date": "2026-12-19",
    "dateText": "19, 22 & 27 Dec 2026",
    "note": "subject-wise date on admit card",
    "site": "https://csirnet.nta.nic.in/",
-   "desc": "Eligibility for Junior Research Fellowship (JRF) and Assistant Professor in Mathematical Sciences.",
+   "desc": "Eligibility for Junior Research Fellowship (JRF) and Assistant Professor. Subjects: Mathematical Sciences, Physical Sciences, Chemical Sciences, Life Sciences and Earth, Atmospheric, Ocean & Planetary Sciences.",
+   "papers": [
+    "ma",
+    "pys",
+    "chs",
+    "ls",
+    "eas"
+   ],
    "subjects": [
     "ra",
     "la",
@@ -860,6 +976,294 @@ window.ES_DATA = {
    "t": "CMI MSc/PhD Mathematics — Syllabus & reading material",
    "url": "https://www.cmi.ac.in/admissions/syllabus/pgmath-syllabus.pdf",
    "src": "Official · cmi.ac.in"
+  },
+  {
+   "e": "jam",
+   "p": "ph",
+   "t": "IIT JAM Physics (PH) — Syllabus 2027",
+   "url": "https://jam.iitkgp.ac.in/",
+   "src": "Official · jam.iitkgp.ac.in",
+   "n": "Opens the official JAM site — the syllabus PDF of this paper is listed there. Later you can replace this url with the direct PDF link."
+  },
+  {
+   "e": "jam",
+   "p": "cy",
+   "t": "IIT JAM Chemistry (CY) — Syllabus 2027",
+   "url": "https://jam.iitkgp.ac.in/",
+   "src": "Official · jam.iitkgp.ac.in",
+   "n": "Opens the official JAM site — the syllabus PDF of this paper is listed there. Later you can replace this url with the direct PDF link."
+  },
+  {
+   "e": "jam",
+   "p": "bt",
+   "t": "IIT JAM Biotechnology (BT) — Syllabus 2027",
+   "url": "https://jam.iitkgp.ac.in/",
+   "src": "Official · jam.iitkgp.ac.in",
+   "n": "Opens the official JAM site — the syllabus PDF of this paper is listed there. Later you can replace this url with the direct PDF link."
+  },
+  {
+   "e": "jam",
+   "p": "en",
+   "t": "IIT JAM Economics (EN) — Syllabus 2027",
+   "url": "https://jam.iitkgp.ac.in/",
+   "src": "Official · jam.iitkgp.ac.in",
+   "n": "Opens the official JAM site — the syllabus PDF of this paper is listed there. Later you can replace this url with the direct PDF link."
+  },
+  {
+   "e": "jam",
+   "p": "gg",
+   "t": "IIT JAM Geology (GG) — Syllabus 2027",
+   "url": "https://jam.iitkgp.ac.in/",
+   "src": "Official · jam.iitkgp.ac.in",
+   "n": "Opens the official JAM site — the syllabus PDF of this paper is listed there. Later you can replace this url with the direct PDF link."
+  },
+  {
+   "e": "jam",
+   "p": "ms",
+   "t": "IIT JAM Mathematical Statistics (MS) — Syllabus 2027",
+   "url": "https://jam.iitkgp.ac.in/",
+   "src": "Official · jam.iitkgp.ac.in",
+   "n": "Opens the official JAM site — the syllabus PDF of this paper is listed there. Later you can replace this url with the direct PDF link."
+  },
+  {
+   "e": "cuetpg",
+   "p": "ph",
+   "t": "CUET (PG) Physics — Syllabus (open the Physics paper)",
+   "url": "https://exams.nta.nic.in/cuet-pg/syllabus/",
+   "src": "Official · NTA",
+   "n": "Link taken from NTA's own syllabus page; NTA refreshes it every year."
+  },
+  {
+   "e": "cuetpg",
+   "p": "cy",
+   "t": "CUET (PG) Chemistry — Syllabus (open the Chemistry paper)",
+   "url": "https://exams.nta.nic.in/cuet-pg/syllabus/",
+   "src": "Official · NTA",
+   "n": "Link taken from NTA's own syllabus page; NTA refreshes it every year."
+  },
+  {
+   "e": "cuetpg",
+   "p": "bt",
+   "t": "CUET (PG) Biotechnology — Syllabus (open the Biotechnology paper)",
+   "url": "https://exams.nta.nic.in/cuet-pg/syllabus/",
+   "src": "Official · NTA",
+   "n": "Link taken from NTA's own syllabus page; NTA refreshes it every year."
+  },
+  {
+   "e": "cuetpg",
+   "p": "bc",
+   "t": "CUET (PG) Biochemistry — Syllabus (open the Biochemistry paper)",
+   "url": "https://exams.nta.nic.in/cuet-pg/syllabus/",
+   "src": "Official · NTA",
+   "n": "Link taken from NTA's own syllabus page; NTA refreshes it every year."
+  },
+  {
+   "e": "cuetpg",
+   "p": "bo",
+   "t": "CUET (PG) Botany — Syllabus (open the Botany paper)",
+   "url": "https://exams.nta.nic.in/cuet-pg/syllabus/",
+   "src": "Official · NTA",
+   "n": "Link taken from NTA's own syllabus page; NTA refreshes it every year."
+  },
+  {
+   "e": "cuetpg",
+   "p": "zo",
+   "t": "CUET (PG) Zoology — Syllabus (open the Zoology paper)",
+   "url": "https://exams.nta.nic.in/cuet-pg/syllabus/",
+   "src": "Official · NTA",
+   "n": "Link taken from NTA's own syllabus page; NTA refreshes it every year."
+  },
+  {
+   "e": "cuetpg",
+   "p": "mb",
+   "t": "CUET (PG) Microbiology — Syllabus (open the Microbiology paper)",
+   "url": "https://exams.nta.nic.in/cuet-pg/syllabus/",
+   "src": "Official · NTA",
+   "n": "Link taken from NTA's own syllabus page; NTA refreshes it every year."
+  },
+  {
+   "e": "cuetpg",
+   "p": "st",
+   "t": "CUET (PG) Statistics — Syllabus (open the Statistics paper)",
+   "url": "https://exams.nta.nic.in/cuet-pg/syllabus/",
+   "src": "Official · NTA",
+   "n": "Link taken from NTA's own syllabus page; NTA refreshes it every year."
+  },
+  {
+   "e": "cuetpg",
+   "p": "cs",
+   "t": "CUET (PG) Computer Science — Syllabus (open the Computer Science paper)",
+   "url": "https://exams.nta.nic.in/cuet-pg/syllabus/",
+   "src": "Official · NTA",
+   "n": "Link taken from NTA's own syllabus page; NTA refreshes it every year."
+  },
+  {
+   "e": "cuetpg",
+   "p": "es",
+   "t": "CUET (PG) Environmental Science — Syllabus (open the Environmental Science paper)",
+   "url": "https://exams.nta.nic.in/cuet-pg/syllabus/",
+   "src": "Official · NTA",
+   "n": "Link taken from NTA's own syllabus page; NTA refreshes it every year."
+  },
+  {
+   "e": "cuetpg",
+   "p": "gg",
+   "t": "CUET (PG) Geology — Syllabus (open the Geology paper)",
+   "url": "https://exams.nta.nic.in/cuet-pg/syllabus/",
+   "src": "Official · NTA",
+   "n": "Link taken from NTA's own syllabus page; NTA refreshes it every year."
+  },
+  {
+   "e": "cuetpg",
+   "p": "en",
+   "t": "CUET (PG) Economics — Syllabus (open the Economics paper)",
+   "url": "https://exams.nta.nic.in/cuet-pg/syllabus/",
+   "src": "Official · NTA",
+   "n": "Link taken from NTA's own syllabus page; NTA refreshes it every year."
+  },
+  {
+   "e": "tifr",
+   "p": "ph",
+   "t": "TIFR GS Physics — Syllabus & exam instructions",
+   "url": "https://www.tifr.res.in/academics/",
+   "src": "Official · tifr.res.in",
+   "n": "Opens TIFR's official academics page; find the paper-wise syllabus there."
+  },
+  {
+   "e": "tifr",
+   "p": "cy",
+   "t": "TIFR GS Chemistry — Syllabus & exam instructions",
+   "url": "https://www.tifr.res.in/academics/",
+   "src": "Official · tifr.res.in",
+   "n": "Opens TIFR's official academics page; find the paper-wise syllabus there."
+  },
+  {
+   "e": "tifr",
+   "p": "bg",
+   "t": "TIFR GS Biology — Syllabus & exam instructions",
+   "url": "https://www.tifr.res.in/academics/",
+   "src": "Official · tifr.res.in",
+   "n": "Opens TIFR's official academics page; find the paper-wise syllabus there."
+  },
+  {
+   "e": "tifr",
+   "p": "cs",
+   "t": "TIFR GS Computer Science — Syllabus & exam instructions",
+   "url": "https://www.tifr.res.in/academics/",
+   "src": "Official · tifr.res.in",
+   "n": "Opens TIFR's official academics page; find the paper-wise syllabus there."
+  },
+  {
+   "e": "tifr",
+   "p": "se",
+   "t": "TIFR GS Science Education — Syllabus & exam instructions",
+   "url": "https://www.tifr.res.in/academics/",
+   "src": "Official · tifr.res.in",
+   "n": "Opens TIFR's official academics page; find the paper-wise syllabus there."
+  },
+  {
+   "e": "gate",
+   "p": "ph",
+   "t": "GATE 2027 Physics (PH) — Syllabus",
+   "url": "https://gate2027.iitm.ac.in/exam_papers_and_syllabus",
+   "src": "Official · IIT Madras",
+   "n": "Click this paper's code on the official page to download its syllabus PDF."
+  },
+  {
+   "e": "gate",
+   "p": "cy",
+   "t": "GATE 2027 Chemistry (CY) — Syllabus",
+   "url": "https://gate2027.iitm.ac.in/exam_papers_and_syllabus",
+   "src": "Official · IIT Madras",
+   "n": "Click this paper's code on the official page to download its syllabus PDF."
+  },
+  {
+   "e": "gate",
+   "p": "bt",
+   "t": "GATE 2027 Biotechnology (BT) — Syllabus",
+   "url": "https://gate2027.iitm.ac.in/exam_papers_and_syllabus",
+   "src": "Official · IIT Madras",
+   "n": "Click this paper's code on the official page to download its syllabus PDF."
+  },
+  {
+   "e": "gate",
+   "p": "ls",
+   "t": "GATE 2027 Life Sciences (XL) — Syllabus",
+   "url": "https://gate2027.iitm.ac.in/exam_papers_and_syllabus",
+   "src": "Official · IIT Madras",
+   "n": "Click this paper's code on the official page to download its syllabus PDF."
+  },
+  {
+   "e": "gate",
+   "p": "gg",
+   "t": "GATE 2027 Geology (GG) — Syllabus",
+   "url": "https://gate2027.iitm.ac.in/exam_papers_and_syllabus",
+   "src": "Official · IIT Madras",
+   "n": "Click this paper's code on the official page to download its syllabus PDF."
+  },
+  {
+   "e": "gate",
+   "p": "st",
+   "t": "GATE 2027 Statistics (ST) — Syllabus",
+   "url": "https://gate2027.iitm.ac.in/exam_papers_and_syllabus",
+   "src": "Official · IIT Madras",
+   "n": "Click this paper's code on the official page to download its syllabus PDF."
+  },
+  {
+   "e": "gate",
+   "p": "xh",
+   "t": "GATE 2027 Humanities & Social Sciences (XH) — Syllabus",
+   "url": "https://gate2027.iitm.ac.in/exam_papers_and_syllabus",
+   "src": "Official · IIT Madras",
+   "n": "Click this paper's code on the official page to download its syllabus PDF."
+  },
+  {
+   "e": "gate",
+   "p": "ey",
+   "t": "GATE 2027 Ecology & Evolution (EY) — Syllabus",
+   "url": "https://gate2027.iitm.ac.in/exam_papers_and_syllabus",
+   "src": "Official · IIT Madras",
+   "n": "Click this paper's code on the official page to download its syllabus PDF."
+  },
+  {
+   "e": "gate",
+   "p": "da",
+   "t": "GATE 2027 Data Science & AI (DA) — Syllabus",
+   "url": "https://gate2027.iitm.ac.in/exam_papers_and_syllabus",
+   "src": "Official · IIT Madras",
+   "n": "Click this paper's code on the official page to download its syllabus PDF."
+  },
+  {
+   "e": "csir",
+   "p": "pys",
+   "t": "CSIR-UGC NET Physical Sciences — Syllabus",
+   "url": "https://csirnet.nta.nic.in/",
+   "src": "Official · NTA",
+   "n": "Syllabus is in the Information Bulletin / syllabus section of the NTA CSIR NET site."
+  },
+  {
+   "e": "csir",
+   "p": "chs",
+   "t": "CSIR-UGC NET Chemical Sciences — Syllabus",
+   "url": "https://csirnet.nta.nic.in/",
+   "src": "Official · NTA",
+   "n": "Syllabus is in the Information Bulletin / syllabus section of the NTA CSIR NET site."
+  },
+  {
+   "e": "csir",
+   "p": "ls",
+   "t": "CSIR-UGC NET Life Sciences — Syllabus",
+   "url": "https://csirnet.nta.nic.in/",
+   "src": "Official · NTA",
+   "n": "Syllabus is in the Information Bulletin / syllabus section of the NTA CSIR NET site."
+  },
+  {
+   "e": "csir",
+   "p": "eas",
+   "t": "CSIR-UGC NET Earth, Atmospheric, Ocean & Planetary Sciences — Syllabus",
+   "url": "https://csirnet.nta.nic.in/",
+   "src": "Official · NTA",
+   "n": "Syllabus is in the Information Bulletin / syllabus section of the NTA CSIR NET site."
   }
  ],
  "pyqs": [
@@ -1423,6 +1827,168 @@ window.ES_DATA = {
   "cmi": {
    "url": "https://www.cmi.ac.in/admissions/syllabus.php",
    "label": "CMI official past papers page"
+  },
+  "jam-ph": {
+   "url": "https://jam.iitkgp.ac.in/download.html",
+   "label": "IIT JAM Physics — official previous papers"
+  },
+  "jam-cy": {
+   "url": "https://jam.iitkgp.ac.in/download.html",
+   "label": "IIT JAM Chemistry — official previous papers"
+  },
+  "jam-bt": {
+   "url": "https://jam.iitkgp.ac.in/download.html",
+   "label": "IIT JAM Biotechnology — official previous papers"
+  },
+  "jam-en": {
+   "url": "https://jam.iitkgp.ac.in/download.html",
+   "label": "IIT JAM Economics — official previous papers"
+  },
+  "jam-gg": {
+   "url": "https://jam.iitkgp.ac.in/download.html",
+   "label": "IIT JAM Geology — official previous papers"
+  },
+  "jam-ms": {
+   "url": "https://jam.iitkgp.ac.in/download.html",
+   "label": "IIT JAM Mathematical Statistics — official previous papers"
+  },
+  "cuetpg-ph": {
+   "url": "https://exams.nta.nic.in/cuet-pg/",
+   "label": "NTA CUET (PG) Physics — official page"
+  },
+  "cuetpg-cy": {
+   "url": "https://exams.nta.nic.in/cuet-pg/",
+   "label": "NTA CUET (PG) Chemistry — official page"
+  },
+  "cuetpg-bt": {
+   "url": "https://exams.nta.nic.in/cuet-pg/",
+   "label": "NTA CUET (PG) Biotechnology — official page"
+  },
+  "cuetpg-bc": {
+   "url": "https://exams.nta.nic.in/cuet-pg/",
+   "label": "NTA CUET (PG) Biochemistry — official page"
+  },
+  "cuetpg-bo": {
+   "url": "https://exams.nta.nic.in/cuet-pg/",
+   "label": "NTA CUET (PG) Botany — official page"
+  },
+  "cuetpg-zo": {
+   "url": "https://exams.nta.nic.in/cuet-pg/",
+   "label": "NTA CUET (PG) Zoology — official page"
+  },
+  "cuetpg-mb": {
+   "url": "https://exams.nta.nic.in/cuet-pg/",
+   "label": "NTA CUET (PG) Microbiology — official page"
+  },
+  "cuetpg-st": {
+   "url": "https://exams.nta.nic.in/cuet-pg/",
+   "label": "NTA CUET (PG) Statistics — official page"
+  },
+  "cuetpg-cs": {
+   "url": "https://exams.nta.nic.in/cuet-pg/",
+   "label": "NTA CUET (PG) Computer Science — official page"
+  },
+  "cuetpg-es": {
+   "url": "https://exams.nta.nic.in/cuet-pg/",
+   "label": "NTA CUET (PG) Environmental Science — official page"
+  },
+  "cuetpg-gg": {
+   "url": "https://exams.nta.nic.in/cuet-pg/",
+   "label": "NTA CUET (PG) Geology — official page"
+  },
+  "cuetpg-en": {
+   "url": "https://exams.nta.nic.in/cuet-pg/",
+   "label": "NTA CUET (PG) Economics — official page"
+  },
+  "tifr-ph": {
+   "url": "https://www.tifr.res.in/academics/",
+   "label": "TIFR GS Physics — official page"
+  },
+  "tifr-cy": {
+   "url": "https://www.tifr.res.in/academics/",
+   "label": "TIFR GS Chemistry — official page"
+  },
+  "tifr-bg": {
+   "url": "https://www.tifr.res.in/academics/",
+   "label": "TIFR GS Biology — official page"
+  },
+  "tifr-cs": {
+   "url": "https://www.tifr.res.in/academics/",
+   "label": "TIFR GS Computer Science — official page"
+  },
+  "tifr-se": {
+   "url": "https://www.tifr.res.in/academics/",
+   "label": "TIFR GS Science Education — official page"
+  },
+  "gate-ph": {
+   "url": "https://gate2027.iitm.ac.in/download",
+   "label": "GATE Physics — official downloads",
+   "more": "https://drive.google.com/drive/folders/1xUn7rGTzKlfvJDoo4SzCRi8jRlBD63ud?usp=sharing",
+   "moreLabel": "All GATE papers 2007–2026 (official bulk folder)"
+  },
+  "gate-cy": {
+   "url": "https://gate2027.iitm.ac.in/download",
+   "label": "GATE Chemistry — official downloads",
+   "more": "https://drive.google.com/drive/folders/1xUn7rGTzKlfvJDoo4SzCRi8jRlBD63ud?usp=sharing",
+   "moreLabel": "All GATE papers 2007–2026 (official bulk folder)"
+  },
+  "gate-bt": {
+   "url": "https://gate2027.iitm.ac.in/download",
+   "label": "GATE Biotechnology — official downloads",
+   "more": "https://drive.google.com/drive/folders/1xUn7rGTzKlfvJDoo4SzCRi8jRlBD63ud?usp=sharing",
+   "moreLabel": "All GATE papers 2007–2026 (official bulk folder)"
+  },
+  "gate-ls": {
+   "url": "https://gate2027.iitm.ac.in/download",
+   "label": "GATE Life Sciences — official downloads",
+   "more": "https://drive.google.com/drive/folders/1xUn7rGTzKlfvJDoo4SzCRi8jRlBD63ud?usp=sharing",
+   "moreLabel": "All GATE papers 2007–2026 (official bulk folder)"
+  },
+  "gate-gg": {
+   "url": "https://gate2027.iitm.ac.in/download",
+   "label": "GATE Geology — official downloads",
+   "more": "https://drive.google.com/drive/folders/1xUn7rGTzKlfvJDoo4SzCRi8jRlBD63ud?usp=sharing",
+   "moreLabel": "All GATE papers 2007–2026 (official bulk folder)"
+  },
+  "gate-st": {
+   "url": "https://gate2027.iitm.ac.in/download",
+   "label": "GATE Statistics — official downloads",
+   "more": "https://drive.google.com/drive/folders/1xUn7rGTzKlfvJDoo4SzCRi8jRlBD63ud?usp=sharing",
+   "moreLabel": "All GATE papers 2007–2026 (official bulk folder)"
+  },
+  "gate-xh": {
+   "url": "https://gate2027.iitm.ac.in/download",
+   "label": "GATE Humanities & Social Sciences — official downloads",
+   "more": "https://drive.google.com/drive/folders/1xUn7rGTzKlfvJDoo4SzCRi8jRlBD63ud?usp=sharing",
+   "moreLabel": "All GATE papers 2007–2026 (official bulk folder)"
+  },
+  "gate-ey": {
+   "url": "https://gate2027.iitm.ac.in/download",
+   "label": "GATE Ecology & Evolution — official downloads",
+   "more": "https://drive.google.com/drive/folders/1xUn7rGTzKlfvJDoo4SzCRi8jRlBD63ud?usp=sharing",
+   "moreLabel": "All GATE papers 2007–2026 (official bulk folder)"
+  },
+  "gate-da": {
+   "url": "https://gate2027.iitm.ac.in/download",
+   "label": "GATE Data Science & AI — official downloads",
+   "more": "https://drive.google.com/drive/folders/1xUn7rGTzKlfvJDoo4SzCRi8jRlBD63ud?usp=sharing",
+   "moreLabel": "All GATE papers 2007–2026 (official bulk folder)"
+  },
+  "csir-pys": {
+   "url": "https://csirnet.nta.nic.in/archive/",
+   "label": "NTA CSIR NET Physical Sciences — archive"
+  },
+  "csir-chs": {
+   "url": "https://csirnet.nta.nic.in/archive/",
+   "label": "NTA CSIR NET Chemical Sciences — archive"
+  },
+  "csir-ls": {
+   "url": "https://csirnet.nta.nic.in/archive/",
+   "label": "NTA CSIR NET Life Sciences — archive"
+  },
+  "csir-eas": {
+   "url": "https://csirnet.nta.nic.in/archive/",
+   "label": "NTA CSIR NET Earth, Atmospheric, Ocean & Planetary Sciences — archive"
   }
  },
  "mocks": [
