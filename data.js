@@ -483,7 +483,24 @@ window.ES_DATA = {
 { "id": "es-glob", "name": "Global Environmental Issues", "icon": "🌡️", "p": "es", "live": true },
 { "id": "es-poll", "name": "Environmental Pollution", "icon": "🏭", "p": "es", "live": true },
 { "id": "es-waste", "name": "Waste Management", "icon": "♻️", "p": "es", "live": true },
-{ "id": "es-inst", "name": "Instrumentation & Techniques", "icon": "🔬", "p": "es", "live": true }
+{ "id": "es-inst", "name": "Instrumentation & Techniques", "icon": "🔬", "p": "es", "live": true },
+  // --- MICROBIOLOGY TOPICS (mb) ---
+  { "id": "mb-mic", "name": "Microbiology", "icon": "🦠", "p": "mb", "live": true },
+  { "id": "mb-cag", "name": "Cytology and Genetics", "icon": "📈", "p": "mb", "live": true },
+  { "id": "mb-bioc", "name": "Biochemistry", "icon": "🧬", "p": "mb", "live": true },
+  { "id": "mb-phys", "name": "Physiology", "icon": "🧪", "p": "mb", "live": true },
+  { "id": "mb-biot", "name": "Biotechnology and biotechniques", "icon": "🛡️", "p": "mb", "live": true },
+  { "id": "mb-imm", "name": "Immunology and ecology", "icon": "🌍", "p": "mb", "live": true },
+
+  // --- BIOCHEMISTRY TOPICS (bc) ---
+  { "id": "bc-intro", "name": "Introduction & Bioorganic Chemistry", "icon": "🧪", "p": "bc", "live": true },
+  { "id": "bc-biom", "name": "Biorganic chemistry and Metabolites", "icon": "🧬", "p": "bc", "live": true },
+  { "id": "bc-cbbb", "name": "Cell biology, Biochemical techniques and Biomolecules", "icon": "🔑", "p": "bc", "live": true },
+  { "id": "bc-nuam", "name": "Nutrition and Metabolism", "icon": "⚡", "p": "bc", "live": true },
+  { "id": "bc-bam", "name": "Bioenergetics and Membrane Biology", "icon": "🔬", "p": "bc", "live": true },
+  { "id": "bc-miae", "name": "Microbiology , Immunology and Enzymology", "icon": "📊", "p": "bc", "live": true },
+  { "id": "bc-hpcb", "name": "Human Physiology & Clinical Biochemistry", "icon": "🫀", "p": "bc", "live": true },
+  { "id": "bc-mbgi", "name": "Molecular Biology and Genetic Engeenering", "icon": "🧬", "p": "bc", "live": true}
  ],
  "lectures": [
   {
@@ -1040,7 +1057,8 @@ window.ES_DATA = {
 "cs-tdm", "cs-math", "cs-os", "cs-ds", "cs-dig",
 
 // ES Subject IDs
-"es-earth", "es-chem", "es-life", "es-eco", "es-micro", "es-res", "es-glob", "es-poll", "es-waste", "es-inst"
+"es-earth", "es-chem", "es-life", "es-eco", "es-micro", "es-res", "es-glob", "es-poll", "es-waste", "es-inst",
+    "mb-mic", "mb-cag", "mb-bioc", "mb-phys", "mb-biot", "mb-imm", "bc-intro", "bc-biom", "bc-cbbb", "bc-nuam", "bc-bam", "bc-miae", "bc-hpcb", "bc-mbgi"
    ]
   },
   {
