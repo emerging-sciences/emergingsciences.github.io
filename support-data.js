@@ -26,7 +26,11 @@ window.ES_SUPPORT = {
     "alt": "Piyush Agarwal bachpan me apne dada ji aur dadi ji ke saath"
   },
 
-  // PUBLIC ACCOUNT BOOK. Add one line for every rupee that comes in or goes out. Newest can be added at the end.
+  // LIVE ACCOUNT SHEET (optional). Google Sheet -> File -> Share -> Publish to web -> pick the tab -> "Comma-separated values (.csv)" -> Publish -> paste that link here.
+  // Sheet header row must be:  date | type | amount | who | note | proof   (type = in or out). Leave "" to use the ledger below instead.
+  "sheet": "",
+
+  // PUBLIC ACCOUNT BOOK (used when "sheet" is empty or cannot load). Add one line for every rupee that comes in or goes out. Newest can be added at the end.
   //   money received : { "d": "2026-11-02", "type": "in",  "amt": 100, "who": "Rahul K.", "note": "" }
   //   money spent    : { "d": "2026-11-05", "type": "out", "amt": 399, "note": "AI subscription (1 month)", "proof": "https://link-to-bill-screenshot" }
   // "who" = first name or "Anonymous" (ask the donor). "proof" is optional but builds trust.

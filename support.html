@@ -99,21 +99,7 @@
 
   h+='<div class="card warn"><b>Stay safe.</b> This page is the only official place for payment details. Emerging Sciences will never ask you for your PIN or OTP, never send a “collect” request, and never call you for money. If someone does, it is not us.</div>';
 
-  h+='<div class="card"><h2>Public account book</h2>';
-  var L=(S.ledger||[]).slice(),tin=0,tout=0;
-  L.forEach(function(e){if(e.type==='in')tin+=+e.amt||0;else if(e.type==='out')tout+=+e.amt||0});
-  h+='<div class="tot"><div class="stat"><b class="in">'+rs(tin)+'</b><span>Received</span></div><div class="stat"><b class="out">'+rs(tout)+'</b><span>Spent</span></div><div class="stat"><b>'+rs(tin-tout)+'</b><span>Balance</span></div></div>';
-  if(L.length){
-    L.sort(function(a,b){return String(b.d).localeCompare(String(a.d))});
-    h+='<div class="scroll"><table class="tbl"><thead><tr><th>Date</th><th>Details</th><th>Amount</th></tr></thead><tbody>'
-     +L.map(function(e){var isIn=e.type==='in';
-        var det=isIn?('From '+esc(e.who||'Anonymous')+(e.note?' — '+esc(e.note):'')):(esc(e.note||'Expense')+(e.proof?' · <a href="'+esc(e.proof)+'" target="_blank" rel="noopener noreferrer">bill</a>':''));
-        return '<tr><td>'+esc(e.d)+'</td><td>'+det+'</td><td class="'+(isIn?'in':'out')+'">'+(isIn?'+':'−')+rs(e.amt)+'</td></tr>'}).join('')
-     +'</tbody></table></div>';
-  }else{
-    h+='<p style="margin:0;color:#b9bdd0">No entries yet. The first payment and the first expense will appear here.</p>';
-  }
-  h+='</div>';
+  h+='<div class="card"><h2>Public account book</h2><div id="ledgerbox"></div><p id="ledgernote" style="margin:10px 0 0;color:#b9bdd0;font-size:13px"></p></div>';
 
   h+='<div class="card"><h2>No money? You can still help</h2><ul>'
    +'<li>Share the website with one friend preparing for an MSc entrance exam.</li>'
@@ -125,6 +111,46 @@
    +'<a class="btn alt" href="https://x.com/emergingsc28041" target="_blank" rel="noopener noreferrer">X (Twitter)</a></div>';
 
   root.innerHTML=h;
+
+  function safeUrl(u){return /^https?:\/\//i.test(u||'')?u:''}
+  function drawLedger(L){
+    L=L.slice();var tin=0,tout=0,h='';
+    L.forEach(function(e){if(e.type==='in')tin+=+e.amt||0;else if(e.type==='out')tout+=+e.amt||0});
+    h+='<div class="tot"><div class="stat"><b class="in">'+rs(tin)+'</b><span>Received</span></div><div class="stat"><b class="out">'+rs(tout)+'</b><span>Spent</span></div><div class="stat"><b>'+rs(tin-tout)+'</b><span>Balance</span></div></div>';
+    if(L.length){
+      L.sort(function(a,b){return String(b.d).localeCompare(String(a.d))});
+      h+='<div class="scroll"><table class="tbl"><thead><tr><th>Date</th><th>Details</th><th>Amount</th></tr></thead><tbody>'
+       +L.map(function(e){var isIn=e.type==='in',pf=safeUrl(e.proof);
+          var det=isIn?('From '+esc(e.who||'Anonymous')+(e.note?' — '+esc(e.note):'')):(esc(e.note||'Expense')+(pf?' · <a href="'+esc(pf)+'" target="_blank" rel="noopener noreferrer">bill</a>':''));
+          return '<tr><td>'+esc(e.d)+'</td><td>'+det+'</td><td class="'+(isIn?'in':'out')+'">'+(isIn?'+':'−')+rs(e.amt)+'</td></tr>'}).join('')
+       +'</tbody></table></div>';
+    }else{
+      h+='<p style="margin:0;color:#b9bdd0">No entries yet. The first payment and the first expense will appear here.</p>';
+    }
+    document.getElementById('ledgerbox').innerHTML=h;
+  }
+  // minimal CSV parser (handles quoted cells)
+  function parseCSV(t){var rows=[],r=[],f='',q=false;for(var i=0;i<t.length;i++){var c=t[i];
+    if(q){if(c==='"'){if(t[i+1]==='"'){f+='"';i++}else q=false}else f+=c}
+    else if(c==='"')q=true;else if(c===','){r.push(f);f=''}
+    else if(c==='\n'||c==='\r'){if(c==='\r'&&t[i+1]==='\n')i++;r.push(f);f='';rows.push(r);r=[]}else f+=c}
+    if(f!==''||r.length){r.push(f);rows.push(r)}return rows}
+  function fromSheet(t){var R=parseCSV(t);if(R.length<2)return [];
+    var H=R[0].map(function(x){return String(x).trim().toLowerCase()});
+    function ix(n){for(var i=0;i<n.length;i++){var k=H.indexOf(n[i]);if(k>-1)return k}return -1}
+    var iD=ix(['date','d']),iT=ix(['type']),iA=ix(['amount','amt']),iW=ix(['who','name']),iN=ix(['note','details']),iP=ix(['proof','bill']);
+    var out=[];
+    for(var i=1;i<R.length;i++){var r=R[i],ty=String(r[iT]||'').trim().toLowerCase(),am=parseFloat(String(r[iA]||'').replace(/[^0-9.]/g,''));
+      if((ty!=='in'&&ty!=='out')||!(am>0))continue;
+      out.push({d:String(r[iD]||'').trim(),type:ty,amt:am,who:iW>-1?String(r[iW]||'').trim():'',note:iN>-1?String(r[iN]||'').trim():'',proof:iP>-1?String(r[iP]||'').trim():''})}
+    return out}
+  drawLedger(S.ledger||[]);
+  if(S.sheet){
+    fetch(S.sheet,{cache:'no-store'}).then(function(r){if(!r.ok)throw 0;return r.text()}).then(function(t){
+      drawLedger(fromSheet(t));
+      var n=document.getElementById('ledgernote');if(n)n.textContent='Updated live from the public account sheet (may take a few minutes to refresh).';
+    }).catch(function(){var n=document.getElementById('ledgernote');if(n)n.textContent='Live sheet could not load right now; showing the last saved entries.'});
+  }
 
   var c=document.getElementById('copy');
   if(c)c.onclick=function(){
