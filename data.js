@@ -217,6 +217,13 @@ window.ES_DATA = {
    "icon": "P(A)"
   },
   {
+   "id": "vc",
+   "name": "Vector calculus",
+   "icon": "∇·F",
+   "p": "ma",
+   "live": true
+  },
+  {
    "id": "mech",
    "name": "Mechanics",
    "icon": "F=ma"
@@ -957,11 +964,11 @@ window.ES_DATA = {
     "ra",
     "ca",
     "ode",
-    "pde",
+    "ic",
     "calc",
-    "ps",
-    "na",
-    "mech",
+    "vc",
+    "lp",
+    "bm",
     "ph-mech",
     "ph-mm",
     "ph-shmo",
