@@ -402,7 +402,7 @@ window.ES_DATA = {
   },
   {
     "id": "gg-peteco",
-    "name": "Petrology & Economic Geology",
+    "name": "Petrology , Economic and applied Geology",
     "icon": "⛏️",
     "p": "gg",
     "live": true
