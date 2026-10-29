@@ -75,6 +75,11 @@
    +'<p style="margin:12px 0 0">I am building this website to give IIT JAM, CUET PG, TIFR, GATE and CSIR NET students free lectures, notes and mock tests. Adding good content for every subject takes a lot of time and some tools that cost money, so I am asking for your support.</p>'
    +'<div class="stats">'+st.map(function(s){return '<div class="stat"><b>'+s[0]+'</b><span>'+s[1]+'</span></div>'}).join('')+'</div></div>';
 
+  if(S.story&&S.story.photo){
+    h+='<div class="card" style="text-align:center"><img src="'+esc(S.story.photo)+'" alt="'+esc(S.story.alt||'Childhood photo with grandparents')+'" style="width:100%;max-width:420px;border-radius:14px;display:block;margin:0 auto 12px">'
+     +(S.story.line?'<p style="margin:0 0 6px;font:600 17px \'Space Grotesk\',sans-serif;color:#fff">'+esc(S.story.line)+'</p>':'')
+     +(S.story.caption?'<p style="margin:0;color:#b9bdd0;font-size:14px">'+esc(S.story.caption)+'</p>':'')+'</div>';
+  }
   if((S.uses||[]).length){
     h+='<div class="card"><h2>Where your money goes</h2><ul>'+S.uses.map(function(u){return '<li>'+esc(u)+'</li>'}).join('')+'</ul>'
      +'<p style="margin:10px 0 0;color:#b9bdd0;font-size:14px">Nothing else. Every payment received and every rupee spent is listed in the public account book below.</p></div>';
