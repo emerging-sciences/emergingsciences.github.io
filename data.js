@@ -1510,7 +1510,7 @@ window.ES_DATA = {
    "e": "tifr",
    "p": "ph",
    "t": "TIFR GS Physics — Syllabus & exam instructions",
-   "url": "https://www.tifr.res.in/academics/",
+   "url": "https://www.tifr.res.in/academics/docs/Physics_syllabus_exam_instructions.pdf",
    "src": "Official · tifr.res.in",
    "n": "Opens TIFR's official academics page; find the paper-wise syllabus there."
   },
@@ -1518,7 +1518,7 @@ window.ES_DATA = {
    "e": "tifr",
    "p": "cy",
    "t": "TIFR GS Chemistry — Syllabus & exam instructions",
-   "url": "https://www.tifr.res.in/academics/",
+   "url": "https://www.tifr.res.in/academics/docs/Chemistry_syllabus_exam_instructions.pdf",
    "src": "Official · tifr.res.in",
    "n": "Opens TIFR's official academics page; find the paper-wise syllabus there."
   },
@@ -1526,7 +1526,7 @@ window.ES_DATA = {
    "e": "tifr",
    "p": "bg",
    "t": "TIFR GS Biology — Syllabus & exam instructions",
-   "url": "https://www.tifr.res.in/academics/",
+   "url": "https://www.tifr.res.in/academics/docs/Jgeebils_Instructions_2025.pdf",
    "src": "Official · tifr.res.in",
    "n": "Opens TIFR's official academics page; find the paper-wise syllabus there."
   },
@@ -1534,7 +1534,7 @@ window.ES_DATA = {
    "e": "tifr",
    "p": "cs",
    "t": "TIFR GS Computer Science — Syllabus & exam instructions",
-   "url": "https://www.tifr.res.in/academics/",
+   "url": "https://www.tifr.res.in/academics/docs/CS_LIDS_syllabus_exam_instructions.pdf",
    "src": "Official · tifr.res.in",
    "n": "Opens TIFR's official academics page; find the paper-wise syllabus there."
   },
@@ -1542,7 +1542,7 @@ window.ES_DATA = {
    "e": "tifr",
    "p": "se",
    "t": "TIFR GS Science Education — Syllabus & exam instructions",
-   "url": "https://www.tifr.res.in/academics/",
+   "url": "https://www.tifr.res.in/academics/docs/ScienceEducation_syllabus_exam_instructions.pdf",
    "src": "Official · tifr.res.in",
    "n": "Opens TIFR's official academics page; find the paper-wise syllabus there."
   },
