@@ -133,6 +133,12 @@ window.ES_DATA = {
    "id": "eas",
    "name": "Earth, Atmospheric, Ocean & Planetary Sciences",
    "icon": "🌊"
+  },
+  {
+   "id": "biis",
+   "name": "Bio-Informatics",
+   "icon": "🧬",
+   "live": true
   }
  ],
  "subjects": [
@@ -500,7 +506,18 @@ window.ES_DATA = {
   { "id": "bc-bam", "name": "Bioenergetics and Membrane Biology", "icon": "🔬", "p": "bc", "live": true },
   { "id": "bc-miae", "name": "Microbiology , Immunology and Enzymology", "icon": "📊", "p": "bc", "live": true },
   { "id": "bc-hpcb", "name": "Human Physiology & Clinical Biochemistry", "icon": "🫀", "p": "bc", "live": true },
-  { "id": "bc-mbgi", "name": "Molecular Biology and Genetic Engeenering", "icon": "🧬", "p": "bc", "live": true}
+  { "id": "bc-mbgi", "name": "Molecular Biology and Genetic Engeenering", "icon": "🧬", "p": "bc", "live": true},
+ // --- BIO-INFORMATICS TOPICS (biis) ---
+{ "id": "biis-u1", "name": "Mathematics and Statistical Foundation", "icon": "📐", "p": "biis", "live": true },
+{ "id": "biis-u2", "name": "Role of Chemistry in Bioinformatics", "icon": "⚗️", "p": "biis", "live": true },
+{ "id": "biis-u3", "name": "Biochemistry and Molecular Biology", "icon": "🧪", "p": "biis", "live": true },
+{ "id": "biis-u4", "name": "Microbiology and Immunology", "icon": "🦠", "p": "biis", "live": true },
+{ "id": "biis-u5", "name": "Genetic Engineering, Gene Sequencing & RDT", "icon": "🧬", "p": "biis", "live": true },
+{ "id": "biis-u6", "name": "Bio-Physics", "icon": "⚛️", "p": "biis", "live": true },
+{ "id": "biis-u7", "name": "Fundamentals of IT & Computer Programming", "icon": "💻", "p": "biis", "live": true },
+{ "id": "biis-u8", "name": "Basics of Bio-Informatics", "icon": "🗄️", "p": "biis", "live": true }
+  
+
  ],
  "lectures": [
   {
@@ -1058,7 +1075,8 @@ window.ES_DATA = {
 
 // ES Subject IDs
 "es-earth", "es-chem", "es-life", "es-eco", "es-micro", "es-res", "es-glob", "es-poll", "es-waste", "es-inst",
-    "mb-mic", "mb-cag", "mb-bioc", "mb-phys", "mb-biot", "mb-imm", "bc-intro", "bc-biom", "bc-cbbb", "bc-nuam", "bc-bam", "bc-miae", "bc-hpcb", "bc-mbgi"
+    "mb-mic", "mb-cag", "mb-bioc", "mb-phys", "mb-biot", "mb-imm", "bc-intro", "bc-biom", "bc-cbbb", "bc-nuam", "bc-bam", "bc-miae", "bc-hpcb", "bc-mbgi" 
+    "biss-u1", "biss-u2", "biss-u3", "biss-u4", "biss-u5", "biss-u6", "biss-u7", "biss-u8"
    ]
   },
   {
