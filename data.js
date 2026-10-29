@@ -434,7 +434,38 @@ window.ES_DATA = {
     "icon": "σ²",
     "p": "ms",
     "live": true
-  }
+  },
+  
+{ "id": "bo-phyc", "name": "Phycology and Microbiology", "icon": "🦠", "p": "bo", "live": true },
+{ "id": "bo-bioc", "name": "Biomolecules and Cell Biology", "icon": "🧬", "p": "bo", "live": true },
+{ "id": "bo-myc", "name": "Mycology and Phytopathology", "icon": "🍄", "p": "bo", "live": true },
+{ "id": "bo-arch", "name": "Archegoniate", "icon": "🌿", "p": "bo", "live": true },
+{ "id": "bo-anat", "name": "Anatomy and Angiosperms", "icon": "🌳", "p": "bo", "live": true },
+{ "id": "bo-econ", "name": "Economic Botany", "icon": "🌾", "p": "bo", "live": true },
+{ "id": "bo-gen", "name": "Genetics", "icon": "🧬", "p": "bo", "live": true },
+{ "id": "bo-mol", "name": "Molecular Biology", "icon": "⚛️", "p": "bo", "live": true },
+{ "id": "bo-eco", "name": "Plant Ecology and Phytogeography", "icon": "🌍", "p": "bo", "live": true },
+{ "id": "bo-sem", "name": "Plant Semantics", "icon": "📖", "p": "bo", "live": true },
+{ "id": "bo-repro", "name": "Reproductive Biology of Angiosperms", "icon": "🌸", "p": "bo", "live": true },
+{ "id": "bo-phys", "name": "Plant Physiology", "icon": "☀️", "p": "bo", "live": true },
+{ "id": "bo-met", "name": "Plant Metabolism", "icon": "⚗️", "p": "bo", "live": true },
+{ "id": "bo-tech", "name": "Plant Biotechnology", "icon": "🧪", "p": "bo", "live": true },
+
+// --- ZOOLOGY TOPICS (zo) ---
+{ "id": "zo-cell", "name": "Cell Biology", "icon": "🔬", "p": "zo", "live": true },
+{ "id": "zo-bioc", "name": "Biochemistry", "icon": "⚗️", "p": "zo", "live": true },
+{ "id": "zo-mol", "name": "Molecular Biology", "icon": "🧬", "p": "zo", "live": true },
+{ "id": "zo-eco", "name": "Ecology", "icon": "🌍", "p": "zo", "live": true },
+{ "id": "zo-evo", "name": "Evolution", "icon": "🦎", "p": "zo", "live": true },
+{ "id": "zo-biod", "name": "Biodiversity & Environment Conservation", "icon": "🌳", "p": "zo", "live": true },
+{ "id": "zo-imm", "name": "Immunology", "icon": "🛡️", "p": "zo", "live": true },
+{ "id": "zo-gen", "name": "Genetics", "icon": "🧬", "p": "zo", "live": true },
+{ "id": "zo-tech", "name": "Biotechniques", "icon": "🧫", "p": "zo", "live": true },
+{ "id": "zo-vert", "name": "Vertebrates and Invertebrates", "icon": "🐾", "p": "zo", "live": true },
+{ "id": "zo-dev", "name": "Developmental Biology", "icon": "🐣", "p": "zo", "live": true },
+{ "id": "zo-stat", "name": "Biostatistics", "icon": "📊", "p": "zo", "live": true },
+{ "id": "zo-phys", "name": "Animal Physiology", "icon": "🫀", "p": "zo", "live": true },
+{ "id": "zo-rdt", "name": "Recombinant DNA Technology", "icon": "🔗", "p": "zo", "live": true }
  ],
  "lectures": [
   {
@@ -982,7 +1013,11 @@ window.ES_DATA = {
     "en-micro",
     "en-macro",
     "en-mathstat",
-    "en-indian"
+    "en-indian",
+    
+
+"bo-phyc", "bo-bioc", "bo-myc", "bo-arch", "bo-anat", "bo-econ", "bo-gen", "bo-mol", "bo-eco", "bo-sem", "bo-repro", "bo-phys", "bo-met", "bo-tech",
+"zo-cell", "zo-bioc", "zo-mol", "zo-eco", "zo-evo", "zo-biod", "zo-imm", "zo-gen", "zo-tech", "zo-vert", "zo-dev", "zo-stat", "zo-phys", "zo-rdt"
    ]
   },
   {
