@@ -978,7 +978,11 @@ window.ES_DATA = {
     "ph-sspe",
     "cy-pc",
     "cy-oc",
-    "cy-ic"
+    "cy-ic",
+    "en-micro",
+    "en-macro",
+    "en-mathstat",
+    "en-indian"
    ]
   },
   {
