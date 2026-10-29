@@ -516,10 +516,8 @@ window.ES_DATA = {
 { "id": "biis-u6", "name": "Bio-Physics", "icon": "⚛️", "p": "biis", "live": true },
 { "id": "biis-u7", "name": "Fundamentals of IT & Computer Programming", "icon": "💻", "p": "biis", "live": true },
 { "id": "biis-u8", "name": "Basics of Bio-Informatics", "icon": "🗄️", "p": "biis", "live": true }
- ]
+ ],
 
-
- 
  "lectures": [
   {
    "id": "ode-01",
@@ -1040,7 +1038,8 @@ window.ES_DATA = {
     "cs",
     "es",
     "gg",
-    "en"
+    "en",
+    "biis"
    ],
    "subjects": [
     "alg",
@@ -1076,7 +1075,7 @@ window.ES_DATA = {
 
 // ES Subject IDs
 "es-earth", "es-chem", "es-life", "es-eco", "es-micro", "es-res", "es-glob", "es-poll", "es-waste", "es-inst",
-    "mb-mic", "mb-cag", "mb-bioc", "mb-phys", "mb-biot", "mb-imm", "bc-intro", "bc-biom", "bc-cbbb", "bc-nuam", "bc-bam", "bc-miae", "bc-hpcb", "bc-mbgi" 
+    "mb-mic", "mb-cag", "mb-bioc", "mb-phys", "mb-biot", "mb-imm", "bc-intro", "bc-biom", "bc-cbbb", "bc-nuam", "bc-bam", "bc-miae", "bc-hpcb", "bc-mbgi",
     "biis-u1", "biis-u2", "biis-u3", "biis-u4", "biis-u5", "biis-u6", "biis-u7", "biis-u8"
    ]
   },
@@ -1459,6 +1458,14 @@ window.ES_DATA = {
    "p": "en",
    "t": "CUET (PG) Economics — Syllabus (open the Economics paper)",
    "url": "https://cdnbbsr.s3waas.gov.in/s388a839f2f6f1427879fc33ee4acf4f66/uploads/2025/12/20251213312317592.pdf",
+   "src": "Official · NTA",
+   "n": "Link taken from NTA's own syllabus page; NTA refreshes it every year."
+  },
+  {
+   "e": "cuetpg",
+   "p": "biis",
+   "t": "CUET (PG) Bio-Informatics — Syllabus (open the Bio-Informatics paper)",
+   "url": "https://exams.nta.nic.in/cuet-pg/syllabus/",
    "src": "Official · NTA",
    "n": "Link taken from NTA's own syllabus page; NTA refreshes it every year."
   },
@@ -2240,6 +2247,10 @@ window.ES_DATA = {
   "cuetpg-en": {
    "url": "https://exams.nta.nic.in/cuet-pg/",
    "label": "NTA CUET (PG) Economics — official page"
+  },
+  "cuetpg-biis": {
+   "url": "https://exams.nta.nic.in/cuet-pg/",
+   "label": "NTA CUET (PG) Bio-Informatics — official page"
   },
   "tifr-ph": {
    "url": "https://www.tifr.res.in/academics/",
