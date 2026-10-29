@@ -465,7 +465,25 @@ window.ES_DATA = {
 { "id": "zo-dev", "name": "Developmental Biology", "icon": "🐣", "p": "zo", "live": true },
 { "id": "zo-stat", "name": "Biostatistics", "icon": "📊", "p": "zo", "live": true },
 { "id": "zo-phys", "name": "Animal Physiology", "icon": "🫀", "p": "zo", "live": true },
-{ "id": "zo-rdt", "name": "Recombinant DNA Technology", "icon": "🔗", "p": "zo", "live": true }
+{ "id": "zo-rdt", "name": "Recombinant DNA Technology", "icon": "🔗", "p": "zo", "live": true },
+  // --- COMPUTER SCIENCE & IT TOPICS (cs) ---
+{ "id": "cs-tdm", "name": "Thinking and Decision Making", "icon": "🧩", "p": "cs", "live": true },
+{ "id": "cs-math", "name": "Mathematics & Quantitative Aptitude", "icon": "📐", "p": "cs", "live": true },
+{ "id": "cs-os", "name": "Operating System", "icon": "💻", "p": "cs", "live": true },
+{ "id": "cs-ds", "name": "Data Structure", "icon": "🗂️", "p": "cs", "live": true },
+{ "id": "cs-dig", "name": "Digital Fundamentals", "icon": "⚡", "p": "cs", "live": true },
+
+// --- ENVIRONMENTAL SCIENCES TOPICS (es) ---
+{ "id": "es-earth", "name": "Earth Sciences & Environment Structure", "icon": "🌍", "p": "es", "live": true },
+{ "id": "es-chem", "name": "Physical and Chemical Sciences", "icon": "⚗️", "p": "es", "live": true },
+{ "id": "es-life", "name": "Life Sciences & Systematics", "icon": "🧬", "p": "es", "live": true },
+{ "id": "es-eco", "name": "Ecology and Environment", "icon": "🌿", "p": "es", "live": true },
+{ "id": "es-micro", "name": "Microbiology and Biotechnology", "icon": "🦠", "p": "es", "live": true },
+{ "id": "es-res", "name": "Natural Resources and Management", "icon": "🌳", "p": "es", "live": true },
+{ "id": "es-glob", "name": "Global Environmental Issues", "icon": "🌡️", "p": "es", "live": true },
+{ "id": "es-poll", "name": "Environmental Pollution", "icon": "🏭", "p": "es", "live": true },
+{ "id": "es-waste", "name": "Waste Management", "icon": "♻️", "p": "es", "live": true },
+{ "id": "es-inst", "name": "Instrumentation & Techniques", "icon": "🔬", "p": "es", "live": true }
  ],
  "lectures": [
   {
@@ -1017,7 +1035,12 @@ window.ES_DATA = {
     
 
 "bo-phyc", "bo-bioc", "bo-myc", "bo-arch", "bo-anat", "bo-econ", "bo-gen", "bo-mol", "bo-eco", "bo-sem", "bo-repro", "bo-phys", "bo-met", "bo-tech",
-"zo-cell", "zo-bioc", "zo-mol", "zo-eco", "zo-evo", "zo-biod", "zo-imm", "zo-gen", "zo-tech", "zo-vert", "zo-dev", "zo-stat", "zo-phys", "zo-rdt"
+"zo-cell", "zo-bioc", "zo-mol", "zo-eco", "zo-evo", "zo-biod", "zo-imm", "zo-gen", "zo-tech", "zo-vert", "zo-dev", "zo-stat", "zo-phys", "zo-rdt",
+    // CS Subject IDs
+"cs-tdm", "cs-math", "cs-os", "cs-ds", "cs-dig",
+
+// ES Subject IDs
+"es-earth", "es-chem", "es-life", "es-eco", "es-micro", "es-res", "es-glob", "es-poll", "es-waste", "es-inst"
    ]
   },
   {
