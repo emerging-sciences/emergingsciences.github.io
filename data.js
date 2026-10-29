@@ -517,7 +517,7 @@ window.ES_DATA = {
 { "id": "biis-u7", "name": "Fundamentals of IT & Computer Programming", "icon": "💻", "p": "biis", "live": true },
 { "id": "biis-u8", "name": "Basics of Bio-Informatics", "icon": "🗄️", "p": "biis", "live": true }
  ]
-},
+
 
  
  "lectures": [
