@@ -10,7 +10,7 @@ window.ES_SUPPORT = {
   "upi": "piyush4518@axl",
 
   // QR image downloaded from your UPI app (e.g. upi-qr.png), uploaded to the repo. Leave "" if none.
-  "qr": "",
+  "qr": "upi-qr.png",
 
   // Where the money goes. Edit these lines so they are exactly true.
   "uses": [
