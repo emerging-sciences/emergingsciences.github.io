@@ -529,7 +529,8 @@ window.ES_DATA = {
 { "id": "st-joint", "name": "Joint Distributions, Regression and Limit Theorems", "icon": "🔗", "p": "st", "live": true },
 { "id": "st-est", "name": "Estimation Theory and Confidence Intervals", "icon": "🎯", "p": "st", "live": true },
 { "id": "st-test", "name": "Testing of Hypotheses", "icon": "⚖️", "p": "st", "live": true },
-{ "id": "st-samp", "name": "Sampling and Design of Experiments", "icon": "🧪", "p": "st", "live": true }
+{ "id": "st-samp", "name": "Sampling and Design of Experiments", "icon": "🧪", "p": "st", "live": true },
+  {"id": "ph-qppp", "name": "Quantum Mechanics and Practical Physics", "icon": "⚛️", "p": "py", "live": true}
  ],
 
  "lectures": [
@@ -1135,7 +1136,14 @@ window.ES_DATA = {
     "ca",
     "ode",
     "top",
-    "comb"
+    "comb",
+    "ph-mm",
+    "ph-shmo",
+    "ph-emt",
+    "ph-ktt",
+    "ph-mopy",
+    "ph-sspe",
+    "ph-qppp"
    ]
   },
   {
