@@ -18,6 +18,14 @@ window.ES_SUPPORT = {
     "Other tools and internet needed to create and upload content"
   ],
 
+  // Family photo + line shown as a separate card on the Support page. Upload the photo to the repo with the same file name.
+  "story": {
+    "photo": "blessings.jpg",
+    "line": "Dada ji aur Dadi ji ke ashirwad ke saath.",
+    "caption": "Bachpan ki meri sabse pyaari photo. Unhi ke ashirwad se main ye kaam kar raha hu, taaki shiksha kisi ke liye bhi paise ki wajah se na ruke.",
+    "alt": "Piyush Agarwal bachpan me apne dada ji aur dadi ji ke saath"
+  },
+
   // PUBLIC ACCOUNT BOOK. Add one line for every rupee that comes in or goes out. Newest can be added at the end.
   //   money received : { "d": "2026-11-02", "type": "in",  "amt": 100, "who": "Rahul K.", "note": "" }
   //   money spent    : { "d": "2026-11-05", "type": "out", "amt": 399, "note": "AI subscription (1 month)", "proof": "https://link-to-bill-screenshot" }
