@@ -961,7 +961,14 @@ window.ES_DATA = {
     "calc",
     "ps",
     "na",
-    "mech"
+    "mech",
+    "ph-mech",
+    "ph-mm",
+    "ph-shmo",
+    "ph-emt",
+    "ph-ktt",
+    "ph-mopy",
+    "ph-sspe"
    ]
   },
   {
