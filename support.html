@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Support Emerging Sciences — Free Education for MSc Aspirants</title>
+<meta name="description" content="Emerging Sciences is free for every student. If it helped you, you can support it with any amount. Every rupee received and spent is shown publicly.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+<link rel="icon" type="image/png" href="favicon.png?v=2">
+<link rel="icon" type="image/x-icon" href="favicon.ico?v=2">
+<link rel="apple-touch-icon" href="favicon.png?v=2">
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="app.css">
+<link rel="stylesheet" href="nav.css">
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#06070d">
+<style>
+  .sup{max-width:760px;margin:0 auto;padding:28px 16px calc(110px + env(safe-area-inset-bottom,0px));color:#e8eaf2;font-family:'Inter',system-ui,sans-serif;line-height:1.6}
+  .sup h1,.sup h2{font-family:'Space Grotesk',system-ui,sans-serif;color:#fff;margin:0}
+  .sup h1{font-size:28px;margin-bottom:6px}
+  .sup h2{font-size:19px;margin-bottom:10px}
+  .sup .lead{color:#b9bdd0;margin:0 0 22px}
+  .sup .card{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12);border-radius:16px;padding:18px;margin-bottom:16px}
+  .sup .who{display:flex;gap:14px;align-items:center}
+  .sup .av{width:64px;height:64px;border-radius:50%;background:#4f46e5;color:#fff;display:flex;align-items:center;justify-content:center;font:700 26px 'Space Grotesk',sans-serif;flex:0 0 64px;overflow:hidden}
+  .sup .av img{width:100%;height:100%;object-fit:cover}
+  .sup .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:14px}
+  .sup .stat{background:rgba(255,255,255,.06);border-radius:12px;padding:10px 4px;text-align:center}
+  .sup .stat b{display:block;font:700 22px 'Space Grotesk',sans-serif;color:#fff}
+  .sup .stat span{font-size:12px;color:#aab0c6}
+  .sup ul{margin:0;padding-left:20px;color:#d5d8e6}
+  .sup .btn{display:inline-block;background:#4f46e5;color:#fff;border:0;border-radius:12px;padding:12px 18px;font:600 15px 'Inter',sans-serif;text-decoration:none;cursor:pointer;margin:6px 8px 0 0}
+  .sup .btn.alt{background:rgba(255,255,255,.1)}
+  .sup .upi{font:600 17px 'Space Grotesk',monospace;background:rgba(255,255,255,.08);border-radius:10px;padding:10px 12px;word-break:break-all;display:inline-block;margin:6px 0}
+  .sup .qr{display:block;max-width:240px;width:100%;border-radius:12px;background:#fff;padding:8px;margin:10px 0}
+  .sup .warn{border-color:rgba(251,191,36,.5);background:rgba(251,191,36,.08);color:#f3e3b3;font-size:14px}
+  .sup .tot{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:12px}
+  .sup .tbl{width:100%;border-collapse:collapse;font-size:14px}
+  .sup .tbl th,.sup .tbl td{padding:8px 6px;border-bottom:1px solid rgba(255,255,255,.1);text-align:left;vertical-align:top}
+  .sup .tbl th{color:#aab0c6;font-weight:500}
+  .sup .in{color:#4ade80}.sup .out{color:#f87171}
+  .sup .scroll{overflow-x:auto}
+  .sup a{color:#a5b4fc}
+  .sup .btn,.sup .btn.alt{color:#fff}
+  @media(max-width:520px){.sup .stats{grid-template-columns:repeat(2,1fr)}.sup h1{font-size:24px}}
+</style>
+</head>
+<body>
+<div id="splash"><img src="logo-full.png" alt=""><b>Emerging Sciences</b></div>
+<script>try{if(sessionStorage.getItem('es_splash')){document.getElementById('splash').remove()}else{sessionStorage.setItem('es_splash','1');setTimeout(function(){var s=document.getElementById('splash');s&&s.remove()},1900)}}catch(e){var s=document.getElementById('splash');s&&s.remove()}</script>
+
+<script src="nav.js" data-part="hdr"></script>
+
+<main class="sup" id="sup"><p>Loading…</p></main>
+
+<script src="nav.js" data-part="nav"></script>
+<script src="data.js"></script>
+<script src="support-data.js"></script>
+<script src="main.js"></script>
+<script>
+(function(){
+  var S=window.ES_SUPPORT||{}, D=window.ES_DATA||{};
+  var root=document.getElementById('sup');
+  function esc(x){return String(x==null?'':x).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
+  function rs(n){return '₹'+Number(n||0).toLocaleString('en-IN')}
+  var name=S.name||'the creator';
+  var st=[[(D.exams||[]).length,'Exams'],[(D.papers||[]).length,'Subjects'],[(D.lectures||[]).length,'Lectures'],[(D.material||[]).length,'PDFs / notes']];
+  var h='';
+  h+='<h1>Support Emerging Sciences</h1>';
+  h+='<p class="lead">Everything here is free and will stay free. If it helped your preparation, you can help it grow — with ₹1 or any amount, or without money at all.</p>';
+
+  h+='<div class="card"><div class="who"><div class="av">'+(S.photo?'<img src="'+esc(S.photo)+'" alt="'+esc(name)+'">':esc(name.charAt(0).toUpperCase()))+'</div>'
+   +'<div><h2 style="margin:0">Hi, I’m '+esc(name)+'</h2><div style="color:#b9bdd0;font-size:14px">Creator of Emerging Sciences</div></div></div>'
+   +'<p style="margin:12px 0 0">I am building this website to give IIT JAM, CUET PG, TIFR, GATE and CSIR NET students free lectures, notes and mock tests. Adding good content for every subject takes a lot of time and some tools that cost money, so I am asking for your support.</p>'
+   +'<div class="stats">'+st.map(function(s){return '<div class="stat"><b>'+s[0]+'</b><span>'+s[1]+'</span></div>'}).join('')+'</div></div>';
+
+  if((S.uses||[]).length){
+    h+='<div class="card"><h2>Where your money goes</h2><ul>'+S.uses.map(function(u){return '<li>'+esc(u)+'</li>'}).join('')+'</ul>'
+     +'<p style="margin:10px 0 0;color:#b9bdd0;font-size:14px">Nothing else. Every payment received and every rupee spent is listed in the public account book below.</p></div>';
+  }
+
+  h+='<div class="card"><h2>Support with UPI</h2>';
+  if(S.upi){
+    h+='<div class="upi" id="upiid">'+esc(S.upi)+'</div><br>';
+    h+='<button class="btn alt" id="copy">Copy UPI ID</button>';
+    h+='<a class="btn" id="pay" href="upi://pay?pa='+encodeURIComponent(S.upi)+'&pn='+encodeURIComponent(name)+'&cu=INR&tn='+encodeURIComponent('Emerging Sciences support')+'">Pay with UPI app</a>';
+    if(S.qr){h+='<img class="qr" src="'+esc(S.qr)+'" alt="UPI QR code of '+esc(name)+'">';}
+    h+='<p style="margin:10px 0 0;color:#b9bdd0;font-size:14px">The “Pay with UPI app” button works on a phone. On a computer, scan the QR or copy the UPI ID. Please check that the name shown is <b>'+esc(name)+'</b> before you pay.</p>';
+  }else{
+    h+='<p style="margin:0;color:#b9bdd0">UPI details will be added here very soon.</p>';
+  }
+  h+='</div>';
+
+  h+='<div class="card warn"><b>Stay safe.</b> This page is the only official place for payment details. Emerging Sciences will never ask you for your PIN or OTP, never send a “collect” request, and never call you for money. If someone does, it is not us.</div>';
+
+  h+='<div class="card"><h2>Public account book</h2>';
+  var L=(S.ledger||[]).slice(),tin=0,tout=0;
+  L.forEach(function(e){if(e.type==='in')tin+=+e.amt||0;else if(e.type==='out')tout+=+e.amt||0});
+  h+='<div class="tot"><div class="stat"><b class="in">'+rs(tin)+'</b><span>Received</span></div><div class="stat"><b class="out">'+rs(tout)+'</b><span>Spent</span></div><div class="stat"><b>'+rs(tin-tout)+'</b><span>Balance</span></div></div>';
+  if(L.length){
+    L.sort(function(a,b){return String(b.d).localeCompare(String(a.d))});
+    h+='<div class="scroll"><table class="tbl"><thead><tr><th>Date</th><th>Details</th><th>Amount</th></tr></thead><tbody>'
+     +L.map(function(e){var isIn=e.type==='in';
+        var det=isIn?('From '+esc(e.who||'Anonymous')+(e.note?' — '+esc(e.note):'')):(esc(e.note||'Expense')+(e.proof?' · <a href="'+esc(e.proof)+'" target="_blank" rel="noopener noreferrer">bill</a>':''));
+        return '<tr><td>'+esc(e.d)+'</td><td>'+det+'</td><td class="'+(isIn?'in':'out')+'">'+(isIn?'+':'−')+rs(e.amt)+'</td></tr>'}).join('')
+     +'</tbody></table></div>';
+  }else{
+    h+='<p style="margin:0;color:#b9bdd0">No entries yet. The first payment and the first expense will appear here.</p>';
+  }
+  h+='</div>';
+
+  h+='<div class="card"><h2>No money? You can still help</h2><ul>'
+   +'<li>Share the website with one friend preparing for an MSc entrance exam.</li>'
+   +'<li>Tell me which topics you need next.</li>'
+   +'<li>If you are a teacher or a topper and can contribute notes or a lecture, contact me — your name will be credited.</li></ul>'
+   +'<a class="btn alt" id="share" href="#">Share this website</a>'
+   +'<a class="btn alt" href="https://t.me/emer816" target="_blank" rel="noopener noreferrer">Telegram</a>'
+   +'<a class="btn alt" href="https://youtube.com/@EMS4518-k4s" target="_blank" rel="noopener noreferrer">YouTube</a>'
+   +'<a class="btn alt" href="https://x.com/emergingsc28041" target="_blank" rel="noopener noreferrer">X (Twitter)</a></div>';
+
+  root.innerHTML=h;
+
+  var c=document.getElementById('copy');
+  if(c)c.onclick=function(){
+    function done(){c.textContent='Copied ✓';setTimeout(function(){c.textContent='Copy UPI ID'},1800)}
+    if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(S.upi).then(done,function(){})}
+    else{var t=document.createElement('textarea');t.value=S.upi;document.body.appendChild(t);t.select();try{document.execCommand('copy');done()}catch(e){}document.body.removeChild(t)}
+  };
+  var sh=document.getElementById('share');
+  if(sh)sh.onclick=function(e){e.preventDefault();var u=location.origin+location.pathname.replace(/support\.html$/,'index.html');
+    if(navigator.share){navigator.share({title:'Emerging Sciences',text:'Free lectures, notes and mock tests for IIT JAM, CUET PG, TIFR, GATE and CSIR NET.',url:u}).catch(function(){})}
+    else if(navigator.clipboard){navigator.clipboard.writeText(u);sh.textContent='Link copied ✓'}};
+})();
+</script>
+</body>
+</html>

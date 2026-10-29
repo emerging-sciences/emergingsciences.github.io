@@ -45,6 +45,7 @@
       <a href="lectures.html" class="btn-primary">▶ Watch Lectures</a>
       <a href="material.html" class="btn-secondary">📄 Study Material</a>
       <a href="mock.html" class="btn-secondary">📝 Mock Tests</a>
+      <a href="support.html" class="btn-secondary">❤ Support</a>
     </div>
   </div>
 </section>
@@ -103,6 +104,8 @@
         <h3>Our Mission</h3>
         <p>Emerging Sciences exists to provide world-class preparation in Mathematics, Physics, Chemistry, Biotechnology and other subjects for <strong>IIT JAM, CUET PG, TIFR GS, GATE, CSIR NET, NBHM, ISI, CMI</strong> and other MSc-level entrance exams — completely free of cost.</p>
         <p>We believe that <strong>money should never stand in the way of quality education.</strong> Every lecture, note and PDF on this platform will always remain free.</p>
+        <p>Created by <strong id="es-creator">Piyush Agarwal</strong>. If this helped you, <a href="support.html">you can support it here →</a></p>
+        <div id="es-stats" style="display:flex;flex-wrap:wrap;gap:8px;margin-top:12px"></div>
       </div>
     </div>
   </div>
@@ -111,8 +114,20 @@
 <script src="nav.js" data-part="nav"></script>
 
 <script src="data.js"></script>
+<script src="support-data.js"></script>
 <script src="main.js"></script>
 <script src="app.js"></script>
+<script>
+(function(){try{
+  var D=window.ES_DATA||{},S=window.ES_SUPPORT||{};
+  var n=document.getElementById('es-creator');if(n&&S.name)n.textContent=S.name;
+  var box=document.getElementById('es-stats');if(!box)return;
+  [[(D.exams||[]).length,'Exams'],[(D.papers||[]).length,'Subjects'],[(D.lectures||[]).length,'Lectures'],[(D.material||[]).length,'PDFs / notes']].forEach(function(x){
+    var d=document.createElement('div');d.style.cssText='background:rgba(127,127,160,.15);border-radius:10px;padding:8px 14px;text-align:center;min-width:78px';
+    d.innerHTML='<b style="display:block;font-size:20px"></b><span style="font-size:12px;opacity:.8"></span>';
+    d.firstChild.textContent=x[0];d.lastChild.textContent=x[1];box.appendChild(d)});
+}catch(e){}})();
+</script>
 <script src="https://cdn.botpress.cloud/webchat/v5.0/inject.js"></script>
 <script src="https://files.bpcontent.cloud/2026/09/27/17/20260927173023-HO130OD7.js" defer></script>
 <script>
