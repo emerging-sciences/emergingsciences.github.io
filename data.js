@@ -1077,7 +1077,7 @@ window.ES_DATA = {
 // ES Subject IDs
 "es-earth", "es-chem", "es-life", "es-eco", "es-micro", "es-res", "es-glob", "es-poll", "es-waste", "es-inst",
     "mb-mic", "mb-cag", "mb-bioc", "mb-phys", "mb-biot", "mb-imm", "bc-intro", "bc-biom", "bc-cbbb", "bc-nuam", "bc-bam", "bc-miae", "bc-hpcb", "bc-mbgi" 
-    "biss-u1", "biss-u2", "biss-u3", "biss-u4", "biss-u5", "biss-u6", "biss-u7", "biss-u8"
+    "biis-u1", "biis-u2", "biis-u3", "biis-u4", "biis-u5", "biis-u6", "biis-u7", "biis-u8"
    ]
   },
   {
