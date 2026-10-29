@@ -7,7 +7,7 @@ window.ES_SUPPORT = {
   "photo": "",
 
   // Your PUBLIC UPI id (people can only SEND money to it, never take). Example: "yourname@okhdfcbank". Leave "" until ready.
-  "upi": "",
+  "upi": "piyush4518@axl",
 
   // QR image downloaded from your UPI app (e.g. upi-qr.png), uploaded to the repo. Leave "" if none.
   "qr": "",
