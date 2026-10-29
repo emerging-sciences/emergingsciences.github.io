@@ -968,7 +968,10 @@ window.ES_DATA = {
     "ph-emt",
     "ph-ktt",
     "ph-mopy",
-    "ph-sspe"
+    "ph-sspe",
+    "cy-pc",
+    "cy-oc",
+    "cy-ic"
    ]
   },
   {
