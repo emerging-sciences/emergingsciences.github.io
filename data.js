@@ -530,7 +530,7 @@ window.ES_DATA = {
 { "id": "st-est", "name": "Estimation Theory and Confidence Intervals", "icon": "🎯", "p": "st", "live": true },
 { "id": "st-test", "name": "Testing of Hypotheses", "icon": "⚖️", "p": "st", "live": true },
 { "id": "st-samp", "name": "Sampling and Design of Experiments", "icon": "🧪", "p": "st", "live": true },
-  {"id": "ph-qppp", "name": "Quantum Mechanics and Practical Physics", "icon": "⚛️", "p": "py", "live": true}
+  {"id": "ph-qppp", "name": "Quantum Mechanics and Practical Physics", "icon": "⚛️", "p": "ph", "live": true}
  ],
 
  "lectures": [
