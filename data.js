@@ -515,7 +515,12 @@ window.ES_DATA = {
 { "id": "biis-u5", "name": "Genetic Engineering, Gene Sequencing & RDT", "icon": "🧬", "p": "biis", "live": true },
 { "id": "biis-u6", "name": "Bio-Physics", "icon": "⚛️", "p": "biis", "live": true },
 { "id": "biis-u7", "name": "Fundamentals of IT & Computer Programming", "icon": "💻", "p": "biis", "live": true },
-{ "id": "biis-u8", "name": "Basics of Bio-Informatics", "icon": "🗄️", "p": "biis", "live": true }
+{ "id": "biis-u8", "name": "Basics of Bio-Informatics", "icon": "🗄️", "p": "biis", "live": true },
+  { "id": "gg-geodyn", "name": "Geodynamics and Environmental Geology", "icon": "🌋", "p": "gg", "live": true },
+{ "id": "gg-hydro", "name": "Hydrology and Physical Geology", "icon": "🌊", "p": "gg", "live": true },
+{ "id": "gg-rsgis", "name": "Fundamentals of Remote Sensing and GIS", "icon": "🛰️", "p": "gg", "live": true },
+{ "id": "gg-cryst", "name": "Crystallography and Mineralogy", "icon": "💎", "p": "gg", "live": true },
+{ "id": "gg-geochem", "name": "Geochemistry", "icon": "⚗️", "p": "gg", "live": true }
  ],
 
  "lectures": [
@@ -1077,8 +1082,13 @@ window.ES_DATA = {
 "es-earth", "es-chem", "es-life", "es-eco", "es-micro", "es-res", "es-glob", "es-poll", "es-waste", "es-inst",
     "mb-mic", "mb-cag", "mb-bioc", "mb-phys", "mb-biot", "mb-imm", "bc-intro", "bc-biom", "bc-cbbb", "bc-nuam", "bc-bam", "bc-miae", "bc-hpcb", "bc-mbgi",
     "biis-u1", "biis-u2", "biis-u3", "biis-u4", "biis-u5", "biis-u6", "biis-u7", "biis-u8",
-    "gg-planet", "gg-struct", "gg-strat", "gg-peteco"
-   ]
+    "gg-planet", "gg-struct", "gg-strat", "gg-peteco", "gg-geodyn", 
+  "gg-hydro", 
+  "gg-rsgis", 
+  "gg-cryst", 
+  "gg-geochem"
+]
+   
   },
   {
    "id": "tifr",
