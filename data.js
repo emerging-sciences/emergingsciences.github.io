@@ -1029,7 +1029,7 @@ window.ES_DATA = {
     "ma",
     "ph",
     "cy",
-    "bt",
+    
     "bc",
     "bo",
     "zo",
