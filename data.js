@@ -520,7 +520,16 @@ window.ES_DATA = {
 { "id": "gg-hydro", "name": "Hydrology and Physical Geology", "icon": "🌊", "p": "gg", "live": true },
 { "id": "gg-rsgis", "name": "Fundamentals of Remote Sensing and GIS", "icon": "🛰️", "p": "gg", "live": true },
 { "id": "gg-cryst", "name": "Crystallography and Mineralogy", "icon": "💎", "p": "gg", "live": true },
-{ "id": "gg-geochem", "name": "Geochemistry", "icon": "⚗️", "p": "gg", "live": true }
+{ "id": "gg-geochem", "name": "Geochemistry", "icon": "⚗️", "p": "gg", "live": true },
+  { "id": "st-seq", "name": "Sequences, Series and Calculus", "icon": "📈", "p": "st", "live": true },
+{ "id": "st-mat", "name": "Matrices and Differential Equations", "icon": "📊", "p": "st", "live": true },
+{ "id": "st-desc", "name": "Descriptive Statistics and Probability", "icon": "📉", "p": "st", "live": true },
+{ "id": "st-rand", "name": "Random Variables and Expectations", "icon": "🎲", "p": "st", "live": true },
+{ "id": "st-dist", "name": "Probability Distributions", "icon": "📋", "p": "st", "live": true },
+{ "id": "st-joint", "name": "Joint Distributions, Regression and Limit Theorems", "icon": "🔗", "p": "st", "live": true },
+{ "id": "st-est", "name": "Estimation Theory and Confidence Intervals", "icon": "🎯", "p": "st", "live": true },
+{ "id": "st-test", "name": "Testing of Hypotheses", "icon": "⚖️", "p": "st", "live": true },
+{ "id": "st-samp", "name": "Sampling and Design of Experiments", "icon": "🧪", "p": "st", "live": true }
  ],
 
  "lectures": [
@@ -1086,7 +1095,16 @@ window.ES_DATA = {
   "gg-hydro", 
   "gg-rsgis", 
   "gg-cryst", 
-  "gg-geochem"
+  "gg-geochem",
+   "st-seq",
+  "st-mat",
+  "st-desc",
+  "st-rand",
+  "st-dist",
+  "st-joint",
+  "st-est",
+  "st-test",
+  "st-samp" 
 ]
    
   },
