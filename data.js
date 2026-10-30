@@ -963,7 +963,7 @@ window.ES_DATA = {
   }
  ],
  "links": {
-  "youtube": "https://youtube.com/@EMS4518-k4s",
+  "youtube": "https://youtube.com/@EmergingSciences-msc",
   "telegram": "https://t.me/emer816",
   "x": "https://x.com/emergingsc28041"
  },
