@@ -10,10 +10,10 @@
 window.ES_SHEETS = {
   "pub": "",
   "gids": {
-    "topics": "",
-    "lectures": "",
-    "material": "",
-    "pyqs": "",
-    "syllabus": ""
+    "topics": "1620203926",
+    "lectures": "1341403059",
+    "material": "1816843360",
+    "pyqs": "635064816",
+    "syllabus": "1520554413"
   }
 };
