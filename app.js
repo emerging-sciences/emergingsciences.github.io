@@ -38,7 +38,7 @@ function subjCards(page,ex,p){page=page||'lectures';const d=done(),q=`?e=${ex.id
    return `<a class="a-card" href="mock.html${q}${s.id}"><span class="ic">${s.icon}</span><h3>${s.name}</h3><small>${T.length} test${T.length==1?'':'s'}</small></a>`}
   if(page=='material'){const M=D.material.filter(m=>m.s==s.id);if(!M.length)return `<div class="a-card dim"><span class="ic">${s.icon}</span><h3>${s.name}</h3><small>Coming soon</small></div>`;return `<a class="a-card" href="material.html${q}${s.id}"><span class="ic">${s.icon}</span><h3>${s.name}</h3><small>${M.length} PDF${M.length==1?'':'s'}</small></a>`}
   if(!s.live)return `<div class="a-card dim"><span class="ic">${s.icon}</span><h3>${s.name}</h3><small>Coming soon</small></div>`;
-  const L=LECS(s.id),c=L.filter(l=>d[l.id]).length;return `<a class="a-card" href="lectures.html${q}${s.id}"><span class="ic">${s.icon}</span><h3>${s.name}</h3><small>${L.length} lectures · ${c}/${L.length} completed</small><div class="bar"><i style="width:${L.length?c/L.length*100:0}%"></i></div></a>`}).join('')+`</div>`}
+  const L=LECS(s.id),c=L.filter(l=>d[l.id]).length;return `<a class="a-card" href="lectures.html${q}${s.id}"><span class="ic">${s.icon}</span><h3>${s.name}</h3><small>${L.length} lectures · ${c}/${L.length} completed</small><div class="bar"><i style="width:${L.length?c/L.length*100:0}%"></i></div></a>`}).join('')+`${p&&!list.length?`<div class="a-card dim"><span class="ic">📚</span><h3>Topics</h3><small>Coming soon</small></div>`:''}</div>`}
 function resolve(){const sid=P.get('s'),sub=sid=='full'?{id:'full',name:'Full-Length Mock Tests',icon:'📝',live:true}:S(sid);let ex=EX(P.get('e'));if(sub&&(!ex||(sid!='full'&&!ex.subjects.includes(sub.id))))ex=sid=='full'?ex:examOf(sub.id);let p=null;if(ex&&hasP(ex)){const ok=x=>ex.papers.includes(x)?x:ex.papers[0];if(sub&&sid!='full')p=ok(subP(sub));else{const q=P.get('p');p=ex.papers.includes(q)?q:(sub?ex.papers[0]:null)}}
  return {ex,sub:ex?sub:null,p}}
 function stepView(page,ex,p){const hp=hasP(ex),c=`${cd(ex)} (${esc(ex.dateText)}, ${esc(ex.note)})`;
@@ -83,7 +83,7 @@ window.ES={
  save(id,b){const on=toggle('saved',id);b.textContent=on?'🔖 Saved':'🔖 Save'}};
 const R={
 home(el){el.innerHTML=`<section class="section"><div class="section-inner"><div id="dash" class="a-grid3"></div></div></section>`;dash();
- const xl=$('#exam-list');if(xl)xl.innerHTML=D.exams.map(examCard).join('')+`<div class="exam-card x-card"><div class="exam-icon" style="background:#9333EA22;color:#C084FC">MSc<br>+</div><div class="x-body"><div class="exam-name">Other MSc Entrances</div><div class="exam-desc">DU, BHU, JNU and many other central and state universities admit to M.Sc. programmes in Mathematics, Physics, Chemistry, Biotechnology and more through CUET PG or their own entrance tests — the CUET PG and IIT JAM content covers the core syllabus.</div><div class="x-btns"><a class="x-go" href="lectures.html?e=cuetpg">▶ Start with CUET PG</a></div></div></div>`},
+ const xl=$('#exam-list');if(xl)xl.innerHTML=D.exams.map(examCard).join('')+`<div class="exam-card x-card"><div class="exam-icon" style="background:#9333EA22;color:#C084FC">MSc<br>+</div><div class="x-body"><div class="exam-name">Other MSc Entrances</div><div class="exam-desc">DU, BHU, JNU and many other central and state universities admit to M.Sc. Mathematics through CUET PG or their own entrance tests — the CUET PG and IIT JAM content covers the core syllabus.</div><div class="x-btns"><a class="x-go" href="lectures.html?e=cuetpg">▶ Start with CUET PG</a></div></div></div>`},
 lectures(el){const {ex,sub,p}=resolve();if(!ex){el.innerHTML=chooser('lectures');return}
  if(!sub||!sub.live){el.innerHTML=stepView('lectures',ex,p);return}
  const s=sub.id,L=LECS(s),c=L.filter(l=>done()[l.id]).length,f=P.get('f')||'all';
@@ -146,5 +146,20 @@ const fq=document.getElementById('faq');
 if(fq&&D.faq&&D.faq.length)fq.innerHTML='<h3 class="a-h" style="margin-top:2.5rem">Frequently asked</h3><div class="faq">'+D.faq.map(f=>`<details><summary>${esc(f.q)}</summary><p>${esc(f.a)}</p></details>`).join('')+'</div>';
 const dx=document.getElementById('doubt-extra');
 if(dx&&D.doubtLinks&&D.doubtLinks.length)dx.innerHTML='<div style="margin-top:3rem;border-top:1px solid #ffffff22;padding-top:2rem"><div class="btns">'+D.doubtLinks.map(l=>`<a href="${l.url}" target="_blank" rel="noopener">${esc(l.label)}</a>`).join('')+'</div></div>';
-const el=$('#app');if(el&&R[el.dataset.page])R[el.dataset.page](el);
+const el=$('#app');if(el&&R[el.dataset.page]){R[el.dataset.page](el);try{seo(el.dataset.page)}catch(e){}}
+/* ---- page title + description per exam / subject / topic (helps Google and browser tabs) ---- */
+function seo(page){
+ if(!['lectures','material','mock'].includes(page))return;
+ const {ex,sub,p}=resolve(),sp=P.get('s'),pp=ex&&hasP(ex)&&p?PAP(p):null,nm=pageTitle[page];
+ const who=ex?ex.short+(pp?' '+pp.name:''):'';
+ let t,d;
+ if(!ex){t=nm+' for IIT JAM, CUET PG, TIFR, GATE & CSIR NET';d='Free '+nm.toLowerCase()+' for IIT JAM, CUET PG, TIFR, GATE, CSIR NET, NBHM, ISI and CMI. Choose your exam to start.'}
+ else if(page=='material'&&sp=='syllabus'){t=who+' Syllabus';d='Official '+who+' syllabus with links, free on Emerging Sciences.'}
+ else if(page=='material'&&sp=='pyqs'){t=who+' Previous Year Question Papers (PYQ)';d='Year-wise '+who+' previous year question papers (PYQ) with answer keys, free on Emerging Sciences.'}
+ else if(sub){t=who+' '+sub.name+(sub.id=='full'?'':' — '+nm);d='Free '+nm.toLowerCase()+' for '+who+' '+sub.name+' on Emerging Sciences.'}
+ else{t=who+' '+nm;d='Free '+nm.toLowerCase()+' for '+who+(pp||ex.name==ex.short?'':' ('+ex.name+')')+'. Syllabus, PYQs, lectures, notes and mock tests on Emerging Sciences.'}
+ document.title=t+' — Emerging Sciences';
+ let m=document.querySelector('meta[name="description"]');if(!m){m=document.createElement('meta');m.name='description';document.head.appendChild(m)}
+ m.setAttribute('content',d);
+}
 })();
