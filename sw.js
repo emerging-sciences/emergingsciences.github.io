@@ -1,4 +1,4 @@
-const CACHE = "emerging-sciences-v8";
+const CACHE = "emerging-sciences-v9";
 
 // Core pages and assets to keep available offline
 const CORE = [
@@ -21,6 +21,8 @@ const CORE = [
   "./style.css",
   "./app.css",
   "./app.js",
+  "./app-core.js",
+  "./sheet-config.js",
   "./data.js",
   "./main.js",
   "./logo-icon.png",
