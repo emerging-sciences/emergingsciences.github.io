@@ -8,7 +8,7 @@
 // Check: open this in a browser, a CSV file should download:
 //    https://docs.google.com/spreadsheets/d/e/<pub>/pub?gid=<topics gid>&single=true&output=csv
 window.ES_SHEETS = {
-  "pub": "",
+  "pub": "2PACX-1vSnjZQXZR5ljSfkAs2UimMmuDA9RCOL-5107XFcvaL0I8pLfTVcVNMIrh7LEbvdrMZYig3YcFyF0vJ-",
   "gids": {
     "topics": "1620203926",
     "lectures": "1341403059",
