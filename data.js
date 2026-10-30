@@ -819,7 +819,7 @@ window.ES_DATA = {
   {
    "id": "m11",
    "t": "Series PYQs",
-   "d": "Chapter 04 · IIT JAM PYQs",
+   "d": "Chapter 03 · IIT JAM PYQs",
    "k": "PYQ",
    "s": "ra",
    "drive": "1SVOy9FxNQ5sQhPeT9att3y4D-Ryt-pba"
