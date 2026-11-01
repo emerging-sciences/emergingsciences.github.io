@@ -1,0 +1,51 @@
+/* ==========================================================================
+   Emerging Sciences — THEME (ek hi jagah se poora design)
+   Colors / look badalna ho to sirf yahi file edit karo.
+   ========================================================================== */
+:root{
+  /* ---- PALETTE (Lovable site ke colors yahan aayenge) ---- */
+  --bg:#06070d;                      /* page background (Lovable theme-color) */
+  --surface:#0d0f1a;                 /* cards */
+  --surface2:#131625;                /* hover / raised cards */
+  --border:rgba(255,255,255,.08);
+  --border-strong:rgba(255,255,255,.16);
+  --text:#ECEEF5;
+  --text2:#A6ABBE;
+  --text3:#737891;
+  --blue:#4F8CFF;                    /* main accent */
+  --blue-dark:#2563EB;
+  --blue-light:rgba(79,140,255,.12);
+  --blue-mid:rgba(79,140,255,.25);
+  --green:#34D399;
+  --radius:14px;
+}
+body{background:var(--bg)!important;color:var(--text)}
+.hero,.section-alt,.page-hero,.stats-bar{background:var(--bg)}
+.hdr{background:rgba(6,7,13,.92)}
+.bnav{background:rgba(13,15,26,.97)}
+#splash{background:var(--bg)}
+.a-card,.exam-card,.a-row{background:var(--surface)}
+a.a-card:hover,.a-row:hover,.exam-card:hover{background:var(--surface2)}
+
+/* ---- Home: hero ---- */
+.free-pill{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--blue-mid);background:var(--blue-light);color:var(--blue);border-radius:99px;padding:6px 16px;font-size:12.5px;font-weight:600;margin-bottom:1.25rem}
+.hero-inner{padding:3.5rem 1.25rem 2.5rem}
+.hero-btns{margin-bottom:0}
+
+/* ---- Home: counts (kitne lectures, notes, mocks, exams) ---- */
+.stats-row{max-width:900px;margin:0 auto;padding:0 1.25rem;display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.stat-box{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:16px 8px;text-align:center}
+.stat-box b{display:block;font-family:var(--font-d);font-size:1.7rem;line-height:1.1;color:var(--blue)}
+.stat-box span{display:block;margin-top:4px;font-size:12px;color:var(--text2)}
+@media(max-width:560px){.stats-row{grid-template-columns:repeat(2,1fr)}}
+#app[data-page="home"] .section{padding-bottom:1rem}
+
+/* ---- Lectures: thumbnail + title ---- */
+.a-row.lec{padding:10px;gap:14px;align-items:center;margin:10px 0}
+.lec-th{position:relative;flex:0 0 132px;aspect-ratio:16/9;border-radius:10px;overflow:hidden;background:var(--blue-light)}
+.lec-th img{width:100%;height:100%;object-fit:cover;display:block}
+.lec-th .ln{position:absolute;left:6px;bottom:6px;background:rgba(0,0,0,.78);color:#fff;font:700 11px var(--font-d);padding:2px 7px;border-radius:6px;letter-spacing:.4px}
+.a-row.lec .tt{min-width:0;display:flex;flex-direction:column;gap:6px}
+.a-row.lec .lt{font-size:14.5px;font-weight:500;line-height:1.4;color:var(--text);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.a-row.lec .lm{display:flex;align-items:center;gap:6px;flex-wrap:wrap;font-size:13px}
+@media(max-width:420px){.lec-th{flex-basis:108px}.a-row.lec .lt{font-size:13.5px}}

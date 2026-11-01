@@ -51,7 +51,7 @@ function paperCards(page,ex){return `<div class="a-grid">`+papersOf(ex).map(pp=>
   else if(page=='material'){const k=T.reduce((a,s)=>a+D.material.filter(m=>m.s==s.id).length,0);n=k?k+' PDFs · Syllabus · PYQs':'Syllabus & PYQs'}
   else{const k=(D.mocks||[]).filter(m=>m.e==ex.id&&(m.s=='full'?(m.p||DEFP)==pp.id:T.some(s=>s.id==m.s))).length;n=k?k+' test'+(k==1?'':'s'):'Syllabus & PYQs · tests coming soon'}
   return `<a class="a-card" href="${page}.html?e=${ex.id}&p=${pp.id}"><span class="ic">${pp.icon}</span><h3>${esc(pp.name)}</h3><small>${n}</small></a>`}).join('')+`</div>`}
-function lecRow(l){const d=done(),sv=saved(),e=P.get('e');return `<a class="a-row" href="watch.html?id=${l.id}${e?'&e='+encodeURIComponent(e):''}"><span class="num">${l.n}</span><span class="tt">${esc(l.t)}</span><span class="tag">${l.k=='P'?'Practice':'Theory'}</span><span>${d[l.id]?'✅':''}${sv[l.id]?'🔖':''}</span></a>`}
+function lecRow(l){const d=done(),sv=saved(),e=P.get('e');return `<a class="a-row lec" href="watch.html?id=${l.id}${e?'&e='+encodeURIComponent(e):''}"><span class="lec-th"><img loading="lazy" src="https://i.ytimg.com/vi/${encodeURIComponent(l.yt)}/mqdefault.jpg" alt=""><span class="ln">${esc(l.n)}</span></span><span class="tt"><span class="lt">${esc(l.t)}</span><span class="lm"><span class="tag">${l.k=='P'?'Practice':'Theory'}</span><span>${d[l.id]?'✅':''}${sv[l.id]?'🔖':''}</span></span></span></a>`}
 function matCard(m){const sv=saved();return `<div class="a-card"><h3>${esc(m.t)}</h3><small>${esc(m.d)}</small><div class="tags"><span class="tag">${m.k}</span><span class="tag">${S(m.s).name}</span></div>
  <div class="btns"><button onclick="ES.read('${m.id}')">📖 Read</button><a href="https://drive.google.com/uc?export=download&id=${m.drive}" target="_blank" rel="noopener">⬇ Download</a><button onclick="ES.save('${m.id}',this)">${sv[m.id]?'🔖 Saved':'🔖 Save'}</button></div></div>`}
 /* ---- Syllabus + year-wise PYQs (data.js: syllabus, pyqs, pyqPortals) ---- */
@@ -84,6 +84,7 @@ window.ES={
  save(id,b){const on=toggle('saved',id);b.textContent=on?'🔖 Saved':'🔖 Save'}};
 const R={
 home(el){el.innerHTML=`<section class="section"><div class="section-inner"><div id="dash" class="a-grid3"></div></div></section>`;dash();
+ const sb=$('#es-stats');if(sb)sb.innerHTML=[[D.lectures.length,'Lectures'],[D.material.length,'Notes & PDFs'],[(D.mocks||[]).length,'Mock Tests'],[(D.exams||[]).length,'Exams']].map(x=>`<div class="stat-box"><b>${x[0]}</b><span>${x[1]}</span></div>`).join('');
  const xl=$('#exam-list');if(xl)xl.innerHTML=D.exams.map(examCard).join('')+`<div class="exam-card x-card"><div class="exam-icon" style="background:#9333EA22;color:#C084FC">MSc<br>+</div><div class="x-body"><div class="exam-name">Other MSc Entrances</div><div class="exam-desc">DU, BHU, JNU and many other central and state universities admit to M.Sc. programmes in Mathematics, Physics, Chemistry, Biotechnology and more through CUET PG or their own entrance tests — the CUET PG and IIT JAM content covers the core syllabus.</div><div class="x-btns"><a class="x-go" href="lectures.html?e=cuetpg">▶ Start with CUET PG</a></div></div></div>`},
 lectures(el){const {ex,sub,p}=resolve();if(!ex){el.innerHTML=chooser('lectures');return}
  if(!sub||!sub.live){el.innerHTML=stepView('lectures',ex,p);return}
