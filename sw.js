@@ -1,4 +1,4 @@
-const CACHE = "emerging-sciences-v11";
+const CACHE = "emerging-sciences-v10";
 
 // Core pages and assets to keep available offline
 const CORE = [
@@ -56,9 +56,7 @@ self.addEventListener("fetch", (event) => {
   }
 
   event.respondWith(
-    // no-cache = har baar server se poochho (304 = sasta). GitHub Pages ka 10 min cache bypass hota hai,
-    // isliye naya lecture/material 2-4 min me website + app dono me dikhta hai.
-    fetch(req, { cache: "no-cache" })
+    fetch(req)
       .then((res) => {
         const copy = res.clone();
         caches.open(CACHE).then((cache) => cache.put(req, copy));

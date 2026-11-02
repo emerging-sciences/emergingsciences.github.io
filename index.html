@@ -100,62 +100,6 @@
   </div>
 </section>
 
-<!-- GET THE APP -->
-<section class="section" id="get-app">
-  <style>
-    #get-app .app-card{display:flex;gap:18px;align-items:flex-start;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:22px}
-    #get-app .app-ico{width:64px;height:64px;border-radius:16px;flex:none}
-    #get-app h3{margin:0 0 6px;font-size:1.15rem}
-    #get-app p{margin:0 0 12px;color:var(--text2);line-height:1.6}
-    #get-app .app-actions{display:flex;flex-wrap:wrap;align-items:center;gap:12px;margin:14px 0}
-    #get-app .app-dl{display:inline-block;background:var(--blue);color:#fff;font-weight:600;padding:12px 20px;border-radius:12px;text-decoration:none}
-    #get-app .app-ver{color:var(--text3);font-size:.85rem}
-    #get-app details{border-top:1px solid var(--border);padding-top:12px;margin-top:6px}
-    #get-app summary{cursor:pointer;font-weight:600}
-    #get-app ol{margin:12px 0 0;padding-left:20px;color:var(--text2);line-height:1.7}
-    #get-app .app-warn{margin-top:12px;padding:10px 12px;border-radius:10px;background:var(--blue-light);color:var(--text);font-size:.9rem}
-    @media(max-width:560px){#get-app .app-card{flex-direction:column}}
-  </style>
-  <div class="section-inner">
-    <div class="sec-label">Android App</div>
-    <div class="app-card">
-      <img class="app-ico" src="icon-192.png" alt="Emerging Sciences app icon">
-      <div>
-        <h3>Emerging Sciences &mdash; Android App (Free)</h3>
-        <p>Lectures, notes, PYQ aur mock tests &mdash; sab kuch app me. Website par naya lecture ya material judte hi app me bhi aa jaata hai, alag se update karne ki zaroorat nahi.</p>
-        <div class="app-actions">
-          <a class="app-dl" id="apkBtn" href="https://github.com/emerging-sciences/emergingsciences.github.io/releases/latest/download/EmergingSciences.apk" rel="noopener">&#11015; APK Download</a>
-          <span class="app-ver" id="apkVer"></span>
-        </div>
-        <details>
-          <summary>Install kaise kare? (Safety guide)</summary>
-          <ol>
-            <li><b>APK Download</b> dabao. Browser warning de ("ye file harmful ho sakti hai") to <b>Download anyway / Keep</b> dabao &mdash; Chrome har APK par ye dikhata hai.</li>
-            <li>Download hui file kholo. "Install unknown apps" aaye to <b>Settings</b> kholo, apne browser (Chrome) ke liye <b>Allow from this source</b> ON karo, phir back aao.</li>
-            <li>Play Protect "App blocked / scan" dikhaye to <b>More details &rarr; Install anyway</b> dabao. App sirf internet use karta hai, koi personal permission nahi maangta.</li>
-            <li>Install hone ke baad <b>Open</b> karo. Safety ke liye Settings me wo <b>Allow from this source</b> wapas OFF kar do.</li>
-            <li>Naya version aane par app khud <b>"Update karo"</b> dikhayega. Study content ke liye update ki zaroorat nahi, wo automatic hai.</li>
-          </ol>
-          <div class="app-warn">&#9888; APK sirf isi website se download karo. WhatsApp / Telegram par kisi ne bheji APK install mat karo. "App not installed" aaye to purana version uninstall karke dobara install karo.</div>
-        </details>
-        <p style="margin-top:14px;font-size:.9rem">iPhone ya laptop: browser menu &rarr; <b>Add to Home Screen</b> / <b>Install</b>.</p>
-      </div>
-    </div>
-  </div>
-</section>
-<script>
-(function(){
-  var sec=document.getElementById('get-app');
-  // App ke andar ya installed PWA me ye section chhupa do
-  if(/EmergingSciencesApp/.test(navigator.userAgent)||(window.matchMedia&&matchMedia('(display-mode: standalone)').matches)){sec.style.display='none';return;}
-  fetch('app-version.json',{cache:'no-cache'}).then(function(r){return r.ok?r.json():null}).then(function(j){
-    if(!j)return;
-    if(j.apk)document.getElementById('apkBtn').href=j.apk;
-    if(j.version)document.getElementById('apkVer').textContent='Version '+j.version;
-  }).catch(function(){});
-})();
-</script>
-
 <!-- ABOUT -->
 <section class="section section-alt" id="about">
   <div class="section-inner">
