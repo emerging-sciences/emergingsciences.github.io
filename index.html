@@ -31,6 +31,25 @@
     .hdr-r{gap:2px}
   }
 </style>
+<style>
+  /* Android app download section */
+  .es-app{border:1px solid var(--border);background:var(--surface);border-radius:14px;padding:1.5rem;max-width:800px;margin:0 auto}
+  .es-app-top{display:flex;gap:1rem;align-items:center;flex-wrap:wrap}
+  .es-app-top img{width:56px;height:56px;border-radius:14px;flex-shrink:0}
+  .es-app-top .t{flex:1;min-width:200px}
+  .es-app-top b{display:block;font-family:var(--font-d);font-size:16.5px;color:var(--text)}
+  .es-app-top span{font-size:13px;color:var(--text2)}
+  .es-app-feat{display:flex;flex-wrap:wrap;gap:8px;margin:1rem 0 1.1rem}
+  .es-app-feat span{font-size:12px;color:var(--text2);border:1px solid var(--border);border-radius:99px;padding:4px 11px}
+  .es-app-btns{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+  .es-app-btns a{text-decoration:none}
+  .es-guide{margin-top:1.1rem;border-top:1px solid var(--border);padding-top:1rem}
+  .es-guide summary{cursor:pointer;font-weight:600;color:var(--text);font-size:14.5px}
+  .es-guide ol,.es-guide ul{margin:.8rem 0 0;padding-left:1.25rem;color:var(--text2);font-size:13.5px;line-height:1.65}
+  .es-guide li{margin-bottom:.45rem}
+  .es-guide h4{margin:1.1rem 0 0;font-size:13.5px;color:var(--text)}
+  .es-guide .note{margin-top:1rem;padding:.8rem 1rem;border-radius:10px;background:var(--blue-light);color:var(--text2);font-size:13px;line-height:1.6}
+</style>
 </head>
 <body>
 <div id="splash"><img src="logo-full.png" alt=""><b>Emerging Sciences</b></div>
@@ -58,6 +77,45 @@
 
 <!-- MAIN APP CONTENT CONTAINER (daily goal, streak, next exam) -->
 <main id="app" data-page="home"></main>
+
+<!-- ANDROID APP -->
+<section class="section" id="app-download">
+  <div class="section-inner">
+    <div class="sec-label">Android App</div>
+    <h2 class="sec-title">Get the Emerging Sciences app</h2>
+    <p class="sec-sub">The same free lectures, notes, PYQs and mock tests, in a fast app. Whenever we add a new lecture or PDF to the website, it shows up in the app automatically &mdash; you never have to update anything.</p>
+    <div class="es-app">
+      <div class="es-app-top">
+        <img src="logo-icon.png" alt="Emerging Sciences app icon" width="56" height="56">
+        <div class="t"><b>Emerging Sciences &mdash; Android app</b><span>100% free &middot; no login &middot; no ads &middot; Android phones (APK, about 20 MB)</span></div>
+      </div>
+      <div class="es-app-feat">
+        <span>▶ Lectures with speed control</span><span>📄 Notes &amp; PYQs</span><span>📝 Mock tests</span><span>🔥 Daily goal &amp; streak</span><span>🔄 Auto-updating content</span>
+      </div>
+      <div class="es-app-btns">
+        <a class="btn-primary" id="es-apk-btn" href="https://github.com/emerging-sciences/emergingsciences.github.io/releases/latest/download/EmergingSciences.apk" rel="noopener">⬇ Download the app (APK)</a>
+        <a class="btn-secondary" href="#es-install-guide" onclick="var d=document.getElementById('es-install-guide');if(d)d.open=true">How to install</a>
+      </div>
+      <details class="es-guide" id="es-install-guide">
+        <summary>📖 How to install the app safely (step by step)</summary>
+        <ol>
+          <li>Tap <b>Download the app (APK)</b>. If your browser says <i>&ldquo;This type of file can harm your device&rdquo;</i>, tap <b>Download anyway</b>. Every app installed from outside the Play Store shows this standard warning.</li>
+          <li>Open the downloaded file <b>EmergingSciences.apk</b> (from the notification or from <b>Files &rarr; Downloads</b>).</li>
+          <li>If Android says <i>&ldquo;For your security, your phone is not allowed to install unknown apps from this source&rdquo;</i>, tap <b>Settings</b>, switch on <b>Allow from this source</b>, go back and tap <b>Install</b>. (Source = the browser or Files app you opened the APK from.)</li>
+          <li>If <b>Play Protect</b> shows <i>&ldquo;Blocked / Unsafe app&rdquo;</i> or <i>&ldquo;App not scanned&rdquo;</i>, tap <b>More details</b> &rarr; <b>Install anyway</b>. This appears only because the app is not on the Play Store yet.</li>
+          <li>Tap <b>Open</b>. That&rsquo;s it &mdash; you can switch &ldquo;Allow from this source&rdquo; off again.</li>
+        </ol>
+        <h4>Stay safe</h4>
+        <ul>
+          <li>Download the app <b>only from this website&rsquo;s button</b>. Never install an &ldquo;Emerging Sciences&rdquo; APK that was forwarded in WhatsApp, Telegram or other groups.</li>
+          <li>The app asks for no permissions except <b>Internet</b>. It never needs your OTP, bank details or login. If any app named Emerging Sciences asks for these, do not install it.</li>
+          <li>New versions: the app shows an <b>&ldquo;update available&rdquo;</b> card. Tap it, download, and install over the old app &mdash; your saved items and progress stay.</li>
+        </ul>
+        <div class="note"><b>Install nahi ho raha?</b> APK dobara download karo, &ldquo;Allow from this source&rdquo; ON karo, aur Play Protect me <b>Install anyway</b> dabao. iPhone par app nahi chalta &mdash; Safari me website kholo &rarr; Share &rarr; <b>Add to Home Screen</b>.</div>
+      </details>
+    </div>
+  </div>
+</section>
 
 <!-- EXAMS -->
 <section class="section" id="exams">
