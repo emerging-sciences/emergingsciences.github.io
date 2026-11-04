@@ -9,7 +9,8 @@ const done=()=>LS.g('done',{}), saved=()=>LS.g('saved',{}), study=()=>LS.g('stud
 const goal=()=>(LS.g('goal',D.goalMin))*60;
 function toggle(key,id){const o=LS.g(key,{});o[id]?delete o[id]:o[id]=1;LS.s(key,o);return !!o[id]}
 function streak(){const st=study(),g=goal();let n=0,d=new Date();if((st[day(d)]||0)<g)d.setDate(d.getDate()-1);while((st[day(d)]||0)>=g){n++;d.setDate(d.getDate()-1)}return n}
-function addSec(){const st=study(),k=day();st[k]=(st[k]||0)+1;LS.s('study',st);dash()}
+window.addEventListener('es-study',()=>{try{dash()}catch(e){}});
+function addSec(){if(window.ESFocus&&ESFocus.active())return;const st=study(),k=day();st[k]=(st[k]||0)+1;LS.s('study',st);dash()}
 const EX=id=>(D.exams||[]).find(x=>x.id==id), examOf=sid=>(D.exams||[]).find(x=>x.subjects.includes(sid));
 const days=e=>{const t=new Date();t.setHours(0,0,0,0);return Math.round((new Date(e.date+'T00:00:00')-t)/864e5)};
 const cd=e=>{const d=days(e);return d>0?`<b>${d}</b> day${d==1?'':'s'} left`:d==0?'<b>Today</b>':'Exam held · next date awaited'};

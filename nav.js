@@ -30,4 +30,5 @@
     }).join('')+'</div>';
   }
   me.insertAdjacentHTML('beforebegin',html);
+  if(part==='nav'&&!window.ESFocus&&!document.querySelector('script[src^="focus-bar.js"]')){var fb=document.createElement('script');fb.src='focus-bar.js';document.body.appendChild(fb)}
 })();

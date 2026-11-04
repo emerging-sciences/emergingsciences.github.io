@@ -94,9 +94,9 @@
     <div class="opts">
       <label><input type="checkbox" id="oWake" checked> Keep my screen on while the timer runs</label>
       <label><input type="checkbox" id="oNote"> Notify me when a round ends</label>
-      <label><input type="checkbox" id="oStrict"> Strict mode: end the round if I leave this page for more than 30 seconds</label>
+      <label><input type="checkbox" id="oStrict"> Strict mode: end the round if I leave this website for more than 30 seconds</label>
     </div>
-    <p class="note">Tip: keep this page open while you study from your book or notes, use Zen mode, and keep your phone on Do&nbsp;Not&nbsp;Disturb. If you are watching a lecture, it already counts toward your goal on the lecture page.</p>
+    <p class="note">Tip: once the timer starts you can open lectures and material on this website — a small timer stays on screen and keeps counting. Keep your phone on Do&nbsp;Not&nbsp;Disturb.</p>
   </div>
 
   <div class="a-card">
@@ -153,144 +153,81 @@
 
 <script src="nav.js" data-part="nav"></script>
 <script src="data.js"></script>
+<script src="focus-bar.js"></script>
 <script>
 (function(){
 'use strict';
-var D=window.ES_DATA||{};
+var D=window.ES_DATA||{},F=window.ESFocus;
 function $(s){return document.querySelector(s)}
 function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
-var LS={g:function(k,d){try{var v=localStorage.getItem('es_'+k);return v?JSON.parse(v):d}catch(e){return d}},s:function(k,v){try{localStorage.setItem('es_'+k,JSON.stringify(v))}catch(e){}}};
+var LS={g:function(k,d){try{var v=localStorage.getItem('es_'+k);return v?JSON.parse(v):d}catch(e){return d}}};
 function dayKey(d){return (d||new Date()).toLocaleDateString('en-CA')}
 function goalMin(){return +LS.g('goal',D.goalMin||30)||30}
-function addStudy(sec){var m=LS.g('study',{}),k=dayKey();m[k]=(m[k]||0)+sec;LS.s('study',m)}
-function streak(m,goalSec,from){var n=0,d=new Date(from||Date.now());if((m[dayKey(d)]||0)<goalSec)d.setDate(d.getDate()-1);while((m[dayKey(d)]||0)>=goalSec){n++;d.setDate(d.getDate()-1)}return n}
-function fmt(ms){var s=Math.max(0,Math.ceil(ms/1000)),m=Math.floor(s/60);s%=60;return (m<10?'0':'')+m+':'+(s<10?'0':'')+s}
+function streak(m,goalSec){var n=0,d=new Date();if((m[dayKey(d)]||0)<goalSec)d.setDate(d.getDate()-1);while((m[dayKey(d)]||0)>=goalSec){n++;d.setDate(d.getDate()-1)}return n}
 function mins(sec){return Math.floor(sec/60)}
+var CIRC=552.92,tickN=0;
 
-var cfg=LS.g('focuscfg',{f:25,b:5,subj:'',wake:true,note:false,strict:false});
-var st={phase:'focus',running:false,endAt:0,leftMs:0,totalMs:0,lastTick:0,carry:0,focusSec:0,leaves:0,awayMs:0,hiddenAt:0},timer=null,wl=null,actx=null;
-var CIRC=552.92;
-
-/* ---------- audio / notify ---------- */
-function beep(){try{
-  var AC=window.AudioContext||window.webkitAudioContext;if(!AC)return;if(!actx)actx=new AC();if(actx.state==='suspended')actx.resume();
-  [0,0.28,0.56].forEach(function(t){var o=actx.createOscillator(),g=actx.createGain();o.type='sine';o.frequency.value=880;o.connect(g);g.connect(actx.destination);
-    var now=actx.currentTime+t;g.gain.setValueAtTime(0.0001,now);g.gain.exponentialRampToValueAtTime(0.25,now+0.02);g.gain.exponentialRampToValueAtTime(0.0001,now+0.22);o.start(now);o.stop(now+0.25)})}catch(e){}
-  try{navigator.vibrate&&navigator.vibrate([200,100,200])}catch(e){}}
-function notify(t,b){try{if(cfg.note&&window.Notification&&Notification.permission==='granted')new Notification(t,{body:b,icon:'icon-192.png'})}catch(e){}}
-function wakeOn(){try{if(!cfg.wake||!navigator.wakeLock||wl)return;navigator.wakeLock.request('screen').then(function(l){wl=l;l.addEventListener('release',function(){wl=null})}).catch(function(){})}catch(e){}}
-function wakeOff(){try{if(wl){wl.release();wl=null}}catch(e){wl=null}}
-
-/* ---------- log ---------- */
-function commit(done){
-  if(st.focusSec>=60||st.leaves>0){
-    var log=LS.g('focuslog',[]);
-    log.push({d:dayKey(),t:Date.now(),sec:st.focusSec,subj:cfg.subj||'',leaves:st.leaves,away:Math.round(st.awayMs/1000),done:!!done});
-    LS.s('focuslog',log.slice(-150))}
-  st.focusSec=0;st.leaves=0;st.awayMs=0}
-
-/* ---------- UI ---------- */
 function say(t,cls){var m=$('#msg');m.textContent=t||'';m.className='msg'+(cls?' '+cls:'')}
 function render(){
-  var brk=st.phase==='break';
-  $('#clock').textContent=fmt(st.leftMs);
-  $('#phase').textContent=st.running?(brk?'Break — relax':'Focus — stay on this'):(brk?'Break ready':(st.leftMs<st.totalMs?'Paused':'Ready to focus'));
+  var g=F.get(),brk=g.ph==='break';
+  $('#clock').textContent=F.fmt(g.left);
+  $('#phase').textContent=g.run?(brk?'Break — relax':'Focus — stay on this'):(brk?'Break paused':(g.left<g.tot?'Paused':'Ready to focus'));
   $('#ring').className='ring'+(brk?' brk':'');
-  var frac=st.totalMs?Math.max(0,Math.min(1,st.leftMs/st.totalMs)):1;
-  $('#pg').setAttribute('stroke-dashoffset',String(CIRC*(1-frac)));
-  $('#bStart').textContent=st.running?'⏸ Pause':(st.leftMs<st.totalMs?'▶ Resume':'▶ Start');
+  $('#pg').setAttribute('stroke-dashoffset',String(CIRC*(1-(g.tot?Math.max(0,Math.min(1,g.left/g.tot)):1))));
+  $('#bStart').textContent=g.run?'⏸ Pause':(g.active?'▶ Resume':'▶ Start');
   $('#bSkip').hidden=!brk;
-  document.title=st.running?(fmt(st.leftMs)+' · '+(brk?'Break':'Focus')+' — Emerging Sciences'):'Focus Mode — Emerging Sciences'}
+  ['#inF','#inB'].forEach(function(s){$(s).disabled=g.active});
+  document.title=g.run?(F.fmt(g.left)+' · '+(brk?'Break':'Focus')+' — Emerging Sciences'):'Focus Mode — Emerging Sciences'}
 function renderStats(){
-  var m=LS.g('study',{}),gs=goalMin()*60,today=m[dayKey()]||0,log=LS.g('focuslog',[]),dk=dayKey();
-  var rounds=log.filter(function(x){return x.d===dk&&x.done}).length,left=log.filter(function(x){return x.d===dk}).reduce(function(a,x){return a+(x.leaves||0)},0)+st.leaves;
+  var m=LS.g('study',{}),gs=goalMin()*60,today=m[dayKey()]||0,log=LS.g('focuslog',[]),dk=dayKey(),g=F.get();
+  var rounds=log.filter(function(x){return x.d===dk&&x.done}).length,left=log.filter(function(x){return x.d===dk}).reduce(function(a,x){return a+(x.leaves||0)},0)+g.lv;
   $('#goalBar').style.width=Math.min(100,today/gs*100)+'%';
   $('#goalTxt').textContent=mins(today)+' / '+goalMin()+' min goal'+(today>=gs?' — goal reached 🎉':'');
   $('#tMin').textContent=mins(today);$('#tStreak').textContent=streak(m,gs);$('#tRounds').textContent=rounds;$('#tLeft').textContent=left;
-  /* week */
-  var days=[],i,d;for(i=6;i>=0;i--){d=new Date();d.setDate(d.getDate()-i);days.push({k:dayKey(d),l:d.toLocaleDateString('en-IN',{weekday:'short'}),v:m[dayKey(d)]||0})}
+  var days=[],i,d;for(i=6;i>=0;i--){d=new Date();d.setDate(d.getDate()-i);days.push({l:d.toLocaleDateString('en-IN',{weekday:'short'}),v:m[dayKey(d)]||0})}
   var max=Math.max(gs,Math.max.apply(null,days.map(function(x){return x.v})));
   $('#wk').innerHTML=days.map(function(x){var h=Math.round(x.v/max*100);return '<div><em>'+(x.v?mins(x.v):'')+'</em><i class="'+(x.v>=gs?'hit':'')+'" style="height:'+h+'%"></i><small>'+esc(x.l)+'</small></div>'}).join('');
-  /* recent */
   var rec=log.slice(-6).reverse();
   $('#hist').innerHTML=rec.length?rec.map(function(x){var dt=new Date(x.t||Date.now());
     return '<li>'+esc(dt.toLocaleDateString('en-IN',{day:'numeric',month:'short'}))+' · <b>'+mins(x.sec)+' min</b>'+(x.subj?' · '+esc(x.subj):'')+(x.leaves?' · left '+x.leaves+'×':'')+(x.done?'':' · stopped early')+'</li>'}).join(''):'<li>No rounds yet. Start your first one above.</li>'}
 
-/* ---------- timer ---------- */
-function setPhase(ph){st.phase=ph;st.totalMs=(ph==='focus'?cfg.f:cfg.b)*60000;st.leftMs=st.totalMs;st.carry=0}
-function stop(){st.running=false;if(timer){clearInterval(timer);timer=null}wakeOff()}
-function start(now){
-  now=now||Date.now();if(st.leftMs<=0)setPhase(st.phase);
-  st.running=true;st.endAt=now+st.leftMs;st.lastTick=now;st.hiddenAt=document.hidden?now:0;
-  if(!timer)timer=setInterval(function(){tick()},500);
-  if(st.phase==='focus')wakeOn();
-  if(window.AudioContext||window.webkitAudioContext){try{if(!actx)actx=new (window.AudioContext||window.webkitAudioContext)();if(actx.state==='suspended')actx.resume()}catch(e){}}
-  say('');render()}
-function pause(now){now=now||Date.now();st.leftMs=Math.max(0,st.endAt-now);stop();render()}
-function finish(now){
-  stop();
-  if(st.phase==='focus'){
-    commit(true);beep();notify('Round complete 🎉','Take a short break.');say('Round complete! Take a break 🎉','good');
-    setPhase('break');start(now)}
-  else{beep();notify('Break over','Ready for the next round?');say('Break is over. Ready for the next round?','good');setPhase('focus');render()}
-  renderStats()}
-function tick(now){
-  now=now||Date.now();if(!st.running)return;
-  st.leftMs=st.endAt-now;
-  if(!document.hidden&&st.phase==='focus'){
-    st.carry+=Math.min(2000,Math.max(0,now-st.lastTick));
-    var w=Math.floor(st.carry/1000);if(w>0){st.carry-=w*1000;addStudy(w);st.focusSec+=w}}
-  st.lastTick=now;
-  if(st.leftMs<=0){finish(now);return}
-  render();if(st.focusSec%10===0)renderStats()}
-function onVis(now){
-  now=now||Date.now();
-  if(document.hidden){if(st.running&&st.phase==='focus')st.hiddenAt=now;return}
-  if(st.running)wakeOn();
-  if(st.hiddenAt){
-    var away=now-st.hiddenAt;st.hiddenAt=0;st.lastTick=now;
-    if(st.running&&st.phase==='focus'&&away>=3000){
-      st.leaves++;st.awayMs+=away;
-      var sec=Math.round(away/1000);
-      if(cfg.strict&&away>30000){pause(now);commit(false);setPhase('focus');render();say('Round ended: you were away for '+sec+' seconds. Start again when ready.','warn')}
-      else say('You were away for '+sec+' seconds. Back to study 💪','warn')}
-    renderStats()}}
-
-/* ---------- wiring ---------- */
-function applyCfg(){$('#inF').value=cfg.f;$('#inB').value=cfg.b;$('#oWake').checked=!!cfg.wake;$('#oNote').checked=!!cfg.note;$('#oStrict').checked=!!cfg.strict;$('#subj').value=cfg.subj||''}
-function saveCfg(){LS.s('focuscfg',cfg)}
+function applyCfg(){var c=F.cfg();$('#inF').value=c.f;$('#inB').value=c.b;$('#oWake').checked=c.wake;$('#oNote').checked=c.note;$('#oStrict').checked=c.strict;$('#subj').value=c.subj}
 function init(){
   var names=(D.papers||[]).map(function(p){return p.name});
   $('#subj').innerHTML='<option value="">Any subject</option>'+names.map(function(n){return '<option value="'+esc(n)+'">'+esc(n)+'</option>'}).join('');
-  applyCfg();setPhase('focus');render();renderStats();
+  applyCfg();render();renderStats();
+  F.on(function(ev){
+    if(ev&&ev.t){
+      if(ev.t==='away')say('You were away for '+ev.sec+' seconds. Back to study 💪','warn');
+      else if(ev.t==='strict')say('Round ended: you were away for '+ev.sec+' seconds. Start again when ready.','warn');
+      else if(ev.t==='done')say('Round complete! Take a break 🎉','good');
+      else if(ev.t==='breakdone')say('Break is over. Ready for the next round?','good');
+      else if(ev.t==='late')say('Your focus round ended while you were away.','warn');
+      applyCfg();renderStats()}
+    render();if(++tickN%10===0)renderStats()});
 
   $('#presets').addEventListener('click',function(e){var a=e.target.closest?e.target.closest('a'):null;if(!a)return;e.preventDefault();
-    if(st.running)return;cfg.f=+a.dataset.f;cfg.b=+a.dataset.b;saveCfg();applyCfg();setPhase('focus');render()});
-  function readInputs(){
-    var f=Math.max(1,Math.min(180,parseInt($('#inF').value,10)||25)),b=Math.max(1,Math.min(60,parseInt($('#inB').value,10)||5));
-    cfg.f=f;cfg.b=b;saveCfg();if(!st.running&&st.leftMs===st.totalMs){setPhase(st.phase);render()}}
+    if(F.get().active)return;F.setCfg({f:+a.dataset.f,b:+a.dataset.b});applyCfg();render()});
+  function readInputs(){if(F.get().active)return;
+    F.setCfg({f:Math.max(1,Math.min(180,parseInt($('#inF').value,10)||25)),b:Math.max(1,Math.min(60,parseInt($('#inB').value,10)||5))});applyCfg();render()}
   $('#inF').addEventListener('change',readInputs);$('#inB').addEventListener('change',readInputs);
-  $('#subj').addEventListener('change',function(){cfg.subj=$('#subj').value;saveCfg()});
-  $('#oWake').addEventListener('change',function(){cfg.wake=$('#oWake').checked;saveCfg();cfg.wake?(st.running&&wakeOn()):wakeOff()});
-  $('#oStrict').addEventListener('change',function(){cfg.strict=$('#oStrict').checked;saveCfg()});
-  $('#oNote').addEventListener('change',function(){cfg.note=$('#oNote').checked;saveCfg();
-    if(cfg.note&&window.Notification&&Notification.permission==='default'){try{Notification.requestPermission()}catch(e){}}
-    if(cfg.note&&!window.Notification)say('This browser does not support notifications.','warn')});
+  $('#subj').addEventListener('change',function(){F.setCfg({subj:$('#subj').value})});
+  $('#oWake').addEventListener('change',function(){F.setCfg({wake:$('#oWake').checked})});
+  $('#oStrict').addEventListener('change',function(){F.setCfg({strict:$('#oStrict').checked})});
+  $('#oNote').addEventListener('change',function(){F.setCfg({note:$('#oNote').checked});
+    if($('#oNote').checked&&window.Notification&&Notification.permission==='default'){try{Notification.requestPermission()}catch(e){}}
+    if($('#oNote').checked&&!window.Notification)say('This browser does not support notifications.','warn')});
 
-  $('#bStart').addEventListener('click',function(){st.running?pause():start()});
-  $('#bReset').addEventListener('click',function(){stop();commit(false);setPhase('focus');say('');render();renderStats()});
-  $('#bSkip').addEventListener('click',function(){stop();setPhase('focus');say('');render()});
+  $('#bStart').addEventListener('click',function(){say('');F.toggle()});
+  $('#bReset').addEventListener('click',function(){say('');F.reset();renderStats()});
+  $('#bSkip').addEventListener('click',function(){say('');F.skipBreak()});
   $('#bZen').addEventListener('click',function(){
     var on=document.body.classList.toggle('zen');$('#bZen').textContent=on?'✕ Exit zen':'⛶ Zen mode';
     try{if(on&&document.documentElement.requestFullscreen)document.documentElement.requestFullscreen().catch(function(){});
         else if(!on&&document.fullscreenElement&&document.exitFullscreen)document.exitFullscreen()}catch(e){}});
   document.addEventListener('fullscreenchange',function(){if(!document.fullscreenElement&&document.body.classList.contains('zen')){document.body.classList.remove('zen');$('#bZen').textContent='⛶ Zen mode'}});
-  document.addEventListener('visibilitychange',function(){onVis()});
-  window.addEventListener('beforeunload',function(e){if(st.running&&st.phase==='focus'){e.preventDefault();e.returnValue=''}});
-  window.addEventListener('pagehide',function(){if(st.focusSec>=60||st.leaves>0)commit(false)});
 }
-window.__FX={st:st,cfg:cfg,start:start,pause:pause,tick:tick,onVis:onVis,finish:finish,streak:streak,fmt:fmt,commit:commit,setPhase:setPhase,dayKey:dayKey};
-if(!window.__FX_TEST)init();
+if(F)init();else document.body.insertAdjacentHTML('afterbegin','<p style="padding:20px;color:#fbbf24">Focus timer could not load. Please refresh the page.</p>');
 })();
 </script>
 </body>
