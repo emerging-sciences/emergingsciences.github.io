@@ -79,77 +79,138 @@
   function rs(n){return '₹'+Number(n||0).toLocaleString('en-IN')}
   var name=S.name||'the creator';
   var st=[[(D.exams||[]).length,'Exams'],[(D.papers||[]).length,'Subjects'],[(D.lectures||[]).length,'Lectures'],[(D.material||[]).length,'PDFs / notes']];
+
+  /* ---------- account book from Google Sheet (published as CSV) ---------- */
+  function jget(k,d){try{var v=localStorage.getItem(k);return v?JSON.parse(v):d}catch(e){return d}}
+  function jset(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}
+  function norm(s){return String(s==null?'':s).toLowerCase().replace(/[^a-z0-9]/g,'')}
+  function parseCSV(t){var rows=[],row=[],f='',q=false,i,c;t=String(t||'').replace(/^\uFEFF/,'');
+    for(i=0;i<t.length;i++){c=t[i];
+      if(q){if(c==='"'){if(t[i+1]==='"'){f+='"';i++}else q=false}else f+=c}
+      else if(c==='"')q=true;else if(c===','){row.push(f);f=''}
+      else if(c==='\n'||c==='\r'){if(c==='\r'&&t[i+1]==='\n')i++;row.push(f);rows.push(row);row=[];f=''}else f+=c}
+    if(f!==''||row.length){row.push(f);rows.push(row)}return rows}
+  var HA={date:'d',tarikh:'d',day:'d',type:'type',kind:'type',inout:'type',direction:'type',category:'type',amount:'amt',amt:'amt',rs:'amt',rupees:'amt',inr:'amt',
+    received:'rec',credit:'rec','in':'rec',donation:'rec',income:'rec',spent:'spt',debit:'spt','out':'spt',expense:'spt',
+    name:'who',who:'who','from':'who',donor:'who',supporter:'who',note:'note',notes:'note',details:'note',description:'note',purpose:'note',remark:'note',remarks:'note',
+    proof:'proof',bill:'proof',receipt:'proof',link:'proof',url:'proof'};
+  function num(v){var n=parseFloat(String(v==null?'':v).replace(/[^0-9.\-]/g,''));return isNaN(n)?0:n}
+  function typ(v){v=norm(v);if(/^(in|received|credit|donation|income|cr|deposit|plus|r)$/.test(v))return 'in';if(/^(out|spent|expense|debit|dr|withdrawal|minus|payment|s)$/.test(v))return 'out';return ''}
+  function p2(n){return ('0'+n).slice(-2)}
+  function isoDate(v){v=String(v==null?'':v).trim();if(!v)return '';
+    var m=v.match(/^(\d{1,2})[\/\-.](\d{1,2})[\/\-.](\d{4})$/);if(m)return m[3]+'-'+p2(m[2])+'-'+p2(m[1]);
+    if(/^\d{4}-\d{2}-\d{2}/.test(v))return v.slice(0,10);
+    var d=new Date(v);if(!isNaN(d.getTime()))return d.getFullYear()+'-'+p2(d.getMonth()+1)+'-'+p2(d.getDate());return v}
+  function showDate(v){var m=String(v||'').match(/^(\d{4})-(\d{2})-(\d{2})$/);if(!m)return v||'';
+    return new Date(+m[1],+m[2]-1,+m[3]).toLocaleDateString('en-IN',{day:'2-digit',month:'short',year:'numeric'})}
+  function shortName(v){v=String(v==null?'':v).replace(/[<>]/g,'').trim();if(!v)return 'Anonymous';
+    if(/@|\d{5,}/.test(v))return 'Anonymous';                       /* never show UPI ids or phone numbers */
+    var w=v.split(/\s+/);if(w.length===1)return w[0];return w[0]+' '+w[w.length-1].charAt(0).toUpperCase()+'.'}
+  function parseLedger(csv){
+    var rows=parseCSV(csv),out=[],bad=0;if(rows.length<2)return {rows:out,bad:0};
+    var hd=rows[0].map(function(x){return HA[norm(x)]||''});
+    for(var i=1;i<rows.length;i++){var r=rows[i],o={},any=false;
+      for(var j=0;j<hd.length;j++){var v=r[j]==null?'':String(r[j]).trim();if(v!=='')any=true;if(hd[j]&&o[hd[j]]===undefined)o[hd[j]]=v}
+      if(!any)continue;
+      var amt=num(o.amt),t=typ(o.type);
+      if(o.rec!==undefined||o.spt!==undefined){var rc=num(o.rec),sp=num(o.spt);if(rc>0){amt=rc;t='in'}else if(sp>0){amt=sp;t='out'}}
+      if(!t&&amt<0)t='out';else if(!t&&amt>0)t='in';
+      amt=Math.abs(amt);
+      if(!t||!(amt>0)){bad++;continue}
+      var e={d:isoDate(o.d),type:t,amt:amt};
+      if(t==='in'){e.who=shortName(o.who);if(o.note)e.note=String(o.note).replace(/[<>]/g,'')}
+      else{e.note=String(o.note||'').replace(/[<>]/g,'');if(/^https?:\/\//i.test(o.proof||''))e.proof=o.proof}
+      out.push(e)}
+    return {rows:out,bad:bad}}
+  window.__SUP={parseLedger:parseLedger,isoDate:isoDate,shortName:shortName};
+
+  function loadSheet(){
+    var sh=S.sheet||{};if(!sh.pub)return;
+    var url='https://docs.google.com/spreadsheets/d/e/'+encodeURIComponent(sh.pub)+'/pub?gid='+encodeURIComponent(sh.gid||0)+'&single=true&output=csv';
+    var timedOut=new Promise(function(_,rej){setTimeout(function(){rej(new Error('timeout'))},5000)});
+    Promise.race([fetch(url,{cache:'no-store'}).then(function(r){if(!r.ok)throw new Error('HTTP '+r.status);return r.text()}),timedOut]).then(function(t){
+      if(/^\s*<(!doctype|html)/i.test(t))throw new Error('the sheet is not published as CSV');
+      var res=parseLedger(t);jset('es_ledgercache',res.rows);
+      if(res.bad)console.warn('Account book: '+res.bad+' row(s) skipped (need an amount and either a type In/Out or Received/Spent columns).');
+      draw((S.ledger||[]).concat(res.rows))
+    }).catch(function(e){console.warn('Account book sheet could not be loaded ('+e.message+'). Showing the last saved copy.')})}
+
+  function draw(L){
   var h='';
-  h+='<h1>Support Emerging Sciences</h1>';
-  h+='<p class="lead">Everything here is free and will stay free. If it helped your preparation, you can help it grow — with ₹1 or any amount, or without money at all.</p>';
+    h+='<h1>Support Emerging Sciences</h1>';
+    h+='<p class="lead">Everything here is free and will stay free. If it helped your preparation, you can help it grow — with ₹1 or any amount, or without money at all.</p>';
 
-  h+='<div class="card"><div class="who"><div class="av">'+(S.photo?'<img src="'+esc(S.photo)+'" alt="'+esc(name)+'">':esc(name.charAt(0).toUpperCase()))+'</div>'
-   +'<div><h2 style="margin:0">Hi, I’m '+esc(name)+'</h2><div style="color:#b9bdd0;font-size:14px">Creator of Emerging Sciences</div></div></div>'
-   +'<p style="margin:12px 0 0">I am building this website to give IIT JAM, CUET PG, TIFR, GATE and CSIR NET students free lectures, notes and mock tests. Adding good content for every subject takes a lot of time and some tools that cost money, so I am asking for your support.</p>'
-   +'<div class="stats">'+st.map(function(s){return '<div class="stat"><b>'+s[0]+'</b><span>'+s[1]+'</span></div>'}).join('')+'</div></div>';
+    h+='<div class="card"><div class="who"><div class="av">'+(S.photo?'<img src="'+esc(S.photo)+'" alt="'+esc(name)+'">':esc(name.charAt(0).toUpperCase()))+'</div>'
+     +'<div><h2 style="margin:0">Hi, I’m '+esc(name)+'</h2><div style="color:#b9bdd0;font-size:14px">Creator of Emerging Sciences</div></div></div>'
+     +'<p style="margin:12px 0 0">I am building this website to give IIT JAM, CUET PG, TIFR, GATE and CSIR NET students free lectures, notes and mock tests. Adding good content for every subject takes a lot of time and some tools that cost money, so I am asking for your support.</p>'
+     +'<div class="stats">'+st.map(function(s){return '<div class="stat"><b>'+s[0]+'</b><span>'+s[1]+'</span></div>'}).join('')+'</div></div>';
 
-  if(S.story&&S.story.photo){
-    h+='<div class="card" style="text-align:center"><img src="'+esc(S.story.photo)+'" alt="'+esc(S.story.alt||'Childhood photo with grandparents')+'" style="width:100%;max-width:420px;border-radius:14px;display:block;margin:0 auto 12px">'
-     +(S.story.line?'<p style="margin:0 0 6px;font:600 17px \'Space Grotesk\',sans-serif;color:#fff">'+esc(S.story.line)+'</p>':'')
-     +(S.story.caption?'<p style="margin:0;color:#b9bdd0;font-size:14px">'+esc(S.story.caption)+'</p>':'')+'</div>';
+    if(S.story&&S.story.photo){
+      h+='<div class="card" style="text-align:center"><img src="'+esc(S.story.photo)+'" alt="'+esc(S.story.alt||'Childhood photo with grandparents')+'" style="width:100%;max-width:420px;border-radius:14px;display:block;margin:0 auto 12px">'
+       +(S.story.line?'<p style="margin:0 0 6px;font:600 17px \'Space Grotesk\',sans-serif;color:#fff">'+esc(S.story.line)+'</p>':'')
+       +(S.story.caption?'<p style="margin:0;color:#b9bdd0;font-size:14px">'+esc(S.story.caption)+'</p>':'')+'</div>';
+    }
+    if((S.uses||[]).length){
+      h+='<div class="card"><h2>Where your money goes</h2><ul>'+S.uses.map(function(u){return '<li>'+esc(u)+'</li>'}).join('')+'</ul>'
+       +'<p style="margin:10px 0 0;color:#b9bdd0;font-size:14px">Nothing else. Every payment received and every rupee spent is listed in the public account book below.</p></div>';
+    }
+
+    h+='<div class="card"><h2>Support with UPI</h2>';
+    if(S.upi){
+      h+='<div class="upi" id="upiid">'+esc(S.upi)+'</div><br>';
+      h+='<button class="btn alt" id="copy">Copy UPI ID</button>';
+      h+='<a class="btn" id="pay" href="upi://pay?pa='+encodeURIComponent(S.upi)+'&pn='+encodeURIComponent(name)+'&cu=INR&tn='+encodeURIComponent('Emerging Sciences support')+'">Pay with UPI app</a>';
+      if(S.qr){h+='<img class="qr" src="'+esc(S.qr)+'" alt="UPI QR code of '+esc(name)+'">';}
+      h+='<p style="margin:10px 0 0;color:#b9bdd0;font-size:14px"><b>Want your first name in the public account book?</b> Write it in the UPI note (remark) while paying. If you write nothing, it will show as “Anonymous”.</p>';
+      h+='<p style="margin:10px 0 0;color:#b9bdd0;font-size:14px">The “Pay with UPI app” button works on a phone. On a computer, scan the QR or copy the UPI ID. Please check that the name shown is <b>'+esc(name)+'</b> before you pay.</p>';
+    }else{
+      h+='<p style="margin:0;color:#b9bdd0">UPI details will be added here very soon.</p>';
+    }
+    h+='</div>';
+
+    h+='<div class="card warn"><b>Stay safe.</b> This page is the only official place for payment details. Emerging Sciences will never ask you for your PIN or OTP, never send a “collect” request, and never call you for money. If someone does, it is not us.</div>';
+
+    h+='<div class="card"><h2>Public account book</h2>';
+    L=L.slice();var tin=0,tout=0;
+    L.forEach(function(e){if(e.type==='in')tin+=+e.amt||0;else if(e.type==='out')tout+=+e.amt||0});
+    h+='<div class="tot"><div class="stat"><b class="in">'+rs(tin)+'</b><span>Received</span></div><div class="stat"><b class="out">'+rs(tout)+'</b><span>Spent</span></div><div class="stat"><b>'+rs(tin-tout)+'</b><span>Balance</span></div></div>';
+    if(L.length){
+      L.sort(function(a,b){return String(b.d).localeCompare(String(a.d))});
+      h+='<div class="scroll"><table class="tbl"><thead><tr><th>Date</th><th>Details</th><th>Amount</th></tr></thead><tbody>'
+       +L.map(function(e){var isIn=e.type==='in';
+          var det=isIn?('From '+esc(e.who||'Anonymous')+(e.note?' — '+esc(e.note):'')):(esc(e.note||'Expense')+(e.proof?' · <a href="'+esc(e.proof)+'" target="_blank" rel="noopener noreferrer">bill</a>':''));
+          return '<tr><td>'+esc(showDate(e.d))+'</td><td>'+det+'</td><td class="'+(isIn?'in':'out')+'">'+(isIn?'+':'−')+rs(e.amt)+'</td></tr>'}).join('')
+       +'</tbody></table></div>';
+    }else{
+      h+='<p style="margin:0;color:#b9bdd0">No entries yet. The first payment and the first expense will appear here.</p>';
+    }
+    if(S.sheet&&S.sheet.pub){h+='<p style="margin:12px 0 0;font-size:14px"><a href="https://docs.google.com/spreadsheets/d/e/'+encodeURIComponent(S.sheet.pub)+'/pubhtml" target="_blank" rel="noopener noreferrer">Open the full account book (Google Sheet) →</a></p>';}
+    h+='</div>';
+
+    h+='<div class="card"><h2>No money? You can still help</h2><ul>'
+     +'<li>Share the website with one friend preparing for an MSc entrance exam.</li>'
+     +'<li>Tell me which topics you need next.</li>'
+     +'<li>If you are a teacher or a topper and can contribute notes or a lecture, contact me — your name will be credited.</li></ul>'
+     +'<a class="btn alt" id="share" href="#">Share this website</a>'
+     +'<a class="btn alt" href="privacy.html">Privacy</a><a class="btn alt" href="https://t.me/emer816" target="_blank" rel="noopener noreferrer">Telegram</a>'
+     +'<a class="btn alt" href="https://youtube.com/@EMS4518-k4s" target="_blank" rel="noopener noreferrer">YouTube</a>'
+     +'<a class="btn alt" href="https://x.com/emergingsc28041" target="_blank" rel="noopener noreferrer">X (Twitter)</a></div>';
+
+    root.innerHTML=h;
+
+    var c=document.getElementById('copy');
+    if(c)c.onclick=function(){
+      function done(){c.textContent='Copied ✓';setTimeout(function(){c.textContent='Copy UPI ID'},1800)}
+      if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(S.upi).then(done,function(){})}
+      else{var t=document.createElement('textarea');t.value=S.upi;document.body.appendChild(t);t.select();try{document.execCommand('copy');done()}catch(e){}document.body.removeChild(t)}
+    };
+    var sh=document.getElementById('share');
+    if(sh)sh.onclick=function(e){e.preventDefault();var u=location.origin+location.pathname.replace(/support\.html$/,'index.html');
+      if(navigator.share){navigator.share({title:'Emerging Sciences',text:'Free lectures, notes and mock tests for IIT JAM, CUET PG, TIFR, GATE and CSIR NET.',url:u}).catch(function(){})}
+      else if(navigator.clipboard){navigator.clipboard.writeText(u);sh.textContent='Link copied ✓'}};
   }
-  if((S.uses||[]).length){
-    h+='<div class="card"><h2>Where your money goes</h2><ul>'+S.uses.map(function(u){return '<li>'+esc(u)+'</li>'}).join('')+'</ul>'
-     +'<p style="margin:10px 0 0;color:#b9bdd0;font-size:14px">Nothing else. Every payment received and every rupee spent is listed in the public account book below.</p></div>';
-  }
-
-  h+='<div class="card"><h2>Support with UPI</h2>';
-  if(S.upi){
-    h+='<div class="upi" id="upiid">'+esc(S.upi)+'</div><br>';
-    h+='<button class="btn alt" id="copy">Copy UPI ID</button>';
-    h+='<a class="btn" id="pay" href="upi://pay?pa='+encodeURIComponent(S.upi)+'&pn='+encodeURIComponent(name)+'&cu=INR&tn='+encodeURIComponent('Emerging Sciences support')+'">Pay with UPI app</a>';
-    if(S.qr){h+='<img class="qr" src="'+esc(S.qr)+'" alt="UPI QR code of '+esc(name)+'">';}
-    h+='<p style="margin:10px 0 0;color:#b9bdd0;font-size:14px"><b>Want your first name in the public account book?</b> Write it in the UPI note (remark) while paying. If you write nothing, it will show as “Anonymous”.</p>';
-    h+='<p style="margin:10px 0 0;color:#b9bdd0;font-size:14px">The “Pay with UPI app” button works on a phone. On a computer, scan the QR or copy the UPI ID. Please check that the name shown is <b>'+esc(name)+'</b> before you pay.</p>';
-  }else{
-    h+='<p style="margin:0;color:#b9bdd0">UPI details will be added here very soon.</p>';
-  }
-  h+='</div>';
-
-  h+='<div class="card warn"><b>Stay safe.</b> This page is the only official place for payment details. Emerging Sciences will never ask you for your PIN or OTP, never send a “collect” request, and never call you for money. If someone does, it is not us.</div>';
-
-  h+='<div class="card"><h2>Public account book</h2>';
-  var L=(S.ledger||[]).slice(),tin=0,tout=0;
-  L.forEach(function(e){if(e.type==='in')tin+=+e.amt||0;else if(e.type==='out')tout+=+e.amt||0});
-  h+='<div class="tot"><div class="stat"><b class="in">'+rs(tin)+'</b><span>Received</span></div><div class="stat"><b class="out">'+rs(tout)+'</b><span>Spent</span></div><div class="stat"><b>'+rs(tin-tout)+'</b><span>Balance</span></div></div>';
-  if(L.length){
-    L.sort(function(a,b){return String(b.d).localeCompare(String(a.d))});
-    h+='<div class="scroll"><table class="tbl"><thead><tr><th>Date</th><th>Details</th><th>Amount</th></tr></thead><tbody>'
-     +L.map(function(e){var isIn=e.type==='in';
-        var det=isIn?('From '+esc(e.who||'Anonymous')+(e.note?' — '+esc(e.note):'')):(esc(e.note||'Expense')+(e.proof?' · <a href="'+esc(e.proof)+'" target="_blank" rel="noopener noreferrer">bill</a>':''));
-        return '<tr><td>'+esc(e.d)+'</td><td>'+det+'</td><td class="'+(isIn?'in':'out')+'">'+(isIn?'+':'−')+rs(e.amt)+'</td></tr>'}).join('')
-     +'</tbody></table></div>';
-  }else{
-    h+='<p style="margin:0;color:#b9bdd0">No entries yet. The first payment and the first expense will appear here.</p>';
-  }
-  h+='</div>';
-
-  h+='<div class="card"><h2>No money? You can still help</h2><ul>'
-   +'<li>Share the website with one friend preparing for an MSc entrance exam.</li>'
-   +'<li>Tell me which topics you need next.</li>'
-   +'<li>If you are a teacher or a topper and can contribute notes or a lecture, contact me — your name will be credited.</li></ul>'
-   +'<a class="btn alt" id="share" href="#">Share this website</a>'
-   +'<a class="btn alt" href="privacy.html">Privacy</a><a class="btn alt" href="https://t.me/emer816" target="_blank" rel="noopener noreferrer">Telegram</a>'
-   +'<a class="btn alt" href="https://youtube.com/@EMS4518-k4s" target="_blank" rel="noopener noreferrer">YouTube</a>'
-   +'<a class="btn alt" href="https://x.com/emergingsc28041" target="_blank" rel="noopener noreferrer">X (Twitter)</a></div>';
-
-  root.innerHTML=h;
-
-  var c=document.getElementById('copy');
-  if(c)c.onclick=function(){
-    function done(){c.textContent='Copied ✓';setTimeout(function(){c.textContent='Copy UPI ID'},1800)}
-    if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(S.upi).then(done,function(){})}
-    else{var t=document.createElement('textarea');t.value=S.upi;document.body.appendChild(t);t.select();try{document.execCommand('copy');done()}catch(e){}document.body.removeChild(t)}
-  };
-  var sh=document.getElementById('share');
-  if(sh)sh.onclick=function(e){e.preventDefault();var u=location.origin+location.pathname.replace(/support\.html$/,'index.html');
-    if(navigator.share){navigator.share({title:'Emerging Sciences',text:'Free lectures, notes and mock tests for IIT JAM, CUET PG, TIFR, GATE and CSIR NET.',url:u}).catch(function(){})}
-    else if(navigator.clipboard){navigator.clipboard.writeText(u);sh.textContent='Link copied ✓'}};
+  draw((S.ledger||[]).concat(jget('es_ledgercache',[])));
+  loadSheet();
 })();
 </script>
 </body>
