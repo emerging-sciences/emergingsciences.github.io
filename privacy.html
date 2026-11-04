@@ -72,7 +72,7 @@
     <ul>
       <li>No account, no login, no password.</li>
       <li>No name, phone number, email or address is needed to use the website or the app.</li>
-      <li>No advertising. At the moment we do not use analytics either. If we ever add visitor counting, it will be described here first.</li>
+      <li id="anx">No advertising. At the moment we do not use analytics either.</li>
     </ul>
   </div>
 
@@ -118,5 +118,10 @@
 </main>
 
 <script src="nav.js" data-part="nav"></script>
+<script src="analytics.js"></script>
+<script>
+(function(){var e=document.getElementById('anx');
+  if(window.ES_GC_ON&&e)e.innerHTML='No advertising. We count page views with <b>GoatCounter</b>, a privacy-friendly service that does not use cookies. We see totals such as which pages were opened, and rough information such as country, browser and screen size. We do not see your name, phone number or what you type.'})();
+</script>
 </body>
 </html>

@@ -30,5 +30,6 @@
     }).join('')+'</div>';
   }
   me.insertAdjacentHTML('beforebegin',html);
+  if(part==='nav'&&!window.__esgc&&!document.querySelector('script[src^="analytics.js"]')){var an=document.createElement('script');an.src='analytics.js';document.body.appendChild(an)}
   if(part==='nav'&&!window.ESFocus&&!document.querySelector('script[src^="focus-bar.js"]')){var fb=document.createElement('script');fb.src='focus-bar.js';document.body.appendChild(fb)}
 })();
