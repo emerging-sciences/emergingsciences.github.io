@@ -2,7 +2,7 @@
    1) Sign up at goatcounter.com and choose a site code (e.g. emergingsciences).
    2) Write that code between the quotes below. Leave it empty "" to switch counting off. */
 (function(){
-  var CODE = "";
+  var CODE = "emergingsciences";
 
   window.ES_GC_ON = !!CODE;
   if(!CODE || window.__esgc) return;
