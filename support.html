@@ -124,9 +124,12 @@
     return {rows:out,bad:bad}}
   window.__SUP={parseLedger:parseLedger,isoDate:isoDate,shortName:shortName};
 
+  function pubId(v){v=String(v==null?'':v).trim();var m=v.match(/\/d\/e\/([^\/?#\s]+)/);return m?m[1]:v.split(/[\/?#\s]/)[0]}   /* accepts the code, the code with a trailing "/", or the whole link */
+  function gidOf(v){return String(v==null?'0':v).replace(/\D/g,'')||'0'}
   function loadSheet(){
-    var sh=S.sheet||{};if(!sh.pub)return;
-    var url='https://docs.google.com/spreadsheets/d/e/'+encodeURIComponent(sh.pub)+'/pub?gid='+encodeURIComponent(sh.gid||0)+'&single=true&output=csv';
+    var sh=S.sheet||{};if(!pubId(sh.pub))return;
+    var url='https://docs.google.com/spreadsheets/d/e/'+encodeURIComponent(pubId(sh.pub))+'/pub?gid='+gidOf(sh.gid)+'&single=true&output=csv';
+    window.__SUP_URL=url;
     var timedOut=new Promise(function(_,rej){setTimeout(function(){rej(new Error('timeout'))},5000)});
     Promise.race([fetch(url,{cache:'no-store'}).then(function(r){if(!r.ok)throw new Error('HTTP '+r.status);return r.text()}),timedOut]).then(function(t){
       if(/^\s*<(!doctype|html)/i.test(t))throw new Error('the sheet is not published as CSV');
@@ -184,7 +187,7 @@
     }else{
       h+='<p style="margin:0;color:#b9bdd0">No entries yet. The first payment and the first expense will appear here.</p>';
     }
-    if(S.sheet&&S.sheet.pub){h+='<p style="margin:12px 0 0;font-size:14px"><a href="https://docs.google.com/spreadsheets/d/e/'+encodeURIComponent(S.sheet.pub)+'/pubhtml" target="_blank" rel="noopener noreferrer">Open the full account book (Google Sheet) →</a></p>';}
+    if(S.sheet&&pubId(S.sheet.pub)){h+='<p style="margin:12px 0 0;font-size:14px"><a href="https://docs.google.com/spreadsheets/d/e/'+encodeURIComponent(pubId(S.sheet.pub))+'/pubhtml" target="_blank" rel="noopener noreferrer">Open the full account book (Google Sheet) →</a></p>';}
     h+='</div>';
 
     h+='<div class="card"><h2>No money? You can still help</h2><ul>'

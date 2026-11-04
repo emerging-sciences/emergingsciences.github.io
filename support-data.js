@@ -8,7 +8,9 @@ window.ES_SUPPORT = {
 
   // Your PUBLIC UPI id (people can only SEND money to it, never take). Example: "yourname@okhdfcbank". Leave "" until ready.
   "upi": "piyush4518@axl",
-    "sheet": { "pub": "2PACX-1vRMqGQgd5PSTcmaJAaAWIYQSRkJGBNeyHv_W2tcYlYM2OEqpKX_RDa93buZhbQWUhahbxx5o6YxpuX-/", "gid": "0" },
+
+  // Account book Google Sheet (published to web as CSV). pub = the long code, gid = tab number. Leave pub "" to switch off.
+  "sheet": { "pub": "2PACX-1vRMqGQgd5PSTcmaJAaAWIYQSRkJGBNeyHv_W2tcYlYM2OEqpKX_RDa93buZhbQWUhahbxx5o6YxpuX-", "gid": "0" },
 
   // QR image downloaded from your UPI app (e.g. upi-qr.png), uploaded to the repo. Leave "" if none.
   "qr": "upi-qr.png",
@@ -27,6 +29,6 @@ window.ES_SUPPORT = {
     "alt": "Piyush Agarwal bachpan me apne dada ji aur dadi ji ke saath"
   },
 
-
+  // Optional extra lines typed here (the sheet is the main place). Format is in the sample below.
   "ledger": []
 };
