@@ -101,6 +101,7 @@ watch(el){const l=LEC(P.get('id'));if(!l){el.innerHTML=`<section class="section"
  const bd=$('#bDone'),bs=$('#bSave'),paint=()=>{bd.textContent=done()[l.id]?'✅ Completed':'☐ Mark complete';bs.textContent=saved()[l.id]?'🔖 Saved':'🔖 Save'};paint();
  bd.onclick=()=>{toggle('done',l.id);paint()};bs.onclick=()=>{toggle('saved',l.id);paint()};$('#auto').onchange=e=>LS.s('auto',e.target.checked);
  $('#bShare').onclick=()=>{const u=location.href;navigator.share?navigator.share({title:l.t,url:u}).catch(()=>{}):navigator.clipboard.writeText(u).then(()=>alert('Link copied'))};
+           import('./comments.js').then(m=>m.mount(l.id,$('#cmts'))).catch(()=>{});
  let pl;const mk=()=>{pl=new YT.Player('yt',{videoId:l.yt,width:'100%',height:'100%',playerVars:{rel:0,playsinline:1},events:{onStateChange:e=>{if(e.data==0){if(!done()[l.id]){toggle('done',l.id);paint()}if($('#auto').checked&&nx)location.href='watch.html?id='+nx.id}}}})};
  $('#spd').onclick=e=>{const v=e.target.dataset.v;if(v){e.preventDefault();pl&&pl.setPlaybackRate(+v)}};
  const s=document.createElement('script');s.src='https://www.youtube.com/iframe_api';document.head.appendChild(s);window.onYouTubeIframeAPIReady=mk;
