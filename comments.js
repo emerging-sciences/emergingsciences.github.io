@@ -7,12 +7,10 @@ import { getFirestore, collection, addDoc, query, orderBy, limit, onSnapshot, de
 
 // ====== STEP: yahan apni Firebase config paste karo (Firebase console > Project settings > Your apps > Web) ======
 const firebaseConfig = {
-  apiKey: "AIzaSyD_YYVetPkf6jOO4VfBetw0q-NaWUptYtk",
-  authDomain: "emerging-sciences-ece22.firebaseapp.com",
-  projectId: "emerging-sciences-ece22",
-  storageBucket: "emerging-sciences-ece22.firebasestorage.app",
-  messagingSenderId: "915855745802",
-  appId: "1:915855745802:web:a9e3dab10ad94dc08310f3"
+  apiKey: "PASTE_HERE",
+  authDomain: "PASTE_HERE",
+  projectId: "PASTE_HERE",
+  appId: "PASTE_HERE"
 };
 // ==========================================================================================================
 
@@ -20,6 +18,7 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
 const MAX = 500;
+export { app, auth, db };
 
 function addStyle() {
   if (document.getElementById("cm-style")) return;
@@ -40,6 +39,10 @@ function addStyle() {
   .cm-txt{white-space:pre-wrap;word-break:break-word;font-size:14px}
   .cm-like{margin-top:6px;cursor:pointer;border:1px solid rgba(255,255,255,.2);background:none;color:inherit;border-radius:999px;padding:3px 10px;font:inherit;font-size:12px}
   .cm-like.on{background:rgba(110,140,255,.35);border-color:rgba(110,140,255,.9)}
+  .cm-replies{margin-left:42px}
+  .cm-rbox{margin-top:8px}
+  .cm-rbox textarea{width:100%;min-height:54px;box-sizing:border-box;border-radius:8px;border:1px solid rgba(255,255,255,.25);background:rgba(255,255,255,.05);color:inherit;padding:8px;font:inherit}
+  .cm-rbox button{margin-top:6px;cursor:pointer;border:1px solid rgba(255,255,255,.25);background:rgba(255,255,255,.08);color:inherit;border-radius:8px;padding:6px 12px;font:inherit}
   .cm-del{margin-left:8px;cursor:pointer;background:none;border:0;color:inherit;opacity:.7;font-size:12px}
   `;
   document.head.appendChild(s);
@@ -174,68 +177,148 @@ export function mount(lectureId, host) {
     };
   });
 
-  // ---- live comment list ----
+  // ---- live comment list (comments + replies) ----
+  function signIn(msg) {
+    signInWithPopup(auth, new GoogleAuthProvider()).catch(() => alert(msg));
+  }
+
+  function mkItem(d, rootId) {
+    const c = d.data();
+    const item = document.createElement("div");
+    item.className = "cm-item";
+    let av;
+    if (c.photo && /^https:\/\//.test(c.photo)) {
+      av = document.createElement("img");
+      av.src = c.photo;
+      av.alt = "";
+      av.referrerPolicy = "no-referrer";
+    } else {
+      av = document.createElement("div");
+      av.className = "cm-av";
+    }
+    const body = document.createElement("div");
+    body.style.flex = "1";
+    const meta = document.createElement("div");
+    meta.className = "cm-meta";
+    const when = c.ts && c.ts.toDate ? c.ts.toDate().toLocaleString() : "just now";
+    meta.textContent = (c.name || "Student") + " \u00b7 " + when;
+    if (auth.currentUser && auth.currentUser.uid === c.uid) {
+      const del = document.createElement("button");
+      del.className = "cm-del";
+      del.textContent = "\ud83d\uddd1 Delete";
+      del.onclick = () => confirm("Ye comment delete karein?") && deleteDoc(doc(db, "lectures", lectureId, "comments", d.id));
+      meta.appendChild(del);
+    }
+    const txt = document.createElement("div");
+    txt.className = "cm-txt";
+    txt.textContent = c.text || "";
+
+    // like
+    const likedBy = Array.isArray(c.likedBy) ? c.likedBy : [];
+    const me = auth.currentUser;
+    const lk = document.createElement("button");
+    lk.className = "cm-like" + (me && likedBy.includes(me.uid) ? " on" : "");
+    lk.textContent = "\ud83d\udc4d " + likedBy.length;
+    lk.onclick = () => {
+      const u = auth.currentUser;
+      if (!u) return signIn("Like ke liye Google sign-in zaruri hai.");
+      updateDoc(doc(db, "lectures", lectureId, "comments", d.id), {
+        likedBy: likedBy.includes(u.uid) ? arrayRemove(u.uid) : arrayUnion(u.uid)
+      }).catch(() => alert("Like save nahi hua. Thodi der baad try karo."));
+    };
+
+    // reply
+    const rb = document.createElement("button");
+    rb.className = "cm-like";
+    rb.style.marginLeft = "6px";
+    rb.textContent = "\u21a9 Reply";
+    const rbox = document.createElement("div");
+    rbox.className = "cm-rbox";
+    rb.onclick = () => {
+      const u = auth.currentUser;
+      if (!u) return signIn("Reply ke liye Google sign-in zaruri hai.");
+      if (rbox.firstChild) {
+        rbox.innerHTML = "";
+        return;
+      }
+      const ta = document.createElement("textarea");
+      ta.maxLength = MAX;
+      ta.value = "@" + (c.name || "Student") + " ";
+      const send = document.createElement("button");
+      send.textContent = "Post reply";
+      send.onclick = async () => {
+        const text = ta.value.trim();
+        if (!text) return;
+        send.disabled = true;
+        const myName = (u.displayName || "Student").slice(0, 60);
+        try {
+          await addDoc(col, {
+            uid: u.uid,
+            name: myName,
+            photo: u.photoURL || "",
+            text: text.slice(0, MAX),
+            likedBy: [],
+            parentId: rootId,
+            replyToUid: c.uid,
+            ts: serverTimestamp()
+          });
+          if (c.uid && c.uid !== u.uid) {
+            try {
+              await addDoc(collection(db, "users", c.uid, "notifs"), {
+                fromUid: u.uid,
+                fromName: myName,
+                text: text.slice(0, 120),
+                lectureId: lectureId,
+                ts: serverTimestamp(),
+                read: false
+              });
+            } catch (e) {}
+          }
+          rbox.innerHTML = "";
+        } catch (e) {
+          alert("Reply post nahi hua. Thodi der baad try karo.");
+          send.disabled = false;
+        }
+      };
+      rbox.append(ta, send);
+      ta.focus();
+    };
+
+    body.append(meta, txt, lk, rb, rbox);
+    item.append(av, body);
+    return item;
+  }
+
   draw = (snap) => {
     list.innerHTML = "";
-    if (snap.empty) {
+    const tops = [];
+    const kids = {};
+    snap.forEach((d) => {
+      const pid = d.data().parentId;
+      if (pid) (kids[pid] = kids[pid] || []).push(d);
+      else tops.push(d);
+    });
+    if (!tops.length) {
       list.textContent = "Abhi koi comment nahi. Pehla comment aap karo!";
       return;
     }
-    snap.forEach((d) => {
-      const c = d.data();
-      const item = document.createElement("div");
-      item.className = "cm-item";
-      let av;
-      if (c.photo && /^https:\/\//.test(c.photo)) {
-        av = document.createElement("img");
-        av.src = c.photo;
-        av.alt = "";
-        av.referrerPolicy = "no-referrer";
-      } else {
-        av = document.createElement("div");
-        av.className = "cm-av";
+    tops.forEach((d) => {
+      const wrap = document.createElement("div");
+      wrap.appendChild(mkItem(d, d.id));
+      const rs = (kids[d.id] || []).slice().reverse(); // purane reply pehle
+      if (rs.length) {
+        const rw = document.createElement("div");
+        rw.className = "cm-replies";
+        rs.forEach((r) => rw.appendChild(mkItem(r, d.id)));
+        wrap.appendChild(rw);
       }
-      const body = document.createElement("div");
-      const meta = document.createElement("div");
-      meta.className = "cm-meta";
-      const when = c.ts && c.ts.toDate ? c.ts.toDate().toLocaleString() : "just now";
-      meta.textContent = (c.name || "Student") + " \u00b7 " + when;
-      if (auth.currentUser && auth.currentUser.uid === c.uid) {
-        const del = document.createElement("button");
-        del.className = "cm-del";
-        del.textContent = "\ud83d\uddd1 Delete";
-        del.onclick = () => confirm("Ye comment delete karein?") && deleteDoc(doc(db, "lectures", lectureId, "comments", d.id));
-        meta.appendChild(del);
-      }
-      const txt = document.createElement("div");
-      txt.className = "cm-txt";
-      txt.textContent = c.text || "";
-
-      const likedBy = Array.isArray(c.likedBy) ? c.likedBy : [];
-      const me = auth.currentUser;
-      const lk = document.createElement("button");
-      lk.className = "cm-like" + (me && likedBy.includes(me.uid) ? " on" : "");
-      lk.textContent = "\ud83d\udc4d " + likedBy.length;
-      lk.onclick = () => {
-        const u = auth.currentUser;
-        if (!u) {
-          signInWithPopup(auth, new GoogleAuthProvider()).catch(() => alert("Like ke liye Google sign-in zaruri hai."));
-          return;
-        }
-        updateDoc(doc(db, "lectures", lectureId, "comments", d.id), {
-          likedBy: likedBy.includes(u.uid) ? arrayRemove(u.uid) : arrayUnion(u.uid)
-        }).catch(() => alert("Like save nahi hua. Thodi der baad try karo."));
-      };
-
-      body.append(meta, txt, lk);
-      item.append(av, body);
-      list.appendChild(item);
+      list.appendChild(wrap);
     });
   };
 
   if (unsub) unsub();
   unsub = onSnapshot(
-    query(col, orderBy("ts", "desc"), limit(100)),
+    query(col, orderBy("ts", "desc"), limit(200)),
     (snap) => {
       lastSnap = snap;
       draw(snap);
