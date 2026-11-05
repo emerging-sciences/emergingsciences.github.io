@@ -2,17 +2,15 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
 import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged }
   from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
-import { getFirestore, collection, addDoc, query, orderBy, limit, onSnapshot, deleteDoc, doc, serverTimestamp }
+import { getFirestore, collection, addDoc, query, orderBy, limit, onSnapshot, deleteDoc, doc, serverTimestamp, getDoc, setDoc, where, getCountFromServer, updateDoc, arrayUnion, arrayRemove }
   from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
 
 // ====== STEP: yahan apni Firebase config paste karo (Firebase console > Project settings > Your apps > Web) ======
 const firebaseConfig = {
-  apiKey: "AIzaSyD_YYVetPkf6jOO4VfBetw0q-NaWUptYtk",
-  authDomain: "emerging-sciences-ece22.firebaseapp.com",
-  projectId: "emerging-sciences-ece22",
-  storageBucket: "emerging-sciences-ece22.firebasestorage.app",
-  messagingSenderId: "915855745802",
-  appId: "1:915855745802:web:a9e3dab10ad94dc08310f3"
+  apiKey: "PASTE_HERE",
+  authDomain: "PASTE_HERE",
+  projectId: "PASTE_HERE",
+  appId: "PASTE_HERE"
 };
 // ==========================================================================================================
 
@@ -27,6 +25,9 @@ function addStyle() {
   s.id = "cm-style";
   s.textContent = `
   .cm-box{margin:18px 0}
+  .cm-vote{display:flex;gap:10px;margin:0 0 14px}
+  .cm-vote button{cursor:pointer;border:1px solid rgba(255,255,255,.25);background:rgba(255,255,255,.08);color:inherit;border-radius:999px;padding:8px 16px;font:inherit}
+  .cm-vote button.on{background:rgba(110,140,255,.35);border-color:rgba(110,140,255,.9)}
   .cm-bar{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:10px;font-size:14px}
   .cm-bar button,.cm-form button{cursor:pointer;border:1px solid rgba(255,255,255,.25);background:rgba(255,255,255,.08);color:inherit;border-radius:8px;padding:8px 14px;font:inherit}
   .cm-form textarea{width:100%;min-height:70px;box-sizing:border-box;border-radius:8px;border:1px solid rgba(255,255,255,.25);background:rgba(255,255,255,.05);color:inherit;padding:10px;font:inherit;resize:vertical}
@@ -35,6 +36,8 @@ function addStyle() {
   .cm-item img,.cm-av{width:32px;height:32px;border-radius:50%;flex:none;background:rgba(255,255,255,.2)}
   .cm-meta{font-size:12px;opacity:.7;margin-bottom:2px}
   .cm-txt{white-space:pre-wrap;word-break:break-word;font-size:14px}
+  .cm-like{margin-top:6px;cursor:pointer;border:1px solid rgba(255,255,255,.2);background:none;color:inherit;border-radius:999px;padding:3px 10px;font:inherit;font-size:12px}
+  .cm-like.on{background:rgba(110,140,255,.35);border-color:rgba(110,140,255,.9)}
   .cm-del{margin-left:8px;cursor:pointer;background:none;border:0;color:inherit;opacity:.7;font-size:12px}
   `;
   document.head.appendChild(s);
@@ -56,13 +59,66 @@ export function mount(lectureId, host) {
   const formWrap = document.createElement("div");
   const list = document.createElement("div");
   list.textContent = "Loading…";
-  box.append(h, bar, formWrap, list);
+  const vbar = document.createElement("div");
+  vbar.className = "cm-vote";
+  box.append(vbar, h, bar, formWrap, list);
   host.appendChild(box);
 
   const col = collection(db, "lectures", lectureId, "comments");
 
+  // ---- like / dislike (ek user ka ek vote) ----
+  const votes = collection(db, "lectures", lectureId, "votes");
+  let up = 0, down = 0, mine = 0;
+  function paintVotes() {
+    vbar.innerHTML = "";
+    [["👍", 1, up], ["👎", -1, down]].forEach(([icon, val, n]) => {
+      const b = document.createElement("button");
+      b.textContent = icon + " " + n;
+      if (mine === val) b.className = "on";
+      b.onclick = () => castVote(val);
+      vbar.appendChild(b);
+    });
+  }
+  async function loadVotes() {
+    try {
+      const [a, b] = await Promise.all([
+        getCountFromServer(query(votes, where("v", "==", 1))),
+        getCountFromServer(query(votes, where("v", "==", -1)))
+      ]);
+      up = a.data().count;
+      down = b.data().count;
+      const u = auth.currentUser;
+      mine = 0;
+      if (u) {
+        const m = await getDoc(doc(votes, u.uid));
+        mine = m.exists() ? m.data().v : 0;
+      }
+    } catch (e) {}
+    paintVotes();
+  }
+  async function castVote(val) {
+    const u = auth.currentUser;
+    if (!u) {
+      signInWithPopup(auth, new GoogleAuthProvider()).catch(() => alert("Vote ke liye Google sign-in zaruri hai."));
+      return;
+    }
+    try {
+      if (mine === val) await deleteDoc(doc(votes, u.uid));
+      else await setDoc(doc(votes, u.uid), { v: val });
+    } catch (e) {
+      alert("Vote save nahi hua. Thodi der baad try karo.");
+      return;
+    }
+    loadVotes();
+  }
+  paintVotes();
+
   // ---- login state ----
+  let lastSnap = null;
+  let draw = () => {};
   onAuthStateChanged(auth, (user) => {
+    loadVotes();
+    if (lastSnap) draw(lastSnap);
     bar.innerHTML = "";
     formWrap.innerHTML = "";
     if (!user) {
@@ -104,6 +160,7 @@ export function mount(lectureId, host) {
           name: (user.displayName || "Student").slice(0, 60),
           photo: user.photoURL || "",
           text: text.slice(0, MAX),
+          likedBy: [],
           ts: serverTimestamp()
         });
         ta.value = "";
@@ -116,48 +173,70 @@ export function mount(lectureId, host) {
   });
 
   // ---- live comment list ----
+  draw = (snap) => {
+    list.innerHTML = "";
+    if (snap.empty) {
+      list.textContent = "Abhi koi comment nahi. Pehla comment aap karo!";
+      return;
+    }
+    snap.forEach((d) => {
+      const c = d.data();
+      const item = document.createElement("div");
+      item.className = "cm-item";
+      let av;
+      if (c.photo && /^https:\/\//.test(c.photo)) {
+        av = document.createElement("img");
+        av.src = c.photo;
+        av.alt = "";
+        av.referrerPolicy = "no-referrer";
+      } else {
+        av = document.createElement("div");
+        av.className = "cm-av";
+      }
+      const body = document.createElement("div");
+      const meta = document.createElement("div");
+      meta.className = "cm-meta";
+      const when = c.ts && c.ts.toDate ? c.ts.toDate().toLocaleString() : "just now";
+      meta.textContent = (c.name || "Student") + " \u00b7 " + when;
+      if (auth.currentUser && auth.currentUser.uid === c.uid) {
+        const del = document.createElement("button");
+        del.className = "cm-del";
+        del.textContent = "\ud83d\uddd1 Delete";
+        del.onclick = () => confirm("Ye comment delete karein?") && deleteDoc(doc(db, "lectures", lectureId, "comments", d.id));
+        meta.appendChild(del);
+      }
+      const txt = document.createElement("div");
+      txt.className = "cm-txt";
+      txt.textContent = c.text || "";
+
+      const likedBy = Array.isArray(c.likedBy) ? c.likedBy : [];
+      const me = auth.currentUser;
+      const lk = document.createElement("button");
+      lk.className = "cm-like" + (me && likedBy.includes(me.uid) ? " on" : "");
+      lk.textContent = "\ud83d\udc4d " + likedBy.length;
+      lk.onclick = () => {
+        const u = auth.currentUser;
+        if (!u) {
+          signInWithPopup(auth, new GoogleAuthProvider()).catch(() => alert("Like ke liye Google sign-in zaruri hai."));
+          return;
+        }
+        updateDoc(doc(db, "lectures", lectureId, "comments", d.id), {
+          likedBy: likedBy.includes(u.uid) ? arrayRemove(u.uid) : arrayUnion(u.uid)
+        }).catch(() => alert("Like save nahi hua. Thodi der baad try karo."));
+      };
+
+      body.append(meta, txt, lk);
+      item.append(av, body);
+      list.appendChild(item);
+    });
+  };
+
   if (unsub) unsub();
   unsub = onSnapshot(
     query(col, orderBy("ts", "desc"), limit(100)),
     (snap) => {
-      list.innerHTML = "";
-      if (snap.empty) {
-        list.textContent = "Abhi koi comment nahi. Pehla comment aap karo!";
-        return;
-      }
-      snap.forEach((d) => {
-        const c = d.data();
-        const item = document.createElement("div");
-        item.className = "cm-item";
-        let av;
-        if (c.photo && /^https:\/\//.test(c.photo)) {
-          av = document.createElement("img");
-          av.src = c.photo;
-          av.alt = "";
-          av.referrerPolicy = "no-referrer";
-        } else {
-          av = document.createElement("div");
-          av.className = "cm-av";
-        }
-        const body = document.createElement("div");
-        const meta = document.createElement("div");
-        meta.className = "cm-meta";
-        const when = c.ts && c.ts.toDate ? c.ts.toDate().toLocaleString() : "just now";
-        meta.textContent = (c.name || "Student") + " · " + when;
-        if (auth.currentUser && auth.currentUser.uid === c.uid) {
-          const del = document.createElement("button");
-          del.className = "cm-del";
-          del.textContent = "🗑 Delete";
-          del.onclick = () => confirm("Ye comment delete karein?") && deleteDoc(doc(db, "lectures", lectureId, "comments", d.id));
-          meta.appendChild(del);
-        }
-        const txt = document.createElement("div");
-        txt.className = "cm-txt";
-        txt.textContent = c.text || "";
-        body.append(meta, txt);
-        item.append(av, body);
-        list.appendChild(item);
-      });
+      lastSnap = snap;
+      draw(snap);
     },
     () => (list.textContent = "Comments abhi load nahi ho paye.")
   );
