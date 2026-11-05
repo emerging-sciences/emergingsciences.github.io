@@ -1,4 +1,4 @@
-const CACHE = "emerging-sciences-v13";
+const CACHE = "emerging-sciences-v14";
 
 // Core pages and assets to keep available offline
 const CORE = [
@@ -29,7 +29,8 @@ const CORE = [
   "./logo-icon.png",
   "./icon-192.png",
   "./icon-512.png",
-  "./comments.js"
+  "./comments.js",
+  "./notify.js"
 ];
 
 self.addEventListener("install", (event) => {
