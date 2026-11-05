@@ -97,7 +97,7 @@ watch(el){const l=LEC(P.get('id'));if(!l){el.innerHTML=`<section class="section"
  el.innerHTML=`<section class="section"><div class="section-inner"><a href="lectures.html?e=${(EX(P.get('e'))&&EX(P.get('e')).subjects.includes(l.s)?P.get('e'):(examOf(l.s)||{}).id)||''}&s=${l.s}">← ${S(l.s).name}</a><h1 class="a-h">${l.n} · ${esc(l.t)}</h1>
  <div class="vid"><div id="yt"></div></div><div class="btns"><button id="bDone"></button><button id="bSave"></button><button id="bShare">🔗 Share</button><a href="material.html?e=${(EX(P.get('e'))&&EX(P.get('e')).subjects.includes(l.s)?P.get('e'):(examOf(l.s)||{}).id)||''}&s=${l.s}">📄 Notes</a>
  <label><input type="checkbox" id="auto" ${auto?'checked':''}> Auto-play next</label></div><div class="chips" id="spd">${[.75,1,1.25,1.5,2].map(x=>`<a href="#" data-v="${x}">${x}x</a>`).join('')}</div>
- <h2 class="a-h">Up next</h2>${L.slice(i+1,i+6).map(lecRow).join('')||'<p>Last lecture of this subject 🎉</p>'}</div></section>`;
+<div id="cmts"></div><h2 class="a-h">Up next</h2>${L.slice(i+1,i+6).map(lecRow).join('')||'<p>Last lecture of this subject 🎉</p>'}</div></section>`;
  const bd=$('#bDone'),bs=$('#bSave'),paint=()=>{bd.textContent=done()[l.id]?'✅ Completed':'☐ Mark complete';bs.textContent=saved()[l.id]?'🔖 Saved':'🔖 Save'};paint();
  bd.onclick=()=>{toggle('done',l.id);paint()};bs.onclick=()=>{toggle('saved',l.id);paint()};$('#auto').onchange=e=>LS.s('auto',e.target.checked);
  $('#bShare').onclick=()=>{const u=location.href;navigator.share?navigator.share({title:l.t,url:u}).catch(()=>{}):navigator.clipboard.writeText(u).then(()=>alert('Link copied'))};
