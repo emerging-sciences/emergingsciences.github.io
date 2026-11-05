@@ -151,4 +151,5 @@ if(fq&&D.faq&&D.faq.length)fq.innerHTML='<h3 class="a-h" style="margin-top:2.5re
 const dx=document.getElementById('doubt-extra');
 if(dx&&D.doubtLinks&&D.doubtLinks.length)dx.innerHTML='<div style="margin-top:3rem;border-top:1px solid #ffffff22;padding-top:2rem"><div class="btns">'+D.doubtLinks.map(l=>`<a href="${l.url}" target="_blank" rel="noopener">${esc(l.label)}</a>`).join('')+'</div></div>';
 const el=$('#app');if(el&&R[el.dataset.page])R[el.dataset.page](el);
+ import('./notify.js').catch(()=>{});
 })();
