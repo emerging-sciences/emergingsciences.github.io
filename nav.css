@@ -4,3 +4,26 @@
 .bnav a.on{color:#4F8CFF}
 .bnav svg{display:block}
 @media (max-width:380px){.bnav a{font-size:10px}}
+/* Om / Jai Shri Ram banner in header */
+.hdr{flex-wrap:wrap}
+.hdr-om{
+  flex:1;
+  text-align:center;
+  white-space:nowrap;
+  font-family:'Space Grotesk','Noto Sans Devanagari',system-ui,sans-serif;
+  font-weight:600;
+  font-size:17px;
+  letter-spacing:.04em;
+  color:#FF9933;
+  text-shadow:0 0 12px rgba(255,153,51,.35);
+  padding:0 8px;
+}
+@media (max-width:768px){
+  .hdr-om{
+    order:3;
+    flex:0 0 100%;
+    font-size:14px;
+    line-height:1.2;
+    padding:6px 0 0;
+  }
+}
