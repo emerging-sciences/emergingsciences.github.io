@@ -4,8 +4,19 @@
 .bnav a.on{color:#4F8CFF}
 .bnav svg{display:block}
 @media (max-width:380px){.bnav a{font-size:10px}}
-/* ===== Om / Jai Shri Ram warrior banner ===== */
+/* ===== Om / Jai Shri Ram MAX warrior banner ===== */
 .hdr{flex-wrap:wrap}
+
+/* fire line under the whole header */
+.hdr::after{
+  content:"";
+  position:absolute;left:0;right:0;bottom:-1px;height:2px;
+  background:linear-gradient(90deg,#D81B00,#FF5E00,#FFB347,#FFF3C4,#FFB347,#FF5E00,#D81B00);
+  background-size:300% 100%;
+  box-shadow:0 0 10px rgba(255,120,0,.8);
+  animation:omFireLine 4s linear infinite;
+  pointer-events:none;
+}
 
 .hdr-om{
   position:relative;
@@ -17,7 +28,7 @@
   justify-content:center;
   gap:12px;
   white-space:nowrap;
-  padding:6px 22px;
+  padding:7px 24px;
   border-radius:99px;
   border:2px solid transparent;
   background:
@@ -28,22 +39,40 @@
   font-family:'Noto Sans Devanagari','Space Grotesk',system-ui,sans-serif;
 }
 
-/* light sweep across the banner */
+/* light sweep */
 .hdr-om::after{
   content:"";
-  position:absolute;
-  top:0;left:-60%;
+  position:absolute;top:0;left:-60%;
   width:40%;height:100%;
-  background:linear-gradient(100deg,transparent,rgba(255,235,180,.35),transparent);
+  background:linear-gradient(100deg,transparent,rgba(255,235,180,.38),transparent);
   transform:skewX(-20deg);
   animation:omSweep 3.2s ease-in-out infinite;
   pointer-events:none;
 }
 
-/* Jai Shri Ram: fire gradient */
+/* rising embers */
+.hdr-om .sp{
+  position:absolute;bottom:-4px;
+  width:4px;height:4px;border-radius:50%;
+  background:#FFB347;
+  box-shadow:0 0 6px 2px rgba(255,140,0,.9);
+  opacity:0;
+  animation:omEmber 2.8s ease-in infinite;
+  pointer-events:none;
+}
+.hdr-om .sp:nth-of-type(1){left:8%;animation-delay:0s}
+.hdr-om .sp:nth-of-type(2){left:22%;animation-delay:.9s;width:3px;height:3px}
+.hdr-om .sp:nth-of-type(3){left:36%;animation-delay:1.7s}
+.hdr-om .sp:nth-of-type(4){left:50%;animation-delay:.4s;width:3px;height:3px}
+.hdr-om .sp:nth-of-type(5){left:64%;animation-delay:2.1s}
+.hdr-om .sp:nth-of-type(6){left:78%;animation-delay:1.2s;width:3px;height:3px}
+.hdr-om .sp:nth-of-type(7){left:91%;animation-delay:.6s}
+
+/* Jai Shri Ram: fire gradient + flicker */
 .hdr-om .jsr{
+  position:relative;
   font-weight:800;
-  font-size:21px;
+  font-size:22px;
   letter-spacing:.06em;
   background:linear-gradient(90deg,#FF3D00 0%,#FF9933 22%,#FFE082 45%,#FFFFFF 50%,#FFE082 55%,#FF9933 78%,#FF3D00 100%);
   background-size:260% 100%;
@@ -51,27 +80,24 @@
   background-clip:text;
   -webkit-text-fill-color:transparent;
   color:transparent;
-  filter:drop-shadow(0 0 6px rgba(255,120,0,.75));
-  animation:omShimmer 3s linear infinite;
+  animation:omShimmer 3s linear infinite, omFlicker 1.6s ease-in-out infinite;
 }
 
 /* Om: pulsing glow */
 .hdr-om .om{
   font-weight:800;
-  font-size:24px;
+  font-size:25px;
   line-height:1;
   color:#FFC266;
   text-shadow:0 0 8px rgba(255,140,0,.95),0 0 20px rgba(255,100,0,.7);
   animation:omPulse 2.2s ease-in-out infinite;
 }
-.hdr-om .om:last-of-type{animation-delay:1.1s}
+.hdr-om .om2{animation-delay:1.1s}
 
-/* Dhanush (bow): right one is mirrored */
+/* Dhanush */
 .hdr-om .bow{
-  font-size:22px;
-  line-height:1;
-  display:inline-block;
-  filter:drop-shadow(0 0 6px rgba(255,140,0,.8));
+  font-size:23px;line-height:1;display:inline-block;
+  filter:drop-shadow(0 0 6px rgba(255,140,0,.85));
   animation:omBowL 2.6s ease-in-out infinite;
 }
 .hdr-om .bow.r{
@@ -79,68 +105,69 @@
   animation:omBowR 2.6s ease-in-out infinite;
 }
 
-/* Bhagwa dhwaj: waving */
+/* Bhagwa dhwaj */
 .hdr-om .flag{
-  font-size:20px;
-  line-height:1;
-  display:inline-block;
+  font-size:21px;line-height:1;display:inline-block;
   transform-origin:20% 90%;
+  filter:drop-shadow(0 0 5px rgba(255,120,0,.7));
   animation:omWave 1.8s ease-in-out infinite;
 }
-.hdr-om .flag:last-child{animation-delay:.9s}
+.hdr-om .flag2{animation-delay:.9s}
 
-@keyframes omBorder{
-  0%{background-position:0 0,0% 50%}
-  100%{background-position:0 0,300% 50%}
-}
+@keyframes omFireLine{0%{background-position:0% 50%}100%{background-position:300% 50%}}
+@keyframes omBorder{0%{background-position:0 0,0% 50%}100%{background-position:0 0,300% 50%}}
 @keyframes omGlow{
   0%,100%{box-shadow:0 0 14px rgba(255,120,0,.35),inset 0 0 12px rgba(255,120,0,.12)}
-  50%{box-shadow:0 0 28px rgba(255,150,0,.75),inset 0 0 18px rgba(255,150,0,.25)}
+  50%{box-shadow:0 0 30px rgba(255,150,0,.8),inset 0 0 20px rgba(255,150,0,.28)}
 }
-@keyframes omSweep{
-  0%{left:-60%}
-  60%,100%{left:130%}
-}
-@keyframes omShimmer{
-  0%{background-position:0% 50%}
-  100%{background-position:260% 50%}
+@keyframes omSweep{0%{left:-60%}60%,100%{left:130%}}
+@keyframes omShimmer{0%{background-position:0% 50%}100%{background-position:260% 50%}}
+@keyframes omFlicker{
+  0%,100%{filter:drop-shadow(0 0 6px rgba(255,110,0,.8))}
+  20%{filter:drop-shadow(0 0 10px rgba(255,150,0,1))}
+  40%{filter:drop-shadow(0 0 5px rgba(255,90,0,.7))}
+  60%{filter:drop-shadow(0 0 12px rgba(255,170,40,1))}
+  80%{filter:drop-shadow(0 0 7px rgba(255,120,0,.85))}
 }
 @keyframes omPulse{
   0%,100%{transform:scale(1);text-shadow:0 0 6px rgba(255,140,0,.7),0 0 14px rgba(255,100,0,.45)}
   50%{transform:scale(1.15);text-shadow:0 0 14px rgba(255,210,120,1),0 0 30px rgba(255,120,0,.9)}
 }
-@keyframes omBowL{
-  0%,100%{transform:translateX(0) rotate(0)}
-  50%{transform:translateX(-3px) rotate(-8deg)}
-}
-@keyframes omBowR{
-  0%,100%{transform:scaleX(-1) translateX(0) rotate(0)}
-  50%{transform:scaleX(-1) translateX(-3px) rotate(-8deg)}
-}
-@keyframes omWave{
-  0%,100%{transform:rotate(-8deg)}
-  50%{transform:rotate(10deg)}
+@keyframes omBowL{0%,100%{transform:translateX(0) rotate(0)}50%{transform:translateX(-3px) rotate(-8deg)}}
+@keyframes omBowR{0%,100%{transform:scaleX(-1) translateX(0) rotate(0)}50%{transform:scaleX(-1) translateX(-3px) rotate(-8deg)}}
+@keyframes omWave{0%,100%{transform:rotate(-8deg)}50%{transform:rotate(10deg)}}
+@keyframes omEmber{
+  0%{transform:translateY(0) translateX(0) scale(1);opacity:0}
+  15%{opacity:1}
+  100%{transform:translateY(-36px) translateX(7px) scale(.2);opacity:0}
 }
 
 /* Mobile: banner on its own row under logo + icons */
 @media (max-width:768px){
-  .hdr-om{
-    order:3;
-    margin:7px auto 0;
-    gap:9px;
-    padding:5px 16px;
-  }
-  .hdr-om .jsr{font-size:18px}
-  .hdr-om .om{font-size:20px}
-  .hdr-om .bow{font-size:19px}
-  .hdr-om .flag{font-size:17px}
+  .hdr-om{order:3;margin:7px auto 0;gap:9px;padding:5px 16px}
+  .hdr-om .jsr{font-size:19px}
+  .hdr-om .om{font-size:21px}
+  .hdr-om .bow{font-size:20px}
+  .hdr-om .flag{font-size:18px}
 }
 @media (max-width:420px){
-  .hdr-om .flag{display:none}   /* chhoti screen pe sirf bow + Om + Jai Shri Ram */
-  .hdr-om .jsr{font-size:16px}
-  .hdr-om .om{font-size:18px}
+  .hdr-om{gap:7px;padding:5px 12px}
+  .hdr-om .flag{display:none}
+  .hdr-om .jsr{font-size:17px}
+  .hdr-om .om{font-size:19px}
+  .hdr-om .bow{font-size:18px}
+}
+@media (max-width:340px){
+  .hdr-om .jsr{font-size:15px}
+  .hdr-om .om{font-size:17px}
+  .hdr-om .bow{font-size:16px}
 }
 
 @media (prefers-reduced-motion:reduce){
-  .hdr-om,.hdr-om::after,.hdr-om .jsr,.hdr-om .om,.hdr-om .bow,.hdr-om .flag{animation:none}
+  .hdr::after,.hdr-om,.hdr-om::after,.hdr-om .sp,.hdr-om .jsr,.hdr-om .om,.hdr-om .bow,.hdr-om .flag{animation:none}
 }
+ 
+
+
+
+ 
