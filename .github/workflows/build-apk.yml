@@ -126,6 +126,21 @@ jobs:
             flutter_app/build/app/outputs/flutter-apk/app-release.apk
           "$APKSIGNER" verify --print-certs dist/EmergingSciences.apk | head -5
           ls -la dist
+          # Fingerprints needed once in Firebase (Project settings > Your apps > Android app > Add fingerprint)
+          CERTS="$("$APKSIGNER" verify --print-certs dist/EmergingSciences.apk)"
+          colon() { tr 'a-f' 'A-F' | sed 's/../&:/g; s/:$//'; }
+          SHA1="$(echo "$CERTS" | grep -m1 'SHA-1 digest' | awk '{print $NF}' | colon || true)"
+          SHA256="$(echo "$CERTS" | grep -m1 'SHA-256 digest' | awk '{print $NF}' | colon || true)"
+          {
+            echo "### App signing fingerprints (for Firebase / Google sign-in)"
+            echo ""
+            echo "Package name: \`com.emergingsciences.emerging_sciences\`"
+            echo ""
+            echo "SHA-1: \`$SHA1\`"
+            echo ""
+            echo "SHA-256: \`$SHA256\`"
+            echo ""
+          } >> "$GITHUB_STEP_SUMMARY"
 
       - name: Write version info (the app reads this to show "update available")
         run: |
