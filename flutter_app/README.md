@@ -27,8 +27,22 @@ Download link used by the website:
 students can no longer update the app in place (they would have to uninstall first).
 Also keep a copy of `release.keystore.enc` and the password somewhere safe (for example your own Google Drive).
 
+## Comments, likes and replies (Google sign-in)
+Lecture pages in the app have the same extra comments, like / dislike and replies as the website (same Firebase
+project, so a comment written in the app shows on the website and the other way round). Sign-in uses the phone's
+own Google account picker. One-time setup, in this order:
+1. Run the build once (or press **Run workflow**). Open the finished run → **Summary**: it shows the app's
+   package name and the **SHA-1 / SHA-256** fingerprints.
+2. Firebase console → **Project settings → Your apps → Add app → Android**. Package name
+   `com.emergingsciences.emerging_sciences`, paste the SHA-1 (and the SHA-256), register, skip the other steps.
+3. Firebase console → **Authentication → Sign-in method → Google → Web SDK configuration** → copy the
+   **Web client ID** and paste it in `flutter_app/lib/config.dart` as `kGoogleWebClientId`, then commit.
+   That builds a new APK automatically.
+If you later publish on Google Play with "Play App Signing", add the SHA-1 shown in Play Console
+(Setup → App signing) to the same Firebase Android app too.
+
 ## Folder map
-- `lib/core/` – data.js reader, Google Sheet merge, lookups (pure Dart, same rules as the website)
-- `lib/screens/` – Home, Lectures, Watch (YouTube player), Material, PYQs, Mock tests, Search, More
+- `lib/core/` – data.js reader, Google Sheet merge, lookups, Firebase REST client (pure Dart, same rules as the website)
+- `lib/screens/` – Home, Lectures, Watch (YouTube player), Material, PYQs, Mock tests, Search, More; Comments, Notifications
 - `tools/` – `make_snapshot.js` (bundles current content into the APK), `patch_android.py`
 - `android_overlay/` – app icon and launch screen

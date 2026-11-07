@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 
 import '../app_state.dart';
+import '../auth_state.dart';
 import '../core/models.dart';
 import '../theme.dart';
 import '../widgets.dart';
 import 'browse.dart';
+import 'notifications.dart';
 import 'search.dart';
 import 'web_page.dart';
 
@@ -17,7 +19,7 @@ class HomeScreen extends StatelessWidget {
       backgroundColor: C.bg,
       body: SafeArea(
         child: ListenableBuilder(
-          listenable: appState,
+          listenable: Listenable.merge(<Listenable>[appState, authState]),
           builder: (context, _) {
             final data = appState.data;
             if (data == null) return const CenterMessage('Loading…');
@@ -48,6 +50,16 @@ class HomeScreen extends StatelessWidget {
                           ],
                         ),
                       ),
+                      if (authState.signedIn)
+                        IconButton(
+                          tooltip: 'Notifications',
+                          icon: Badge(
+                            isLabelVisible: authState.unread > 0,
+                            label: Text(authState.unread > 9 ? '9+' : '${authState.unread}'),
+                            child: const Icon(Icons.notifications_none, color: C.text),
+                          ),
+                          onPressed: () => Navigator.of(context).push(MaterialPageRoute<void>(builder: (_) => const NotificationsScreen())),
+                        ),
                       IconButton(
                         icon: const Icon(Icons.search, color: C.text),
                         onPressed: () => Navigator.of(context).push(MaterialPageRoute<void>(builder: (_) => const SearchScreen())),

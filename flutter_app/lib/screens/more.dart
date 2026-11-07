@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../app_state.dart';
+import '../auth_state.dart';
 import '../config.dart';
 import '../theme.dart';
 import '../widgets.dart';
@@ -89,6 +90,53 @@ class MoreScreen extends StatelessWidget {
                       ],
                     ),
                   ),
+                const SectionLabel('Account'),
+                ListenableBuilder(
+                  listenable: authState,
+                  builder: (context, _) {
+                    final s = authState.session;
+                    if (s == null) {
+                      return EsCard(
+                        onTap: authState.busy ? null : authState.signIn,
+                        child: Row(
+                          children: [
+                            const Icon(Icons.login, color: C.blue),
+                            const SizedBox(width: 12),
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(authState.busy ? 'Signing in…' : 'Sign in with Google', style: kTitle),
+                                  const SizedBox(height: 2),
+                                  Text(authState.error ?? 'To comment, like and reply on lectures', style: kBody),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      );
+                    }
+                    return EsCard(
+                      child: Row(
+                        children: [
+                          const Icon(Icons.account_circle_outlined, color: C.green),
+                          const SizedBox(width: 12),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(s.name, maxLines: 1, overflow: TextOverflow.ellipsis, style: kTitle),
+                                const SizedBox(height: 2),
+                                const Text('Signed in with Google', style: kBody),
+                              ],
+                            ),
+                          ),
+                          TextButton(onPressed: authState.signOut, child: const Text('Sign out')),
+                        ],
+                      ),
+                    );
+                  },
+                ),
                 const SectionLabel('Tools'),
                 PickRow(icon: '⏱️', title: 'Focus mode', lines: const ['Study timer'], onTap: () => openSitePage(context, 'Focus mode', 'focus.html')),
                 PickRow(icon: '💬', title: 'Doubts', lines: const ['Ask a question'], onTap: () => openSitePage(context, 'Doubts', 'doubts.html')),

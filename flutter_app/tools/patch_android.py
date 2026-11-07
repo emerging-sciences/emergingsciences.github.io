@@ -52,3 +52,17 @@ for dirpath, _dirs, files in os.walk(res_src):
     for f in files:
         shutil.copy2(os.path.join(dirpath, f), os.path.join(target, f))
 print('icons and launch screen copied')
+
+# google_sign_in needs Android 7.0+ (minSdk 24). Newer Flutter templates already use that; make sure for older ones.
+for name in ('build.gradle.kts', 'build.gradle'):
+    g = os.path.join(root, 'android', 'app', name)
+    if not os.path.isfile(g):
+        continue
+    txt = open(g, encoding='utf-8').read()
+    new_txt = re.sub(r'minSdk(?:Version)?(\s*=\s*|\s+)flutter\.minSdkVersion', lambda m: 'minSdk' + ('Version ' if name.endswith('.gradle') else ' = ') + '24', txt)
+    if new_txt != txt:
+        open(g, 'w', encoding='utf-8').write(new_txt)
+        print('minSdk set to 24 in', name)
+    else:
+        print('minSdk line not rewritten in', name, '(template already sets it)')
+

@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 
 import 'app_state.dart';
+import 'auth_state.dart';
 import 'screens/browse.dart';
 import 'screens/home.dart';
 import 'screens/more.dart';
 import 'theme.dart';
 import 'widgets.dart';
+import 'widgets/om_banner.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -39,6 +41,7 @@ class _BootState extends State<Boot> with WidgetsBindingObserver {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
     appState.init();
+    authState.init();
   }
 
   @override
@@ -49,8 +52,9 @@ class _BootState extends State<Boot> with WidgetsBindingObserver {
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
-    if (state == AppLifecycleState.resumed && appState.ready) {
-      appState.refreshIfStale();
+    if (state == AppLifecycleState.resumed) {
+      if (appState.ready) appState.refreshIfStale();
+      authState.refreshNotifs();
     }
   }
 
@@ -134,14 +138,21 @@ class _ShellState extends State<Shell> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: C.bg,
-      body: IndexedStack(
-        index: _index,
-        children: const [
-          HomeScreen(),
-          ExamChooser(page: 'lectures'),
-          ExamChooser(page: 'material'),
-          ExamChooser(page: 'mock'),
-          MoreScreen(),
+      body: Column(
+        children: [
+          const SafeArea(bottom: false, child: OmBanner()),
+          Expanded(
+            child: IndexedStack(
+              index: _index,
+              children: const [
+                HomeScreen(),
+                ExamChooser(page: 'lectures'),
+                ExamChooser(page: 'material'),
+                ExamChooser(page: 'mock'),
+                MoreScreen(),
+              ],
+            ),
+          ),
         ],
       ),
       bottomNavigationBar: NavigationBar(

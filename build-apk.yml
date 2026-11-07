@@ -1,0 +1,176 @@
+name: Build Android app (APK)
+
+# Runs when files inside flutter_app/ change, or when you press "Run workflow" in the Actions tab.
+# Result: a signed EmergingSciences.apk attached to a new GitHub Release (free hosting).
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - 'flutter_app/**'
+      - '.github/workflows/build-apk.yml'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: build-apk
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - name: Get the code
+        uses: actions/checkout@v4
+
+      - name: Check the signing password
+        env:
+          SIGNING_PASSWORD: ${{ secrets.SIGNING_PASSWORD }}
+        run: |
+          if [ -z "$SIGNING_PASSWORD" ]; then
+            echo "::error title=Secret missing::Create a repository secret named SIGNING_PASSWORD (Settings > Secrets and variables > Actions > New repository secret). Use a long password (16+ characters) and keep a copy of it safe."
+            exit 1
+          fi
+          if [ "${#SIGNING_PASSWORD}" -lt 12 ]; then
+            echo "::error title=Password too short::SIGNING_PASSWORD must be at least 12 characters long."
+            exit 1
+          fi
+
+      # The app must always be signed with the SAME key, otherwise students cannot update the app
+      # in place. The key is created once, encrypted with your password and saved in the repo
+      # (flutter_app/signing/). Without the password the file is useless to anyone else.
+      - name: Prepare the signing key
+        env:
+          SIGNING_PASSWORD: ${{ secrets.SIGNING_PASSWORD }}
+        run: |
+          set -euo pipefail
+          mkdir -p flutter_app/signing "$RUNNER_TEMP/keys"
+          ENC=flutter_app/signing/release.keystore.enc
+          KS="$RUNNER_TEMP/keys/release.keystore"
+          if [ -f "$ENC" ]; then
+            if ! openssl enc -d -aes-256-cbc -pbkdf2 -iter 200000 -in "$ENC" -out "$KS" -pass env:SIGNING_PASSWORD; then
+              echo "::error title=Wrong password::SIGNING_PASSWORD does not match the saved signing key. Use exactly the same password as in the very first build."
+              exit 1
+            fi
+            echo "Using the existing signing key."
+          else
+            echo "First build: creating the signing key."
+            keytool -genkeypair -keystore "$KS" -storetype PKCS12 -alias emerging \
+              -keyalg RSA -keysize 2048 -validity 36500 \
+              -storepass:env SIGNING_PASSWORD -keypass:env SIGNING_PASSWORD \
+              -dname "CN=Emerging Sciences, OU=Mobile App, O=Emerging Sciences, C=IN"
+            openssl enc -aes-256-cbc -pbkdf2 -iter 200000 -salt -in "$KS" -out "$ENC" -pass env:SIGNING_PASSWORD
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add "$ENC"
+            git commit -m "Add encrypted app signing key"
+            git pull --rebase origin "$GITHUB_REF_NAME"
+            git push origin "HEAD:refs/heads/$GITHUB_REF_NAME"
+          fi
+          echo "KEYSTORE_PATH=$KS" >> "$GITHUB_ENV"
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          cache: true
+
+      - name: Create the Android project files
+        working-directory: flutter_app
+        run: |
+          flutter --version
+          flutter create --platforms=android --project-name emerging_sciences --org com.emergingsciences --no-pub .
+          rm -rf test
+          python3 tools/patch_android.py
+
+      - name: Bundle the current website content into the app
+        run: node flutter_app/tools/make_snapshot.js . flutter_app/assets/snapshot.json
+
+      - name: Install packages
+        working-directory: flutter_app
+        run: flutter pub get
+
+      - name: Build the release APK
+        working-directory: flutter_app
+        run: |
+          flutter build apk --release \
+            --target-platform android-arm,android-arm64 \
+            --build-name=1.0.${{ github.run_number }} \
+            --build-number=${{ github.run_number }} \
+            --dart-define=BUILD_NUMBER=${{ github.run_number }}
+
+      - name: Sign the APK with the app key
+        env:
+          SIGNING_PASSWORD: ${{ secrets.SIGNING_PASSWORD }}
+        run: |
+          set -euo pipefail
+          SDK="${ANDROID_SDK_ROOT:-${ANDROID_HOME:-/usr/local/lib/android/sdk}}"
+          APKSIGNER="$(ls -d "$SDK"/build-tools/*/apksigner 2>/dev/null | sort -V | tail -1)"
+          if [ -z "$APKSIGNER" ]; then
+            echo "::error title=apksigner missing::Android build-tools were not found in $SDK"
+            exit 1
+          fi
+          echo "Using $APKSIGNER"
+          mkdir -p dist
+          "$APKSIGNER" sign --ks "$KEYSTORE_PATH" --ks-key-alias emerging \
+            --ks-pass env:SIGNING_PASSWORD --key-pass env:SIGNING_PASSWORD \
+            --out dist/EmergingSciences.apk \
+            flutter_app/build/app/outputs/flutter-apk/app-release.apk
+          "$APKSIGNER" verify --print-certs dist/EmergingSciences.apk | head -5
+          ls -la dist
+          # Fingerprints needed once in Firebase (Project settings > Your apps > Android app > Add fingerprint)
+          CERTS="$("$APKSIGNER" verify --print-certs dist/EmergingSciences.apk)"
+          colon() { tr 'a-f' 'A-F' | sed 's/../&:/g; s/:$//'; }
+          SHA1="$(echo "$CERTS" | grep -m1 'SHA-1 digest' | awk '{print $NF}' | colon || true)"
+          SHA256="$(echo "$CERTS" | grep -m1 'SHA-256 digest' | awk '{print $NF}' | colon || true)"
+          {
+            echo "### App signing fingerprints (for Firebase / Google sign-in)"
+            echo ""
+            echo "Package name: \`com.emergingsciences.emerging_sciences\`"
+            echo ""
+            echo "SHA-1: \`$SHA1\`"
+            echo ""
+            echo "SHA-256: \`$SHA256\`"
+            echo ""
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Write version info (the app reads this to show "update available")
+        run: |
+          RUN="${{ github.run_number }}"
+          URL="https://github.com/${{ github.repository }}/releases/latest/download/EmergingSciences.apk"
+          printf '{"versionCode": %s, "versionName": "1.0.%s", "apk": "%s", "notes": "A new version of the Emerging Sciences app is ready. Tap to download and install it over the old one."}\n' "$RUN" "$RUN" "$URL" > dist/version.json
+          cat dist/version.json
+
+      - name: Publish the release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          RUN="${{ github.run_number }}"
+          gh release create "v1.0.$RUN" dist/EmergingSciences.apk dist/version.json \
+            --repo "$GITHUB_REPOSITORY" \
+            --target "$GITHUB_SHA" \
+            --title "Emerging Sciences app v1.0.$RUN" \
+            --notes "Android app build $RUN. Download EmergingSciences.apk below, or use the button on the website." \
+            --latest
+          {
+            echo "### App published"
+            echo ""
+            echo "Download link for the website button:"
+            echo ""
+            echo "https://github.com/$GITHUB_REPOSITORY/releases/latest/download/EmergingSciences.apk"
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Keep a copy of the APK in this run
+        uses: actions/upload-artifact@v4
+        with:
+          name: EmergingSciences-apk
+          path: dist/EmergingSciences.apk
+          retention-days: 14

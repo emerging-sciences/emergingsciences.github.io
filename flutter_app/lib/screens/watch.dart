@@ -9,6 +9,7 @@ import '../config.dart';
 import '../core/models.dart';
 import '../theme.dart';
 import '../widgets.dart';
+import 'comments.dart';
 import 'lectures.dart';
 import 'study_material.dart';
 
@@ -275,6 +276,7 @@ class _WatchScreenState extends State<WatchScreen> {
                           ),
                       ],
                     ),
+                    CommentsSection(key: ValueKey<String>('cm_${l.id}'), lectureId: l.id),
                     if (upNext.isNotEmpty) const SectionLabel('Up next'),
                     for (final u in upNext) LectureRow(lecture: u, examId: examId, replace: true),
                     if (upNext.isEmpty && idx >= 0) const Padding(padding: EdgeInsets.only(top: 18), child: Text('Last lecture of this subject 🎉', style: kBody)),
