@@ -27,6 +27,7 @@ if 'es-app-queries' not in xml:
         <intent><action android:name="android.intent.action.VIEW"/><data android:scheme="http"/></intent>
         <intent><action android:name="android.intent.action.VIEW"/><data android:scheme="upi"/></intent>
         <intent><action android:name="android.intent.action.VIEW"/><data android:scheme="tg"/></intent>
+        <intent><action android:name="android.media.action.IMAGE_CAPTURE"/></intent>
     </queries>
 '''
 xml = xml[:m.start()] + extra + '    ' + xml[m.start():]

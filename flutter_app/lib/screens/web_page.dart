@@ -1,9 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
+import 'package:webview_flutter_android/webview_flutter_android.dart';
 
 import '../config.dart';
 import '../theme.dart';
+import '../web_file_picker.dart';
 import '../widgets.dart';
+
+/// The website's private-doubt Google Form (same as the iframe on doubts.html). Opens in the phone's browser,
+/// because uploading a photo there needs the Google login, which Google blocks inside app WebViews.
+const String _kDoubtFormUrl =
+    'https://docs.google.com/forms/d/e/1FAIpQLSe1m3Lpc1hyW7rem8aG6DtgBEo3TzzFiwoRF5qzhtTSV4gOjQ/viewform';
 
 const String _hideChromeJs =
     "(function(){try{var s=document.getElementById('es-app-style');if(!s){s=document.createElement('style');"
@@ -16,12 +23,18 @@ class WebPageScreen extends StatefulWidget {
   final String url;
   final bool hideChrome; // hide the website's own header / bottom bar
   final String? downloadUrl;
+
+  /// Optional slim bar above the page that opens [helpUrl] in the phone's browser (where the Google login works).
+  final String? helpText;
+  final String? helpUrl;
   const WebPageScreen({
     super.key,
     required this.title,
     required this.url,
     this.hideChrome = true,
     this.downloadUrl,
+    this.helpText,
+    this.helpUrl,
   });
 
   @override
@@ -50,6 +63,14 @@ class _WebPageScreenState extends State<WebPageScreen> {
         },
       ))
       ..loadRequest(Uri.parse(widget.url));
+    // "Add a photo / file" buttons on web pages: without this the Android WebView ignores the tap.
+    final platform = _c.platform;
+    if (platform is AndroidWebViewController) {
+      platform.setOnShowFileSelector((FileSelectorParams params) async {
+        if (!mounted) return const <String>[];
+        return pickFilesForWebView(context, params);
+      });
+    }
   }
 
   NavigationDecision _onNav(NavigationRequest req) {
@@ -60,7 +81,10 @@ class _WebPageScreenState extends State<WebPageScreen> {
     if (scheme == 'about' || scheme == 'data' || scheme == 'blob' || scheme == 'javascript') {
       return NavigationDecision.navigate;
     }
-    if ((scheme == 'http' || scheme == 'https') && isInAppHost(uri.host)) {
+    // Google refuses to sign in inside an app's WebView, and Google Forms with uploads need a login:
+    // those pages open in the phone's browser instead.
+    final googleLogin = uri.host == 'accounts.google.com' || (uri.host == 'docs.google.com' && uri.path.startsWith('/forms'));
+    if (!googleLogin && (scheme == 'http' || scheme == 'https') && isInAppHost(uri.host)) {
       return NavigationDecision.navigate;
     }
     openExternal(context, req.url);
@@ -83,18 +107,42 @@ class _WebPageScreenState extends State<WebPageScreen> {
           onPressed: () => _c.reload(),
         ),
       ],
-      body: Stack(
+      body: Column(
         children: [
-          WebViewWidget(controller: _c),
-          if (_loading)
-            const Align(
-              alignment: Alignment.topCenter,
-              child: LinearProgressIndicator(
-                minHeight: 2,
-                backgroundColor: C.bg,
-                valueColor: AlwaysStoppedAnimation<Color>(C.blue),
+          if (widget.helpText != null && widget.helpUrl != null)
+            Material(
+              color: C.surface2,
+              child: InkWell(
+                onTap: () => openExternal(context, widget.helpUrl!),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                  child: Row(
+                    children: [
+                      const Icon(Icons.photo_camera_outlined, size: 20, color: C.blue),
+                      const SizedBox(width: 10),
+                      Expanded(child: Text(widget.helpText!, style: kBody.copyWith(color: C.text))),
+                      const Icon(Icons.open_in_new, size: 18, color: C.text2),
+                    ],
+                  ),
+                ),
               ),
             ),
+          Expanded(
+            child: Stack(
+              children: [
+                WebViewWidget(controller: _c),
+                if (_loading)
+                  const Align(
+                    alignment: Alignment.topCenter,
+                    child: LinearProgressIndicator(
+                      minHeight: 2,
+                      backgroundColor: C.bg,
+                      valueColor: AlwaysStoppedAnimation<Color>(C.blue),
+                    ),
+                  ),
+              ],
+            ),
+          ),
         ],
       ),
     );
@@ -115,7 +163,13 @@ void openDrivePdf(BuildContext context, String title, String driveId) {
 
 /// Opens one of the website's own pages inside the app (without the site's header and bottom bar).
 void openSitePage(BuildContext context, String title, String page) {
+  final isDoubts = page == 'doubts.html';
   Navigator.of(context).push(MaterialPageRoute<void>(
-    builder: (_) => WebPageScreen(title: title, url: '$kSiteBase$page'),
+    builder: (_) => WebPageScreen(
+      title: title,
+      url: '$kSiteBase$page',
+      helpText: isDoubts ? 'Photo ke saath private doubt bhejna hai? Form browser me kholo' : null,
+      helpUrl: isDoubts ? _kDoubtFormUrl : null,
+    ),
   ));
 }
