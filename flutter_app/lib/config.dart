@@ -19,7 +19,7 @@ const String kFirebaseProject = 'emerging-sciences-ece22';
 /// REQUIRED for Google sign-in (comments, likes, replies): the "Web client ID" of the Firebase project
 /// (Firebase console -> Authentication -> Sign-in method -> Google -> Web SDK configuration -> Web client ID).
 /// Looks like 1234567890-abc123def456.apps.googleusercontent.com . It is a public value, safe to keep in the repo.
-const String kGoogleWebClientId = '';
+const String kGoogleWebClientId = '915855745802-d0j685v1i6m7urucrimk2b64atft0ici.apps.googleusercontent.com';
 
 /// While the app is open, content is re-checked this often (so new lectures appear within minutes).
 const Duration kRefreshEvery = Duration(minutes: 3);
