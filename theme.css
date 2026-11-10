@@ -56,3 +56,44 @@ a.a-card:hover,.a-row:hover,.exam-card:hover{background:var(--surface2)}
   -webkit-text-fill-color: transparent;
   display: inline-block;
 }
+
+/* ==========================================================================
+   Dark / Light toggle  (button lives in nav.js; choice saved as es_theme)
+   Dark = default (rules above). Light = overrides below, only when
+   <html data-theme="light">.
+   ========================================================================== */
+.th-toggle{background:none;border:0;cursor:pointer;color:var(--text);padding:8px;border-radius:10px;display:inline-flex;align-items:center;justify-content:center;min-width:36px;min-height:36px;font:inherit}
+.th-toggle:hover{background:var(--blue-light)}
+.th-toggle svg{display:block}
+.th-toggle .th-moon{display:none}
+html[data-theme="light"] .th-toggle .th-sun{display:none}
+html[data-theme="light"] .th-toggle .th-moon{display:block}
+
+html[data-theme="light"]{
+  --bg:#F7F8FC;
+  --surface:#FFFFFF;
+  --surface2:#EEF1F8;
+  --border:rgba(15,23,42,.10);
+  --border-strong:rgba(15,23,42,.18);
+  --text:#0F172A;
+  --text2:#475569;
+  --text3:#64748B;
+  --blue:#2563EB;
+  --blue-dark:#1D4ED8;
+  --blue-light:rgba(37,99,235,.09);
+  --blue-mid:rgba(37,99,235,.22);
+  --green:#047857;
+}
+html[data-theme="light"] .hdr{background:rgba(247,248,252,.92)}
+html[data-theme="light"] nav{background:rgba(247,248,252,.88)}
+html[data-theme="light"] .bnav{background:rgba(255,255,255,.97);border-color:var(--border-strong);box-shadow:0 8px 30px rgba(15,23,42,.14)}
+html[data-theme="light"] .bnav a{color:var(--text3)}
+html[data-theme="light"] .bnav a.on{color:var(--blue)}
+html[data-theme="light"] #splash b{color:var(--text)}
+/* gold logo is pale on white: deepen it a little in light mode */
+html[data-theme="light"] .hdr-logo img,
+html[data-theme="light"] #splash img{filter:brightness(.78) saturate(1.4) drop-shadow(0 0 .5px rgba(90,60,0,.6))}
+html[data-theme="light"] .gradient-text{background-image:linear-gradient(135deg,#B45309 0%,#0E7490 100%)}
+/* inline colours written by app-core.js (made for dark) */
+html[data-theme="light"] .exam-icon[style*="C084FC"]{color:#7E22CE!important}
+html[data-theme="light"] [style*="ffffff22"]{border-top-color:var(--border)!important}
