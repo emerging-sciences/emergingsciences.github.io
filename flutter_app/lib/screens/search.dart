@@ -45,26 +45,26 @@ class _SearchScreenState extends State<SearchScreen> {
               TextField(
                 controller: _ctl,
                 autofocus: true,
-                style: const TextStyle(color: C.text),
+                style: TextStyle(color: C.text),
                 cursorColor: C.blue,
                 onChanged: (v) => setState(() => _q = v),
                 decoration: InputDecoration(
                   hintText: 'Search lectures and notes…',
-                  hintStyle: const TextStyle(color: C.text3),
-                  prefixIcon: const Icon(Icons.search, color: C.text3),
+                  hintStyle: TextStyle(color: C.text3),
+                  prefixIcon: Icon(Icons.search, color: C.text3),
                   filled: true,
                   fillColor: C.surface,
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(14),
-                    borderSide: const BorderSide(color: C.border),
+                    borderSide: BorderSide(color: C.border),
                   ),
                   enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(14),
-                    borderSide: const BorderSide(color: C.border),
+                    borderSide: BorderSide(color: C.border),
                   ),
                   focusedBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(14),
-                    borderSide: const BorderSide(color: C.blue),
+                    borderSide: BorderSide(color: C.blue),
                   ),
                 ),
               ),

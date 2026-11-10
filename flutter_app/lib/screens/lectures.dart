@@ -78,8 +78,8 @@ class LectureRow extends StatelessWidget {
                       children: [
                         Tag(l.isPractice ? 'Practice' : 'Theory'),
                         const SizedBox(width: 8),
-                        if (done) const Icon(Icons.check_circle, size: 16, color: C.green),
-                        if (saved) const Padding(padding: EdgeInsets.only(left: 4), child: Icon(Icons.bookmark, size: 16, color: C.orange)),
+                        if (done) Icon(Icons.check_circle, size: 16, color: C.green),
+                        if (saved) Padding(padding: EdgeInsets.only(left: 4), child: Icon(Icons.bookmark, size: 16, color: C.orange)),
                       ],
                     ),
                   ],

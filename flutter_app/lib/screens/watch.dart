@@ -185,14 +185,14 @@ class _WatchScreenState extends State<WatchScreen> {
                 child: ListView(
                   padding: const EdgeInsets.fromLTRB(16, 14, 16, 24),
                   children: [
-                    Text(l.t, style: const TextStyle(color: C.text, fontSize: 18, fontWeight: FontWeight.w700, height: 1.3)),
+                    Text(l.t, style: TextStyle(color: C.text, fontSize: 18, fontWeight: FontWeight.w700, height: 1.3)),
                     const SizedBox(height: 4),
                     Text(topic?.name ?? '', style: kBody),
                     const SizedBox(height: 14),
                     if (_failed)
                       EsCard(
                         onTap: () => openExternal(context, 'https://youtu.be/${Uri.encodeComponent(l.yt)}'),
-                        child: const Row(
+                        child: Row(
                           children: [
                             Icon(Icons.open_in_new, color: C.orange),
                             SizedBox(width: 12),
@@ -205,13 +205,13 @@ class _WatchScreenState extends State<WatchScreen> {
                         onTap: () => openLecture(context, next, examId, replace: true),
                         child: Row(
                           children: [
-                            const Icon(Icons.skip_next, color: C.blue),
+                            Icon(Icons.skip_next, color: C.blue),
                             const SizedBox(width: 12),
                             Expanded(
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  const Text('Lecture completed ✅  Play next', style: kTitle),
+                                  Text('Lecture completed ✅  Play next', style: kTitle),
                                   const SizedBox(height: 2),
                                   Text('${next.n} · ${next.t}', maxLines: 2, overflow: TextOverflow.ellipsis, style: kBody),
                                 ],
@@ -262,7 +262,7 @@ class _WatchScreenState extends State<WatchScreen> {
                       ],
                     ),
                     const SizedBox(height: 16),
-                    const Text('Speed', style: kSmall),
+                    Text('Speed', style: kSmall),
                     const SizedBox(height: 8),
                     Wrap(
                       spacing: 8,
@@ -279,7 +279,7 @@ class _WatchScreenState extends State<WatchScreen> {
                     CommentsSection(key: ValueKey<String>('cm_${l.id}'), lectureId: l.id),
                     if (upNext.isNotEmpty) const SectionLabel('Up next'),
                     for (final u in upNext) LectureRow(lecture: u, examId: examId, replace: true),
-                    if (upNext.isEmpty && idx >= 0) const Padding(padding: EdgeInsets.only(top: 18), child: Text('Last lecture of this subject 🎉', style: kBody)),
+                    if (upNext.isEmpty && idx >= 0) Padding(padding: EdgeInsets.only(top: 18), child: Text('Last lecture of this subject 🎉', style: kBody)),
                   ],
                 ),
               ),

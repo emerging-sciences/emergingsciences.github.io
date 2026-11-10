@@ -38,15 +38,19 @@ class HomeScreen extends StatelessWidget {
                     children: [
                       ClipRRect(
                         borderRadius: BorderRadius.circular(10),
-                        child: Image.asset('assets/logo-icon.png', width: 42, height: 42),
+                        child: themedLogo(Image.asset('assets/logo-icon.png', width: 42, height: 42)),
                       ),
                       const SizedBox(width: 12),
-                      const Expanded(
+                      Expanded(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text('Emerging Sciences', style: TextStyle(color: C.text, fontSize: 19, fontWeight: FontWeight.w700)),
-                            Text('Free lectures · notes · mock tests', style: kSmall),
+                            FittedBox(
+                              fit: BoxFit.scaleDown,
+                              alignment: Alignment.centerLeft,
+                              child: Text('Emerging Sciences', style: TextStyle(color: C.text, fontSize: 19, fontWeight: FontWeight.w700)),
+                            ),
+                            Text('Free lectures · notes · mock tests', maxLines: 1, overflow: TextOverflow.ellipsis, style: kSmall),
                           ],
                         ),
                       ),
@@ -56,13 +60,18 @@ class HomeScreen extends StatelessWidget {
                           icon: Badge(
                             isLabelVisible: authState.unread > 0,
                             label: Text(authState.unread > 9 ? '9+' : '${authState.unread}'),
-                            child: const Icon(Icons.notifications_none, color: C.text),
+                            child: Icon(Icons.notifications_none, color: C.text),
                           ),
                           onPressed: () => Navigator.of(context).push(MaterialPageRoute<void>(builder: (_) => const NotificationsScreen())),
                         ),
                       IconButton(
-                        icon: const Icon(Icons.search, color: C.text),
+                        icon: Icon(Icons.search, color: C.text),
                         onPressed: () => Navigator.of(context).push(MaterialPageRoute<void>(builder: (_) => const SearchScreen())),
+                      ),
+                      IconButton(
+                        tooltip: themeState.light ? 'Dark theme' : 'Light theme',
+                        icon: Icon(themeState.light ? Icons.dark_mode_outlined : Icons.light_mode_outlined, color: C.text),
+                        onPressed: themeState.toggle,
                       ),
                     ],
                   ),
@@ -72,7 +81,7 @@ class HomeScreen extends StatelessWidget {
                       onTap: () => openExternal(context, u.apk),
                       child: Row(
                         children: [
-                          const Icon(Icons.system_update, color: C.green),
+                          Icon(Icons.system_update, color: C.green),
                           const SizedBox(width: 12),
                           Expanded(
                             child: Column(
@@ -88,7 +97,7 @@ class HomeScreen extends StatelessWidget {
                       ),
                     ),
                   if (appState.offline)
-                    const Padding(
+                    Padding(
                       padding: EdgeInsets.only(bottom: 10),
                       child: Row(
                         children: [
@@ -106,7 +115,7 @@ class HomeScreen extends StatelessWidget {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              const Text('Daily goal', style: kTitle),
+                              Text('Daily goal', style: kTitle),
                               const SizedBox(height: 10),
                               Bar(value: goal == 0 ? 0.0 : today / goal),
                               const SizedBox(height: 8),
@@ -123,7 +132,7 @@ class HomeScreen extends StatelessWidget {
                             children: [
                               Text('🔥 ${appState.streak} days', style: kTitle),
                               const SizedBox(height: 10),
-                              const Text('Study streak', style: kSmall),
+                              Text('Study streak', style: kSmall),
                               const SizedBox(height: 14),
                             ],
                           ),
@@ -136,7 +145,7 @@ class HomeScreen extends StatelessWidget {
                       onTap: () => pushBrowse(context, 'lectures', up.id),
                       child: Row(
                         children: [
-                          const Icon(Icons.timer_outlined, color: C.blue),
+                          Icon(Icons.timer_outlined, color: C.blue),
                           const SizedBox(width: 12),
                           Expanded(
                             child: Column(
@@ -199,9 +208,9 @@ class _Stat extends StatelessWidget {
         ),
         child: Column(
           children: [
-            Text('$value', style: const TextStyle(color: C.blue, fontSize: 22, fontWeight: FontWeight.w700)),
+            Text('$value', style: TextStyle(color: C.blue, fontSize: 22, fontWeight: FontWeight.w700)),
             const SizedBox(height: 4),
-            Text(label, textAlign: TextAlign.center, style: const TextStyle(color: C.text2, fontSize: 11)),
+            Text(label, textAlign: TextAlign.center, style: TextStyle(color: C.text2, fontSize: 11)),
           ],
         ),
       ),
@@ -218,7 +227,7 @@ class _ExamCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final e = exam;
-    final color = hexColor(e.color, C.blue);
+    final color = accentFor(hexColor(e.color, C.blue));
     return Padding(
       padding: const EdgeInsets.only(top: 10),
       child: EsCard(
@@ -265,7 +274,7 @@ class _ExamCard extends StatelessWidget {
                 child: Text(e.desc, maxLines: 4, overflow: TextOverflow.ellipsis, style: kBody),
               ),
             const SizedBox(height: 10),
-            Text(data.countdownText(e, now), style: const TextStyle(color: C.blue, fontSize: 13, fontWeight: FontWeight.w700)),
+            Text(data.countdownText(e, now), style: TextStyle(color: C.blue, fontSize: 13, fontWeight: FontWeight.w700)),
             const SizedBox(height: 2),
             Text('📅 ${e.dateText}${e.note.isEmpty ? '' : ' · ${e.note}'}', style: kSmall),
             const SizedBox(height: 12),

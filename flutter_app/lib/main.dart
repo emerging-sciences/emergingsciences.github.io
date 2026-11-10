@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import 'app_state.dart';
 import 'auth_state.dart';
@@ -9,21 +10,41 @@ import 'theme.dart';
 import 'widgets.dart';
 import 'widgets/om_banner.dart';
 
-void main() {
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await themeState.load(); // saved dark / light choice, so the first frame already has the right colours
   runApp(const EsApp());
 }
+
+bool _started = false; // appState / authState must start only once, even when the theme switch rebuilds the UI
+int _lastTab = 0; // keeps the selected bottom tab across a theme switch
 
 class EsApp extends StatelessWidget {
   const EsApp({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Emerging Sciences',
-      debugShowCheckedModeBanner: false,
-      theme: buildTheme(),
-      home: const Boot(),
+    return ListenableBuilder(
+      listenable: themeState,
+      builder: (context, _) {
+        final light = themeState.light;
+        final overlay = (light ? SystemUiOverlayStyle.dark : SystemUiOverlayStyle.light).copyWith(
+          statusBarColor: Colors.transparent,
+          systemNavigationBarColor: C.surface,
+          systemNavigationBarIconBrightness: light ? Brightness.dark : Brightness.light,
+        );
+        // The key rebuilds every screen on a switch (many widgets read the colours while building).
+        return KeyedSubtree(
+          key: ValueKey<bool>(light),
+          child: MaterialApp(
+            title: 'Emerging Sciences',
+            debugShowCheckedModeBanner: false,
+            theme: buildTheme(),
+            builder: (context, child) => AnnotatedRegion<SystemUiOverlayStyle>(value: overlay, child: child ?? const SizedBox.shrink()),
+            home: const Boot(),
+          ),
+        );
+      },
     );
   }
 }
@@ -40,8 +61,11 @@ class _BootState extends State<Boot> with WidgetsBindingObserver {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
-    appState.init();
-    authState.init();
+    if (!_started) {
+      _started = true;
+      appState.init();
+      authState.init();
+    }
   }
 
   @override
@@ -73,7 +97,7 @@ class _BootState extends State<Boot> with WidgetsBindingObserver {
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    const Text(
+                    Text(
                       'Could not load the content.\nPlease connect to the internet and try again.',
                       textAlign: TextAlign.center,
                       style: kBody,
@@ -108,11 +132,11 @@ class _Splash extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Image.asset('assets/logo-full.png', width: 120, height: 120),
+            themedLogo(Image.asset('assets/logo-full.png', width: 120, height: 120)),
             const SizedBox(height: 16),
-            const Text('Emerging Sciences', style: kH1),
+            Text('Emerging Sciences', style: kH1),
             const SizedBox(height: 22),
-            const SizedBox(
+            SizedBox(
               width: 24,
               height: 24,
               child: CircularProgressIndicator(strokeWidth: 2, valueColor: AlwaysStoppedAnimation<Color>(C.blue)),
@@ -132,7 +156,7 @@ class Shell extends StatefulWidget {
 }
 
 class _ShellState extends State<Shell> {
-  int _index = 0;
+  int _index = _lastTab;
 
   @override
   Widget build(BuildContext context) {
@@ -161,7 +185,7 @@ class _ShellState extends State<Shell> {
         indicatorColor: const Color(0x334F8CFF),
         selectedIndex: _index,
         labelBehavior: NavigationDestinationLabelBehavior.alwaysShow,
-        onDestinationSelected: (i) => setState(() => _index = i),
+        onDestinationSelected: (i) => setState(() => _index = _lastTab = i),
         destinations: const [
           NavigationDestination(icon: Icon(Icons.home_outlined), selectedIcon: Icon(Icons.home), label: 'Home'),
           NavigationDestination(icon: Icon(Icons.play_circle_outline), selectedIcon: Icon(Icons.play_circle), label: 'Lectures'),

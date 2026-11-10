@@ -48,14 +48,14 @@ class ExamChooser extends StatelessWidget {
               physics: const AlwaysScrollableScrollPhysics(),
               padding: const EdgeInsets.fromLTRB(16, 4, 16, 24),
               children: [
-                const Padding(
+                Padding(
                   padding: EdgeInsets.only(bottom: 12),
                   child: Text('Step 1 — choose your exam', style: kBody),
                 ),
                 for (final e in data.exams)
                   PickRow(
                     icon: e.short.isEmpty ? e.id.toUpperCase() : e.short,
-                    iconColor: hexColor(e.color, C.blue),
+                    iconColor: accentFor(hexColor(e.color, C.blue)),
                     title: e.name,
                     lines: [
                       e.body,

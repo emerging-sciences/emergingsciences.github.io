@@ -27,6 +27,11 @@ Download link used by the website:
 students can no longer update the app in place (they would have to uninstall first).
 Also keep a copy of `release.keystore.enc` and the password somewhere safe (for example your own Google Drive).
 
+## Dark / light theme
+Same as the website: sun/moon button in the Home header (and Theme in More → Settings). Dark is the default; the
+choice is saved on the phone. Colours live in `lib/theme.dart` (the light palette is copied from `theme.css`).
+Website pages shown inside the app (Focus, Doubts, Support...) get the same choice automatically.
+
 ## Comments, likes and replies (Google sign-in)
 Lecture pages in the app have the same extra comments, like / dislike and replies as the website (same Firebase
 project, so a comment written in the app shows on the website and the other way round). Sign-in uses the phone's

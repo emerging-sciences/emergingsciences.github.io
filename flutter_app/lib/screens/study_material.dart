@@ -277,8 +277,8 @@ class _PyqScreenState extends State<PyqScreen> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Text('🌐 Official source', style: kTitle),
-                      const Padding(
+                      Text('🌐 Official source', style: kTitle),
+                      Padding(
                         padding: EdgeInsets.only(top: 4),
                         child: Text('All years and the latest papers are always on the official page.', style: kBody),
                       ),

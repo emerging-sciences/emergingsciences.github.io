@@ -18,8 +18,8 @@ class MoreScreen extends StatelessWidget {
       context: context,
       builder: (ctx) => AlertDialog(
         backgroundColor: C.surface,
-        title: const Text('Reset my progress?', style: TextStyle(color: C.text)),
-        content: const Text(
+        title: Text('Reset my progress?', style: TextStyle(color: C.text)),
+        content: Text(
           'This deletes completed lectures, saved items and your study streak on this phone.',
           style: kBody,
         ),
@@ -38,7 +38,7 @@ class MoreScreen extends StatelessWidget {
       context: context,
       builder: (ctx) => AlertDialog(
         backgroundColor: C.surface,
-        title: const Text('Content check', style: TextStyle(color: C.text)),
+        title: Text('Content check', style: TextStyle(color: C.text)),
         content: SizedBox(
           width: double.maxFinite,
           child: SingleChildScrollView(
@@ -82,7 +82,7 @@ class MoreScreen extends StatelessWidget {
                     onTap: () => openExternal(context, u.apk),
                     child: Row(
                       children: [
-                        const Icon(Icons.system_update, color: C.green),
+                        Icon(Icons.system_update, color: C.green),
                         const SizedBox(width: 12),
                         Expanded(
                           child: Text('New app version available${u.name.isEmpty ? '' : ' · v${u.name}'} — tap to download', style: kTitle),
@@ -100,7 +100,7 @@ class MoreScreen extends StatelessWidget {
                         onTap: authState.busy ? null : authState.signIn,
                         child: Row(
                           children: [
-                            const Icon(Icons.login, color: C.blue),
+                            Icon(Icons.login, color: C.blue),
                             const SizedBox(width: 12),
                             Expanded(
                               child: Column(
@@ -119,7 +119,7 @@ class MoreScreen extends StatelessWidget {
                     return EsCard(
                       child: Row(
                         children: [
-                          const Icon(Icons.account_circle_outlined, color: C.green),
+                          Icon(Icons.account_circle_outlined, color: C.green),
                           const SizedBox(width: 12),
                           Expanded(
                             child: Column(
@@ -127,7 +127,7 @@ class MoreScreen extends StatelessWidget {
                               children: [
                                 Text(s.name, maxLines: 1, overflow: TextOverflow.ellipsis, style: kTitle),
                                 const SizedBox(height: 2),
-                                const Text('Signed in with Google', style: kBody),
+                                Text('Signed in with Google', style: kBody),
                               ],
                             ),
                           ),
@@ -142,7 +142,7 @@ class MoreScreen extends StatelessWidget {
                 PickRow(icon: '💬', title: 'Doubts', lines: const ['Ask a question'], onTap: () => openSitePage(context, 'Doubts', 'doubts.html')),
                 PickRow(icon: '❤️', title: 'Support', lines: const ['Help keep everything free'], onTap: () => openSitePage(context, 'Support', 'support.html')),
                 const SectionLabel('🔖 Saved'),
-                if (savedLectures.isEmpty && savedMaterial.isEmpty) const Padding(padding: EdgeInsets.only(bottom: 10), child: Text('Nothing saved yet.', style: kBody)),
+                if (savedLectures.isEmpty && savedMaterial.isEmpty) Padding(padding: EdgeInsets.only(bottom: 10), child: Text('Nothing saved yet.', style: kBody)),
                 for (final l in savedLectures) LectureRow(lecture: l),
                 for (final m in savedMaterial) MaterialCard(item: m),
                 if (data.updates.isNotEmpty) const SectionLabel('📢 Updates'),
@@ -152,7 +152,7 @@ class MoreScreen extends StatelessWidget {
                     child: Text.rich(
                       TextSpan(
                         children: [
-                          TextSpan(text: '${up.date}  ', style: const TextStyle(color: C.text, fontWeight: FontWeight.w700, fontSize: 13)),
+                          TextSpan(text: '${up.date}  ', style: TextStyle(color: C.text, fontWeight: FontWeight.w700, fontSize: 13)),
                           TextSpan(text: up.text, style: kBody),
                         ],
                       ),
@@ -162,14 +162,24 @@ class MoreScreen extends StatelessWidget {
                 EsCard(
                   child: Row(
                     children: [
-                      const Expanded(child: Text('Daily goal (minutes)', style: kTitle)),
+                      Expanded(child: Text('Theme', style: kTitle)),
+                      Pill(label: 'Dark', icon: Icons.dark_mode_outlined, filled: !themeState.light, onTap: () => themeState.setLight(false)),
+                      const SizedBox(width: 8),
+                      Pill(label: 'Light', icon: Icons.light_mode_outlined, filled: themeState.light, onTap: () => themeState.setLight(true)),
+                    ],
+                  ),
+                ),
+                EsCard(
+                  child: Row(
+                    children: [
+                      Expanded(child: Text('Daily goal (minutes)', style: kTitle)),
                       IconButton(
-                        icon: const Icon(Icons.remove_circle_outline, color: C.text2),
+                        icon: Icon(Icons.remove_circle_outline, color: C.text2),
                         onPressed: () => appState.setGoal(appState.goalMin - 5),
                       ),
                       Text('${appState.goalMin}', style: kTitle),
                       IconButton(
-                        icon: const Icon(Icons.add_circle_outline, color: C.text2),
+                        icon: Icon(Icons.add_circle_outline, color: C.text2),
                         onPressed: () => appState.setGoal(appState.goalMin + 5),
                       ),
                     ],
@@ -222,7 +232,7 @@ class MoreScreen extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 6),
-                const Center(child: Text('Progress is saved on this phone only.', style: kSmall)),
+                Center(child: Text('Progress is saved on this phone only.', style: kSmall)),
               ],
             ),
           );

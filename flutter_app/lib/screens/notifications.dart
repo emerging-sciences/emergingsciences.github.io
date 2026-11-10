@@ -58,7 +58,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    const Text('Reply notifications dekhne ke liye Google se sign in karo.', textAlign: TextAlign.center, style: kBody),
+                    Text('Reply notifications dekhne ke liye Google se sign in karo.', textAlign: TextAlign.center, style: kBody),
                     const SizedBox(height: 14),
                     Pill(
                       label: authState.busy ? 'Signing in…' : 'Sign in with Google',
@@ -72,7 +72,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
             );
           }
           if (_loading && authState.notifs.isEmpty) {
-            return const Center(child: CircularProgressIndicator(strokeWidth: 2, valueColor: AlwaysStoppedAnimation<Color>(C.blue)));
+            return Center(child: CircularProgressIndicator(strokeWidth: 2, valueColor: AlwaysStoppedAnimation<Color>(C.blue)));
           }
           final items = authState.notifs;
           return RefreshIndicator(
@@ -80,7 +80,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
             child: items.isEmpty
                 ? ListView(
                     physics: const AlwaysScrollableScrollPhysics(),
-                    children: const [
+                    children: [
                       Padding(
                         padding: EdgeInsets.all(40),
                         child: Text('Abhi koi notification nahi.', textAlign: TextAlign.center, style: kBody),

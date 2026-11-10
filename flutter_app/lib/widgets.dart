@@ -117,7 +117,7 @@ class PickRow extends StatelessWidget {
         ),
         const SizedBox(width: 12),
         Expanded(child: col),
-        if (onTap != null) const Icon(Icons.chevron_right, color: C.text3),
+        if (onTap != null) Icon(Icons.chevron_right, color: C.text3),
       ],
     );
     return EsCard(
@@ -141,7 +141,7 @@ class Bar extends StatelessWidget {
         value: v,
         minHeight: 6,
         backgroundColor: C.surface2,
-        valueColor: const AlwaysStoppedAnimation<Color>(C.blue),
+        valueColor: AlwaysStoppedAnimation<Color>(C.blue),
       ),
     );
   }
@@ -237,7 +237,7 @@ class Tag extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
       decoration: BoxDecoration(color: C.surface2, borderRadius: BorderRadius.circular(8)),
-      child: Text(text, style: const TextStyle(color: C.text2, fontSize: 11, fontWeight: FontWeight.w600)),
+      child: Text(text, style: TextStyle(color: C.text2, fontSize: 11, fontWeight: FontWeight.w600)),
     );
   }
 }
@@ -250,7 +250,7 @@ class SectionLabel extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(top: 14, bottom: 10),
-      child: Text(text, style: const TextStyle(color: C.text, fontSize: 17, fontWeight: FontWeight.w700)),
+      child: Text(text, style: TextStyle(color: C.text, fontSize: 17, fontWeight: FontWeight.w700)),
     );
   }
 }

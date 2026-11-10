@@ -17,6 +17,14 @@ const String _hideChromeJs =
     "s.id='es-app-style';s.textContent='.hdr,.bnav,#splash{display:none!important}body{padding-bottom:0!important}';"
     "document.head.appendChild(s);}}catch(e){}})();";
 
+/// Gives the website page the app's current dark / light choice (the site keeps it in localStorage "es_theme"
+/// and in <html data-theme>; its own sun/moon button is hidden inside the app).
+String _themeJs() {
+  final t = themeState.light ? 'light' : 'dark';
+  return "(function(){try{localStorage.setItem('es_theme','$t');}catch(e){}"
+      "try{document.documentElement.setAttribute('data-theme','$t');}catch(e){}})();";
+}
+
 /// Shows a web page inside the app (mock tests, PDFs, focus timer ...).
 class WebPageScreen extends StatefulWidget {
   final String title;
@@ -50,14 +58,16 @@ class _WebPageScreenState extends State<WebPageScreen> {
     super.initState();
     _c = WebViewController()
       ..setJavaScriptMode(JavaScriptMode.unrestricted)
-      ..setBackgroundColor(const Color(0xFF000000))
+      ..setBackgroundColor(C.bg)
       ..setNavigationDelegate(NavigationDelegate(
         onNavigationRequest: _onNav,
         onPageStarted: (String url) {
+          _c.runJavaScript(_themeJs());
           if (widget.hideChrome) _c.runJavaScript(_hideChromeJs);
           if (mounted) setState(() => _loading = true);
         },
         onPageFinished: (String url) {
+          _c.runJavaScript(_themeJs());
           if (widget.hideChrome) _c.runJavaScript(_hideChromeJs);
           if (mounted) setState(() => _loading = false);
         },
@@ -118,10 +128,10 @@ class _WebPageScreenState extends State<WebPageScreen> {
                   padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
                   child: Row(
                     children: [
-                      const Icon(Icons.photo_camera_outlined, size: 20, color: C.blue),
+                      Icon(Icons.photo_camera_outlined, size: 20, color: C.blue),
                       const SizedBox(width: 10),
                       Expanded(child: Text(widget.helpText!, style: kBody.copyWith(color: C.text))),
-                      const Icon(Icons.open_in_new, size: 18, color: C.text2),
+                      Icon(Icons.open_in_new, size: 18, color: C.text2),
                     ],
                   ),
                 ),
@@ -132,7 +142,7 @@ class _WebPageScreenState extends State<WebPageScreen> {
               children: [
                 WebViewWidget(controller: _c),
                 if (_loading)
-                  const Align(
+                  Align(
                     alignment: Alignment.topCenter,
                     child: LinearProgressIndicator(
                       minHeight: 2,

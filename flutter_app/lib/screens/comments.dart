@@ -252,10 +252,10 @@ class _CommentsSectionState extends State<CommentsSection> with WidgetsBindingOb
       context: context,
       builder: (ctx) => AlertDialog(
         backgroundColor: C.surface2,
-        content: const Text('Ye comment delete karein?', style: TextStyle(color: C.text)),
+        content: Text('Ye comment delete karein?', style: TextStyle(color: C.text)),
         actions: [
           TextButton(onPressed: () => Navigator.of(ctx).pop(false), child: const Text('Cancel')),
-          TextButton(onPressed: () => Navigator.of(ctx).pop(true), child: const Text('Delete', style: TextStyle(color: C.red))),
+          TextButton(onPressed: () => Navigator.of(ctx).pop(true), child: Text('Delete', style: TextStyle(color: C.red))),
         ],
       ),
     );
@@ -299,7 +299,7 @@ class _CommentsSectionState extends State<CommentsSection> with WidgetsBindingOb
           ),
           if (authState.error != null) ...[
             const SizedBox(height: 8),
-            Text(authState.error!, style: const TextStyle(color: C.red, fontSize: 12.5, height: 1.35)),
+            Text(authState.error!, style: TextStyle(color: C.red, fontSize: 12.5, height: 1.35)),
             const SizedBox(height: 8),
             Pill(
               label: 'Website par comment karo',
@@ -331,7 +331,7 @@ class _CommentsSectionState extends State<CommentsSection> with WidgetsBindingOb
           maxLines: 6,
           keyboardType: TextInputType.multiline,
           textCapitalization: TextCapitalization.sentences,
-          style: const TextStyle(color: C.text, fontSize: 14),
+          style: TextStyle(color: C.text, fontSize: 14),
           cursorColor: C.blue,
           decoration: _fieldDecoration('Apna doubt ya comment likho…'),
         ),
@@ -346,7 +346,7 @@ class _CommentsSectionState extends State<CommentsSection> with WidgetsBindingOb
       if (_loadFailed) {
         return Row(
           children: [
-            const Expanded(child: Text('Comments abhi load nahi ho paye.', style: kBody)),
+            Expanded(child: Text('Comments abhi load nahi ho paye.', style: kBody)),
             Pill(label: 'Retry', icon: Icons.refresh, onTap: () {
               setState(() => _loadFailed = false);
               _load(force: true);
@@ -354,7 +354,7 @@ class _CommentsSectionState extends State<CommentsSection> with WidgetsBindingOb
           ],
         );
       }
-      return const Padding(
+      return Padding(
         padding: EdgeInsets.symmetric(vertical: 10),
         child: Center(
           child: SizedBox(
@@ -366,7 +366,7 @@ class _CommentsSectionState extends State<CommentsSection> with WidgetsBindingOb
       );
     }
     if (threads.isEmpty) {
-      return const Text('Abhi koi comment nahi. Pehla comment aap karo!', style: kBody);
+      return Text('Abhi koi comment nahi. Pehla comment aap karo!', style: kBody);
     }
     final myUid = authState.session?.uid;
     final shown = threads.take(_shown).toList();
@@ -408,7 +408,7 @@ class _CommentsSectionState extends State<CommentsSection> with WidgetsBindingOb
         children: [
           _voteBar(),
           const SizedBox(height: 16),
-          const Text('💬 Comments', style: TextStyle(color: C.text, fontSize: 17, fontWeight: FontWeight.w700)),
+          Text('💬 Comments', style: TextStyle(color: C.text, fontSize: 17, fontWeight: FontWeight.w700)),
           const SizedBox(height: 10),
           _accountBar(),
           if (signedIn) ...[const SizedBox(height: 8), _composer()],
@@ -423,7 +423,7 @@ class _CommentsSectionState extends State<CommentsSection> with WidgetsBindingOb
 InputDecoration _fieldDecoration(String hint) {
   final border = OutlineInputBorder(
     borderRadius: BorderRadius.circular(12),
-    borderSide: const BorderSide(color: C.border),
+    borderSide: BorderSide(color: C.border),
   );
   return InputDecoration(
     hintText: hint,
@@ -436,7 +436,7 @@ InputDecoration _fieldDecoration(String hint) {
     enabledBorder: border,
     focusedBorder: OutlineInputBorder(
       borderRadius: BorderRadius.circular(12),
-      borderSide: const BorderSide(color: C.blue),
+      borderSide: BorderSide(color: C.blue),
     ),
   );
 }
@@ -454,7 +454,7 @@ class _Avatar extends StatelessWidget {
       width: size,
       height: size,
       alignment: Alignment.center,
-      decoration: const BoxDecoration(color: C.surface2, shape: BoxShape.circle),
+      decoration: BoxDecoration(color: C.surface2, shape: BoxShape.circle),
       child: Text(letter, style: TextStyle(color: C.text2, fontSize: size * 0.45, fontWeight: FontWeight.w700)),
     );
     if (!photo.startsWith('https://')) return fallback;
@@ -510,7 +510,7 @@ class _ThreadView extends StatelessWidget {
             Container(
               margin: const EdgeInsets.only(left: 16, top: 10),
               padding: const EdgeInsets.only(left: 12),
-              decoration: const BoxDecoration(border: Border(left: BorderSide(color: C.border, width: 2))),
+              decoration: BoxDecoration(border: Border(left: BorderSide(color: C.border, width: 2))),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -612,7 +612,7 @@ class _CommentTileState extends State<_CommentTile> {
                   if (mine)
                     GestureDetector(
                       onTap: widget.onDelete,
-                      child: const Padding(
+                      child: Padding(
                         padding: EdgeInsets.only(left: 8),
                         child: Text('🗑 Delete', style: TextStyle(color: C.red, fontSize: 12, fontWeight: FontWeight.w600)),
                       ),
@@ -620,7 +620,7 @@ class _CommentTileState extends State<_CommentTile> {
                 ],
               ),
               const SizedBox(height: 3),
-              Text(c.text, style: const TextStyle(color: C.text, fontSize: 14, height: 1.4)),
+              Text(c.text, style: TextStyle(color: C.text, fontSize: 14, height: 1.4)),
               const SizedBox(height: 8),
               Wrap(
                 spacing: 8,
@@ -640,7 +640,7 @@ class _CommentTileState extends State<_CommentTile> {
                   maxLines: 5,
                   keyboardType: TextInputType.multiline,
                   textCapitalization: TextCapitalization.sentences,
-                  style: const TextStyle(color: C.text, fontSize: 14),
+                  style: TextStyle(color: C.text, fontSize: 14),
                   cursorColor: C.blue,
                   decoration: _fieldDecoration('Reply likho…'),
                 ),
