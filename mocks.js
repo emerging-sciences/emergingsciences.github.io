@@ -1,7 +1,7 @@
 // Mock test questions. Add a test here and list it in data.js -> mocks.
 // Question format: s=section, t=MCQ|MSQ|NAT, m=marks, q=question, o=options, a=answer index list (MCQ/MSQ) or [min,max] (NAT), e=solution. Math: $...$ (use \\ for backslash)
 window.ES_MOCKS={
-'jam-full-2':{cfg:{title:'IIT JAM Mathematics (MA) — Mock Test 2',minutes:180,secs:{A:'Section A (MCQ)',B:'Section B (MSQ)',C:'Section C (NAT)'}},
+'jam-full-1':{cfg:{title:'IIT JAM Mathematics (MA) — Mock Test 1',minutes:180,secs:{A:'Section A (MCQ)',B:'Section B (MSQ)',C:'Section C (NAT)'}},
 q:[
 // ================= SECTION A : MCQ (Q1 - Q30) =================
 // ---------- Q1 ----------
