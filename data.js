@@ -2385,7 +2385,7 @@ window.ES_DATA = {
     "id": "jam-full-1",
     "e": "jam",
     "s": "full",
-    "t": "IIT JAM Mathematics — Full Length Mock 2",
+    "t": "IIT JAM Mathematics — Full Length Mock 1",
     "q": 60,
     "min": 180
   }
