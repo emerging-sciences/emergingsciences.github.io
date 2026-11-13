@@ -2398,3 +2398,4 @@ window.ES_DATA = {
     "min": 180
   }
 ]
+};
