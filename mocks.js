@@ -16,7 +16,7 @@ q:[
 {s:'C',t:'NAT',m:2,q:'Let $y^{\\prime\\prime}-3y^{\\prime}+2y=0$, $y(0)=0$, $y^{\\prime}(0)=1$. Then $y(\\ln 2)=$ ______.',a:[2,2],e:'$y=e^{2x}-e^{x}$, so $y(\\ln2)=4-2=2$.'},
 {s:'C',t:'NAT',m:2,q:'The value of $\\dfrac{1}{2\\pi i}\\displaystyle\\oint_{|z|=2}\\dfrac{e^{z}}{z(z-1)}\\,dz$ is ______ (rounded to two decimal places).',a:[1.71,1.72],e:'Residue at $0$ is $-1$, at $1$ is $e$. Sum $=e-1\\approx1.72$.'}
 ]},
-  'jam-full-2':{cfg:{title:'IIT JAM Mathematics (MA) — Mock Test 2',minutes:30,secs:{A:'Section A (MCQ)',B:'Section B (MSQ)'}},
+     cfg:{title:'IIT JAM Mathematics (MA) — Mock Test 2',minutes:180,secs:{A:'Section A (MCQ)',B:'Section B (MSQ)',C:'Section C (NAT)'}},
 q:[
 // ================= SECTION A : MCQ (Q1 - Q30) =================
 // ---------- Q1 ----------
@@ -100,7 +100,7 @@ q:[
 // ---------- Q39 ----------
 {s:'B',t:'MSQ',m:2,q:'Let $f$ be a one-to-one function from the closed interval $[0,1]$ to the set of real numbers $\\mathbb R$. Then which of the following statement(s) is/are NOT true?',o:['$f$ must be onto','range of $f$ must contain a rational number','range of $f$ must contain an irrational number','Range of $f$ must contain both rational and irrational numbers.'],a:[0,1,3],e:'The range is uncountable (it is in bijection with $[0,1]$), and $\\mathbb Q$ is countable, so the range must contain an irrational (c is TRUE). But there is a bijection from $[0,1]$ onto the set of irrationals in $\\mathbb R$ (both have cardinality $\\mathfrak c$), giving a one-one $f$ with no rational in its range, so (b) and (d) are NOT necessarily true. $f(x)=x/2$ is one-one but not onto, so (a) is NOT true. Not-true options: (a), (b), (d).'},
 // ---------- Q40 (NEW, JAM level) ----------
-{s:'B',t:'MSQ',m:2,q:'Let $A$ be a real $n\\times n$ matrix with $A^2=A$. Which of the following is/are always true?',o:['every eigenvalue of $A$ is $0$ or $1$','$A$ is diagonalizable','$\\operatorname{Rank}(A)=\\operatorname{Trace}(A)$','$I-A$ is invertible'],a:[0,1,2],e:'$A^2=A$ means $A$ satisfies $x^2-x=x(x-1)$, which has distinct roots. So every eigenvalue is $0$ or $1$ (a true) and the minimal polynomial has distinct roots, so $A$ is diagonalizable (b true). In diagonal form $A\\sim\\operatorname{diag}(1,\\dots,1,0,\\dots,0)$, so $\\operatorname{Trace}(A)=$ number of $1$s $=\\operatorname{Rank}(A)$ (c true). (d) is false: for $A=I$ we get $I-A=0$, which is singular.'}
+{s:'B',t:'MSQ',m:2,q:'Let $A$ be a real $n\\times n$ matrix with $A^2=A$. Which of the following is/are always true?',o:['every eigenvalue of $A$ is $0$ or $1$','$A$ is diagonalizable','$\\operatorname{Rank}(A)=\\operatorname{Trace}(A)$','$I-A$ is invertible'],a:[0,1,2],e:'$A^2=A$ means $A$ satisfies $x^2-x=x(x-1)$, which has distinct roots. So every eigenvalue is $0$ or $1$ (a true) and the minimal polynomial has distinct roots, so $A$ is diagonalizable (b true). In diagonal form $A\\sim\\operatorname{diag}(1,\\dots,1,0,\\dots,0)$, so $\\operatorname{Trace}(A)=$ number of $1$s $=\\operatorname{Rank}(A)$ (c true). (d) is false: for $A=I$ we get $I-A=0$, which is singular.'},
 // ---------- Q41 ----------
 {s:'C',t:'NAT',m:1,q:'Let the sum of the series $\\frac{1}{1\\cdot2}+\\frac{1}{2\\cdot3}+\\frac{1}{3\\cdot4}+\\cdots+\\frac{1}{100\\cdot101}$ be $S$. Then $101$ times $S$ is equal to ______.',a:100,e:'Since $\\frac{1}{k(k+1)}=\\frac1k-\\frac1{k+1}$, the series telescopes: $S=1-\\frac1{101}=\\frac{100}{101}$. Hence $101S=100$.'},
 // ---------- Q42 ----------
