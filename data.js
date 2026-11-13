@@ -2380,22 +2380,21 @@ window.ES_DATA = {
    "label": "NTA CSIR NET Earth, Atmospheric, Ocean & Planetary Sciences — archive"
   }
  },
- "mocks": [
+"mocks": [
   {
-   "id": "jam-full-1",
-   "e": "jam",
-   "s": "full",
-   "t": "IIT JAM Mathematics — Full Length Mock 1",
-   "q": 12,
-   "min": 30
+    "id": "jam-full-1",
+    "e": "jam",
+    "s": "full",
+    "t": "IIT JAM Mathematics — Full Length Mock 1",
+    "q": 12,
+    "min": 30
   },
-   {
-   "id": "jam-full-2",
-   "e": "jam",
-   "s": "full",
-   "t": "IIT JAM Mathematics — Full Length Mock 2",
-   "q": 20,
-   "min": 30
-   }
- ]
-};
+  {
+    "id": "jam-full-2",
+    "e": "jam",
+    "s": "full",
+    "t": "IIT JAM Mathematics — Full Length Mock 2",
+    "q": 60,
+    "min": 180
+  }
+]
