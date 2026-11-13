@@ -110,8 +110,8 @@ q:[
 // ---------- Q51 ----------
 {s:'C',t:'NAT',m:2,q:'The value of $\\alpha\\in\\mathbb R$ for which the curves $x^2+\\alpha y^2=1$ and $y=x^2$ intersect orthogonally is ______.',a:[2,2],e:'For $x^2+\\alpha y^2=1$ the slope is $m_1=-\\frac{x}{\\alpha y}$, and for $y=x^2$ it is $m_2=2x$. Orthogonality $m_1m_2=-1$ gives $2x^2=\\alpha y$. At the intersection $x^2=y$, so $\\alpha=2$. (Check: $2y^2+y-1=0$ gives $y=\\frac12$, so the curves do meet.)'},
 // ---------- Q52 ----------
-{s:'C',t:'NAT',m:2,q:'Let $\\varphi$ be a solution of the ODE $x^2y^{\\prime}+2xy=1$ on $0<x<\\infty$. Then the limit of $\\varphi(x)$ as $x\\to\\infty$ is ______.',a:[0,0],e:'The equation is $(x^2y)^{\\prime}=1$, so $x^2y=x+C$ and $\\varphi(x)=\\frac1x+\\frac{C}{x^2}$. As $x\\to\\infty$ this tends to $0$.'},
-// ---------- Q53 ----------
+{s:'C',t:'NAT',m:2,q:'Let φ be a solution of the ODE x²y′ + 2xy = 1 on 0 < x < ∞. Then the limit of φ(x) as x → ∞ is ______.',a:[0,0],e:'The equation is (x²y)′ = 1, so x²y = x + C and φ(x) = 1/x + C/x². As x → ∞ this tends to 0.'},
+ // ---------- Q53 ----------
 {s:'C',t:'NAT',m:2,q:'The value of $\\lim_{x\\to0}\\frac{\\int_0^{x^2}\\cos t^2\\,dt}{x\\sin x}$ is ______.',a:[1,1],e:'The limit is of the form $\\frac00$. By L-Hospital rule it equals $\\lim_{x\\to0}\\frac{2x\\cos(x^4)}{\\sin x+x\\cos x}=\\lim_{x\\to0}\\frac{2\\cos(x^4)}{\\frac{\\sin x}{x}+\\cos x}=\\frac{2}{1+1}=1$.'},
 // ---------- Q54 ----------
 {s:'C',t:'NAT',m:2,q:'If $\\int_0^x f(t)\\,dt=x+\\int_x^1 t\\,f(t)\\,dt$, then the value of $f(1)$ is ______.',a:[0.5,0.5],e:'Differentiate both sides with respect to $x$: $f(x)=1-xf(x)$, so $f(x)=\\frac1{1+x}$ and $f(1)=\\frac12=0.5$.'},
