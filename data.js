@@ -2382,7 +2382,7 @@ window.ES_DATA = {
  },
 "mocks": [
   {
-    "id": "jam-full-2",
+    "id": "jam-full-1",
     "e": "jam",
     "s": "full",
     "t": "IIT JAM Mathematics — Full Length Mock 2",
