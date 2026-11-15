@@ -8,7 +8,6 @@ import 'screens/home.dart';
 import 'screens/more.dart';
 import 'theme.dart';
 import 'widgets.dart';
-import 'widgets/om_banner.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -164,7 +163,6 @@ class _ShellState extends State<Shell> {
       backgroundColor: C.bg,
       body: Column(
         children: [
-          const SafeArea(bottom: false, child: OmBanner()),
           Expanded(
             child: IndexedStack(
               index: _index,

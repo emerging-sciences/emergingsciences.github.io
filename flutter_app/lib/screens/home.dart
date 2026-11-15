@@ -5,6 +5,7 @@ import '../auth_state.dart';
 import '../core/models.dart';
 import '../theme.dart';
 import '../widgets.dart';
+import '../widgets/om_banner.dart';
 import 'browse.dart';
 import 'notifications.dart';
 import 'search.dart';
@@ -181,6 +182,8 @@ class HomeScreen extends StatelessWidget {
                       onTap: () => openSitePage(context, 'Support', 'support.html'),
                     ),
                   ),
+                  const SizedBox(height: 14),
+                  const Center(child: OmBanner(showLine: false)),
                 ],
               ),
             );

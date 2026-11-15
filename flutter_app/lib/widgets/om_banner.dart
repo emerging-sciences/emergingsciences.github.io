@@ -68,7 +68,9 @@ const List<Color> _textColors = <Color>[
 const List<double> _textStops = <double>[0.0, 0.22, 0.45, 0.50, 0.55, 0.78, 1.0];
 
 class OmBanner extends StatefulWidget {
-  const OmBanner({super.key});
+  /// The glowing line under the pill. The home-screen footer shows the pill without it.
+  final bool showLine;
+  const OmBanner({super.key, this.showLine = true});
 
   @override
   State<OmBanner> createState() => _OmBannerState();
@@ -147,7 +149,7 @@ class _OmBannerState extends State<OmBanner> with SingleTickerProviderStateMixin
                     ),
                   ),
                 ),
-                SizedBox(height: 3, width: double.infinity, child: CustomPaint(painter: _FireLinePainter(s))),
+                if (widget.showLine) SizedBox(height: 3, width: double.infinity, child: CustomPaint(painter: _FireLinePainter(s))),
               ],
             );
           },
