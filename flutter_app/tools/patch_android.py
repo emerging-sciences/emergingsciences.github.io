@@ -67,3 +67,26 @@ for name in ('build.gradle.kts', 'build.gradle'):
     else:
         print('minSdk line not rewritten in', name, '(template already sets it)')
 
+
+# Android Lint ("lintVitalAnalyzeRelease") can crash on a release build with
+#   "RuntimeException: LintDriver.handleDetectorError" (a bug inside lint / one of its libraries).
+# Lint only checks Android files, never our Dart code, and the release APK does not need it, so switch it off.
+for name in ('build.gradle.kts', 'build.gradle'):
+    g = os.path.join(root, 'android', 'app', name)
+    if not os.path.isfile(g):
+        continue
+    txt = open(g, encoding='utf-8').read()
+    if 'checkReleaseBuilds' in txt:
+        print('lint already configured in', name)
+        break
+    if name.endswith('.kts'):
+        block = '    lint {\n        checkReleaseBuilds = false\n        abortOnError = false\n    }\n'
+    else:
+        block = '    lint {\n        checkReleaseBuilds false\n        abortOnError false\n    }\n'
+    new_txt, n = re.subn(r'^(android\s*\{[^\n]*\n)', lambda m: m.group(1) + block, txt, count=1, flags=re.M)
+    if n:
+        open(g, 'w', encoding='utf-8').write(new_txt)
+        print('lint vital checks disabled in', name)
+    else:
+        print('WARNING: android { block not found in', name, '- lint was not disabled')
+    break
