@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 
 import '../app_state.dart';
+import '../config.dart';
 import '../core/models.dart';
 import '../theme.dart';
 import '../widgets.dart';
 import 'lectures.dart';
 import 'study_material.dart';
+import 'web_page.dart';
 
 class SearchScreen extends StatefulWidget {
   const SearchScreen({super.key});
@@ -24,6 +26,20 @@ class _SearchScreenState extends State<SearchScreen> {
     super.dispose();
   }
 
+  /// Mock tests are found by title, exam (JAM, GATE ...), subject / topic, or the words "mock" / "test".
+  List<Mock> _findMocks(EsData data, String q) {
+    final words = q.split(RegExp(r'\s+')).where((w) => w.isNotEmpty).toList();
+    return data.mocks.where((m) {
+      final ex = data.exam(m.e);
+      final topic = m.s == 'full' ? null : data.topic(m.s);
+      final paper = (ex != null && data.hasPapers(ex)) ? data.paper(m.s == 'full' ? m.p : topic?.p) : null;
+      final hay = [m.t, 'mock test tests full length', ex?.short ?? '', ex?.name ?? '', topic?.name ?? '', paper?.name ?? '']
+          .join(' ')
+          .toLowerCase();
+      return words.every(hay.contains);
+    }).toList();
+  }
+
   @override
   Widget build(BuildContext context) {
     return EsPage(
@@ -39,6 +55,7 @@ class _SearchScreenState extends State<SearchScreen> {
           final List<StudyMaterial> material = (data == null || q.isEmpty)
               ? <StudyMaterial>[]
               : data.material.where((m) => '${m.t} ${m.d} ${m.k}'.toLowerCase().contains(q)).toList();
+          final List<Mock> mocks = (data == null || q.isEmpty) ? <Mock>[] : _findMocks(data, q);
           return ListView(
             padding: const EdgeInsets.fromLTRB(16, 4, 16, 24),
             children: [
@@ -49,7 +66,7 @@ class _SearchScreenState extends State<SearchScreen> {
                 cursorColor: C.blue,
                 onChanged: (v) => setState(() => _q = v),
                 decoration: InputDecoration(
-                  hintText: 'Search lectures and notes…',
+                  hintText: 'Search lectures, notes and mock tests…',
                   hintStyle: TextStyle(color: C.text3),
                   prefixIcon: Icon(Icons.search, color: C.text3),
                   filled: true,
@@ -73,6 +90,25 @@ class _SearchScreenState extends State<SearchScreen> {
                 for (final l in lectures) LectureRow(lecture: l),
                 SectionLabel('Material (${material.length})'),
                 for (final m in material) MaterialCard(item: m),
+                SectionLabel('Mock Tests (${mocks.length})'),
+                for (final m in mocks)
+                  PickRow(
+                    icon: '▶',
+                    iconColor: C.blue,
+                    title: m.t,
+                    lines: [
+                      [data?.exam(m.e)?.short ?? '', m.s == 'full' ? 'Full-Length' : (data?.topic(m.s)?.name ?? '')]
+                          .where((x) => x.isNotEmpty)
+                          .join(' · '),
+                      '${m.q} Qs · ${m.min} min',
+                    ],
+                    onTap: () => Navigator.of(context).push(MaterialPageRoute<void>(
+                      builder: (_) => WebPageScreen(
+                        title: m.t,
+                        url: '${kSiteBase}test.html?t=${Uri.encodeQueryComponent(m.id)}',
+                      ),
+                    )),
+                  ),
               ],
             ],
           );

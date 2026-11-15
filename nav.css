@@ -143,6 +143,12 @@
 }
 
 /* Mobile: banner on its own row under logo + icons */
+/* Desktop: the Jai Shri Ram pill sits in the exact middle of the header (and of the page), on every page.
+   Logo stays at the left and the icons at the right; the header is a little wider than the 900px content so nothing overlaps. */
+@media (min-width:1060px){
+  .hdr{min-height:74px;padding-left:max(16px,calc((100% - 1100px)/2));padding-right:max(16px,calc((100% - 1100px)/2))}
+  .hdr-om{position:absolute;left:0;right:0;top:0;bottom:0;margin:auto;width:max-content;height:fit-content}
+}
 @media (max-width:768px){
   .hdr-om{order:3;margin:7px auto 0;gap:9px;padding:5px 16px}
   .hdr-om .jsr{font-size:19px}

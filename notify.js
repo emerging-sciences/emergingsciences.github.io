@@ -1,6 +1,6 @@
 // Emerging Sciences — in-app notifications (🔔): "kisi ne aapke comment par reply kiya"
 import { auth, db } from "./comments.js";
-import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
+import { onAuthStateChanged, GoogleAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
 import { collection, query, orderBy, limit, onSnapshot, updateDoc, doc }
   from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
 
@@ -56,6 +56,31 @@ function mountBell() {
     }
     bell.style.bottom = off + "px";
   }
+}
+
+// true when the bell sits in the site header (always visible); false = floating fallback (header hidden, e.g. in the app)
+function headerShown() {
+  const hdr = document.querySelector(".hdr");
+  return !!(hdr && document.querySelector(".hdr-r") && getComputedStyle(hdr).display !== "none");
+}
+
+function paintLoggedOut() {
+  badge.style.display = "none";
+  panel.innerHTML = "";
+  const head = document.createElement("div");
+  head.className = "ph";
+  const t = document.createElement("b");
+  t.textContent = "Notifications";
+  head.appendChild(t);
+  const em = document.createElement("div");
+  em.className = "em";
+  em.textContent = "Koi aapke comment par reply kare to yahan dikhega. Iske liye Google se sign in karo.";
+  const go = document.createElement("button");
+  go.type = "button";
+  go.textContent = "Sign in with Google";
+  go.style.cssText = "display:block;margin:10px 12px 14px;padding:9px 14px;border:0;border-radius:10px;background:#4F8CFF;color:#fff;font:inherit;font-weight:600;cursor:pointer";
+  go.onclick = () => signInWithPopup(auth, new GoogleAuthProvider()).catch(() => alert("Sign-in nahi ho paya. Dobara try karo."));
+  panel.append(head, em, go);
 }
 
 function placePanel() {
@@ -153,6 +178,13 @@ window.addEventListener("resize", () => {
   if (panel.style.display === "block") placePanel();
 });
 
+// Bell is always visible in the header (every page). Logged out -> it explains how to get notifications.
+if (headerShown()) {
+  mountBell();
+  bell.style.display = "flex";
+  paintLoggedOut();
+}
+
 onAuthStateChanged(auth, (user) => {
   if (unsub) {
     unsub();
@@ -160,11 +192,13 @@ onAuthStateChanged(auth, (user) => {
   }
   items = [];
   panel.style.display = "none";
+  mountBell();
   if (!user) {
-    bell.style.display = "none";
+    paintLoggedOut();
+    // floating fallback (header hidden, e.g. inside the app) only appears for signed-in users
+    bell.style.display = headerShown() ? "flex" : "none";
     return;
   }
-  mountBell();
   bell.style.display = "flex";
   unsub = onSnapshot(
     query(collection(db, "users", user.uid, "notifs"), orderBy("ts", "desc"), limit(30)),

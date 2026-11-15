@@ -131,10 +131,17 @@ mock(el){const {ex,sub,p}=resolve();if(!ex){el.innerHTML=chooser('mock');return}
  if(!sub){el.innerHTML=stepView('mock',ex,p);return}
  const T=mockOf(ex,sub.id,p);
  el.innerHTML=`<section class="section"><div class="section-inner">${crumbs('mock',ex,sub.name,hasP(ex)?PAP(p):null)}<h1 class="a-h">${sub.icon} ${sub.name}</h1><p>${T.length} test${T.length==1?'':'s'}</p>${T.map(m=>`<a class="a-row" href="test.html?t=${m.id}"><span class="num">▶</span><span class="tt">${esc(m.t)}</span><span class="tag">${m.q} Qs · ${m.min} min</span></a>`).join('')||'<p>Tests for this subject are coming soon.</p>'}</div></section>`},
-search(el){el.innerHTML=`<section class="section"><div class="section-inner"><h1 class="a-h">Search</h1><input id="q" class="a-in" placeholder="Search lectures and notes…" value="${esc(P.get('q')||'')}"><div id="res"></div></div></section>`;
+search(el){el.innerHTML=`<section class="section"><div class="section-inner"><h1 class="a-h">Search</h1><input id="q" class="a-in" placeholder="Search lectures, notes and mock tests…" value="${esc(P.get('q')||'')}"><div id="res"></div></div></section>`;
+ /* mock tests: found by title, exam (JAM, GATE…), subject / topic, or the words "mock" / "test" */
+ const mockTopic=m=>m.s=='full'?null:S(m.s),
+  mockText=m=>{const e=EX(m.e)||{},t=mockTopic(m),pp=hasP(e)?PAP(m.s=='full'?(m.p||DEFP):subP(t||{})):null;
+   return [m.t,'mock test tests full length',e.short,e.name,t&&t.name,pp&&pp.name].filter(Boolean).join(' ').toLowerCase()},
+  mockRow=m=>{const e=EX(m.e)||{},t=mockTopic(m);
+   return `<a class="a-row" href="test.html?t=${encodeURIComponent(m.id)}"><span class="num">▶</span><span class="tt">${esc(m.t)}<br><small>${esc([e.short||e.name,m.s=='full'?'Full-Length':(t?t.name:'')].filter(Boolean).join(' · '))}</small></span><span class="tag">${m.q} Qs · ${m.min} min</span></a>`};
  const go=()=>{const q=$('#q').value.toLowerCase().trim();if(!q){$('#res').innerHTML='';return}
-  const l=D.lectures.filter(x=>(x.t+' '+x.n+' '+S(x.s).name).toLowerCase().includes(q)),m=D.material.filter(x=>(x.t+' '+x.d+' '+x.k).toLowerCase().includes(q));
-  $('#res').innerHTML=`<h3>Lectures (${l.length})</h3>${l.map(lecRow).join('')}<h3>Material (${m.length})</h3><div class="a-grid">${m.map(matCard).join('')}</div>`};$('#q').oninput=go;go()},
+  const l=D.lectures.filter(x=>(x.t+' '+x.n+' '+S(x.s).name).toLowerCase().includes(q)),m=D.material.filter(x=>(x.t+' '+x.d+' '+x.k).toLowerCase().includes(q)),
+   words=q.split(/\s+/).filter(Boolean),k=(D.mocks||[]).filter(x=>{const h=mockText(x);return words.every(w=>h.includes(w))});
+  $('#res').innerHTML=`<h3>Lectures (${l.length})</h3>${l.map(lecRow).join('')}<h3>Material (${m.length})</h3><div class="a-grid">${m.map(matCard).join('')}</div><h3>Mock Tests (${k.length})</h3>${k.map(mockRow).join('')}`};$('#q').oninput=go;go()},
 more(el){const sv=saved(),L=D.lectures.filter(l=>sv[l.id]),M=D.material.filter(m=>sv[m.id]);
  el.innerHTML=`<section class="section"><div class="section-inner"><h1 class="a-h">More</h1><h3>🔖 Saved</h3>${L.map(lecRow).join('')}<div class="a-grid">${M.map(matCard).join('')}</div>${L.length+M.length?'':'<p>Nothing saved yet.</p>'}
  <h3>📢 Updates</h3>${D.updates.map(u=>`<p><b>${u.date}</b> — ${esc(u.text)}</p>`).join('')}

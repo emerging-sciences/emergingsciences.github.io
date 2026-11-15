@@ -43,6 +43,9 @@
   if(part==='hdr'){var tb=me.previousElementSibling&&me.previousElementSibling.querySelector('.th-toggle');
     if(tb){applyTheme(root.getAttribute('data-theme')==='light'?'light':'dark',false);
       tb.addEventListener('click',function(){applyTheme(root.getAttribute('data-theme')==='light'?'dark':'light',true)})}}
+  /* notification bell (notify.js) on EVERY page that has the header, not only on the app pages */
+  if(part==='hdr'){var hd=me.previousElementSibling;
+    setTimeout(function(){try{if(hd&&getComputedStyle(hd).display!=='none'&&!document.querySelector('script[src^="notify.js"]')){var nm=document.createElement('script');nm.type='module';nm.src='notify.js';document.body.appendChild(nm)}}catch(e){}},300)}
   if(part==='nav'&&!window.__esgc&&!document.querySelector('script[src^="analytics.js"]')){var an=document.createElement('script');an.src='analytics.js';document.body.appendChild(an)}
   if(part==='nav'&&!window.ESFocus&&!document.querySelector('script[src^="focus-bar.js"]')){var fb=document.createElement('script');fb.src='focus-bar.js';document.body.appendChild(fb)}
 })();
