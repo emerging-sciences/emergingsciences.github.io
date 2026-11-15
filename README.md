@@ -28,3 +28,12 @@ Lectures / Study Material / Mock Test all follow: **Exam → Subject → content
   Subjects for GATE, CSIR NET, CUET PG, TIFR, NBHM, ISI, CMI were taken from public syllabi — please verify.
 - **Mock tests:** list in `data.js → mocks` `{id, e:"exam id", s:"full" or subject id, t:"Title", q:12, min:30}` and put the questions in `mocks.js` under the same `id` (format described at the top of that file).
 - Header + bottom navigation come from `nav.js` (edit once, applies to every page).
+
+## Notifications (🔔) — agar naye notification na aayein
+- Notification tab banta hai jab koi **kisi ke comment par reply** karta hai (naya top-level comment kisi ko notify nahi karta).
+- Reply karne wale ka browser/app doosre user ke `users/{uid}/notifs` me likhta hai, isliye Firestore rules me wo block hona zaroori hai: `firestore.rules` dekho (Firebase console → Firestore → Rules me paste → Publish).
+- Ab agar notification save nahi ho paye to reply karne wale ko lal message dikhta hai (jaise `permission-denied`), aur bell ke panel me load-error ka code dikhta hai. Pehle ye chup-chap fail hota tha.
+
+## Search
+Search me Lectures / Material / Mock Tests ke tabs (counts ke saath) hain; matching mock tests sabse upar dikhte hain.
+

@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 
 import '../auth_state.dart';
 import '../config.dart';
+import '../core/fb_api.dart';
 import '../core/fb_models.dart';
 import '../theme.dart';
 import '../widgets.dart';
@@ -212,7 +213,11 @@ class _CommentsSectionState extends State<CommentsSection> with WidgetsBindingOb
       if (target.uid.isNotEmpty && target.uid != s.uid) {
         try {
           await fbApi.createReplyNotif(toUid: target.uid, from: s, text: text, lectureId: widget.lectureId, token: tok);
-        } catch (_) {}
+        } catch (e) {
+          // Before, this was silent, so nobody knew why a reply notification never arrived.
+          debugPrint('Emerging Sciences: notification could not be saved: $e');
+          _snack('Reply post ho gaya, par unko notification nahi ja paya${e is FbError && e.code.isNotEmpty ? ' (${e.code})' : ''}.');
+        }
       }
       await _load(force: true);
       return true;

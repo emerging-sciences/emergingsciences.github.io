@@ -19,6 +19,7 @@ class SearchScreen extends StatefulWidget {
 class _SearchScreenState extends State<SearchScreen> {
   final TextEditingController _ctl = TextEditingController();
   String _q = '';
+  int _tab = 0; // 0 = All, 1 = Lectures, 2 = Material, 3 = Mock Tests
 
   @override
   void dispose() {
@@ -40,6 +41,32 @@ class _SearchScreenState extends State<SearchScreen> {
     }).toList();
   }
 
+  /// "Mock Tests (n)" heading + one row per test. Shown FIRST in the results, because there are only a few mock
+  /// tests and they used to be pushed below every lecture and PDF.
+  List<Widget> _mockSection(BuildContext context, EsData? data, List<Mock> mocks) {
+    return <Widget>[
+      SectionLabel('Mock Tests (${mocks.length})'),
+      for (final m in mocks)
+        PickRow(
+          icon: '▶',
+          iconColor: C.blue,
+          title: m.t,
+          lines: [
+            [data?.exam(m.e)?.short ?? '', m.s == 'full' ? 'Full-Length' : (data?.topic(m.s)?.name ?? '')]
+                .where((x) => x.isNotEmpty)
+                .join(' · '),
+            '${m.q} Qs · ${m.min} min',
+          ],
+          onTap: () => Navigator.of(context).push(MaterialPageRoute<void>(
+            builder: (_) => WebPageScreen(
+              title: m.t,
+              url: '${kSiteBase}test.html?t=${Uri.encodeQueryComponent(m.id)}',
+            ),
+          )),
+        ),
+    ];
+  }
+
   @override
   Widget build(BuildContext context) {
     return EsPage(
@@ -56,6 +83,15 @@ class _SearchScreenState extends State<SearchScreen> {
               ? <StudyMaterial>[]
               : data.material.where((m) => '${m.t} ${m.d} ${m.k}'.toLowerCase().contains(q)).toList();
           final List<Mock> mocks = (data == null || q.isEmpty) ? <Mock>[] : _findMocks(data, q);
+          final labels = <String>[
+            'All (${lectures.length + material.length + mocks.length})',
+            'Lectures (${lectures.length})',
+            'Material (${material.length})',
+            'Mock Tests (${mocks.length})',
+          ];
+          final showLec = _tab == 0 || _tab == 1;
+          final showMat = _tab == 0 || _tab == 2;
+          final showMock = _tab == 0 || _tab == 3;
           return ListView(
             padding: const EdgeInsets.fromLTRB(16, 4, 16, 24),
             children: [
@@ -86,29 +122,27 @@ class _SearchScreenState extends State<SearchScreen> {
                 ),
               ),
               if (q.isNotEmpty) ...[
-                SectionLabel('Lectures (${lectures.length})'),
-                for (final l in lectures) LectureRow(lecture: l),
-                SectionLabel('Material (${material.length})'),
-                for (final m in material) MaterialCard(item: m),
-                SectionLabel('Mock Tests (${mocks.length})'),
-                for (final m in mocks)
-                  PickRow(
-                    icon: '▶',
-                    iconColor: C.blue,
-                    title: m.t,
-                    lines: [
-                      [data?.exam(m.e)?.short ?? '', m.s == 'full' ? 'Full-Length' : (data?.topic(m.s)?.name ?? '')]
-                          .where((x) => x.isNotEmpty)
-                          .join(' · '),
-                      '${m.q} Qs · ${m.min} min',
-                    ],
-                    onTap: () => Navigator.of(context).push(MaterialPageRoute<void>(
-                      builder: (_) => WebPageScreen(
-                        title: m.t,
-                        url: '${kSiteBase}test.html?t=${Uri.encodeQueryComponent(m.id)}',
-                      ),
-                    )),
+                Padding(
+                  padding: const EdgeInsets.only(top: 12),
+                  child: ChipRow(
+                    labels: labels,
+                    selected: labels[_tab],
+                    onSelect: (l) {
+                      final i = labels.indexOf(l);
+                      setState(() => _tab = i < 0 ? 0 : i);
+                    },
                   ),
+                ),
+                if (showMock && mocks.isNotEmpty) ..._mockSection(context, data, mocks),
+                if (showLec) ...[
+                  SectionLabel('Lectures (${lectures.length})'),
+                  for (final l in lectures) LectureRow(lecture: l),
+                ],
+                if (showMat) ...[
+                  SectionLabel('Material (${material.length})'),
+                  for (final m in material) MaterialCard(item: m),
+                ],
+                if (showMock && mocks.isEmpty) SectionLabel('Mock Tests (0)'),
               ],
             ],
           );

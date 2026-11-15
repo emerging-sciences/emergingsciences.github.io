@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -56,6 +58,8 @@ class Boot extends StatefulWidget {
 }
 
 class _BootState extends State<Boot> with WidgetsBindingObserver {
+  Timer? _notifTimer;
+
   @override
   void initState() {
     super.initState();
@@ -65,10 +69,16 @@ class _BootState extends State<Boot> with WidgetsBindingObserver {
       appState.init();
       authState.init();
     }
+    // New reply notifications used to load only when the app was opened / resumed. While the app stays open the
+    // bell now re-checks every 2 minutes (one tiny request, only when signed in).
+    _notifTimer = Timer.periodic(const Duration(minutes: 2), (_) {
+      if (authState.signedIn) authState.refreshNotifs();
+    });
   }
 
   @override
   void dispose() {
+    _notifTimer?.cancel();
     WidgetsBinding.instance.removeObserver(this);
     super.dispose();
   }
