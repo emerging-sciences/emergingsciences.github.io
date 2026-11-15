@@ -15,6 +15,9 @@
 // PYQS rows         : { "e":"jam", "p":"ph", "y":2026, "t":"Title", "qp":"https://...", "key":"https://..." }  ("g" = optional group, "n" = optional note)
 // pyqPortals        : official 'all years' page. Key "jam" = fallback for every subject of that exam; key "jam-ph" = only for Physics.
 //                     Shown for any exam+subject that has no year rows yet. Once you add PYQS rows for it, the rows are shown.
+// PATTERNS rows     : { "e":"jam", "p":["ma","ph"] (optional: only these subjects; no "p" = every subject of the exam), "t":"Title", "ed":"source / edition",
+//                     "sm":"short line on the Exam Pattern box", "facts":[["Mode","CBT"]], "cols":["Section","Marks"], "rows":[["A","10"],["Total","10"]] (a row starting with "Total" is shown bold),
+//                     "notes":["..."], "pn":{"ms":["extra note for one subject only"]}, "src":[["Official PDF","https://..."]] }.  Shown in Material -> exam -> subject -> Exam Pattern. Update "patternsChecked" when you re-check.
 // Exams WITHOUT "papers" (NBHM, ISI, CMI) skip the subject step and open topics directly.
 window.ES_DATA = {
  "goalMin": 30,
@@ -2389,5 +2392,1442 @@ window.ES_DATA = {
     "q": 60,
     "min": 180
   }
+],
+"patternsChecked": "14 Nov 2026",
+"patterns": [
+ {
+  "e": "jam",
+  "t": "Test paper pattern (same for all 7 papers)",
+  "ed": "Source: JAM 2027 Information Brochure (v3), Sec 2.1–2.6, Table 2.3",
+  "sm": "60 Qs · 100 marks · 3 hours",
+  "facts": [
+   [
+    "Mode",
+    "Computer Based Test (CBT)"
+   ],
+   [
+    "Duration",
+    "3 hours (180 minutes)"
+   ],
+   [
+    "Total questions",
+    "60"
+   ],
+   [
+    "Total marks",
+    "100"
+   ],
+   [
+    "Sections",
+    "A, B and C — all compulsory (no choice)"
+   ],
+   [
+    "Calculator",
+    "Virtual on-screen calculator is provided; personal calculators are not allowed"
+   ]
+  ],
+  "cols": [
+   "Section",
+   "Question type",
+   "Questions",
+   "Marks",
+   "Negative marking"
+  ],
+  "rows": [
+   [
+    "A",
+    "MCQ — one correct option",
+    "Q1–10: 10 × 1 mark",
+    "10",
+    "−1/3 for a wrong answer"
+   ],
+   [
+    "A",
+    "MCQ — one correct option",
+    "Q11–30: 20 × 2 marks",
+    "40",
+    "−2/3 for a wrong answer"
+   ],
+   [
+    "B",
+    "MSQ — one or more correct options",
+    "Q31–40: 10 × 2 marks",
+    "20",
+    "None (no partial marking)"
+   ],
+   [
+    "C",
+    "NAT — numerical answer",
+    "Q41–50: 10 × 1 mark",
+    "10",
+    "None"
+   ],
+   [
+    "C",
+    "NAT — numerical answer",
+    "Q51–60: 10 × 2 marks",
+    "20",
+    "None"
+   ],
+   [
+    "Total",
+    "",
+    "60 questions",
+    "100",
+    "Section A only"
+   ]
+  ],
+  "notes": [
+   "Section A has 30 questions (50 marks), Section B has 10 (20 marks) and Section C has 20 (30 marks).",
+   "MCQ and MSQ answers are selected with the mouse. NAT answers are typed on a virtual numeric keypad (the computer keyboard is disabled).",
+   "MSQ: marks are given only for a fully correct answer — there is no negative and no partial marking.",
+   "Unattempted questions carry zero marks in all sections.",
+   "The brochure gives no topic-wise marks for any paper."
+  ],
+  "pn": {
+   "ma": [
+    "Exam session: forenoon, 9:30 am – 12:30 pm (14 Feb 2027)."
+   ],
+   "cy": [
+    "Exam session: forenoon, 9:30 am – 12:30 pm (14 Feb 2027)."
+   ],
+   "gg": [
+    "Exam session: forenoon, 9:30 am – 12:30 pm (14 Feb 2027)."
+   ],
+   "ph": [
+    "Exam session: afternoon, 2:30 pm – 5:30 pm (14 Feb 2027)."
+   ],
+   "bt": [
+    "Exam session: afternoon, 2:30 pm – 5:30 pm (14 Feb 2027).",
+    "The paper covers Biology/Biotechnology, Chemistry, Mathematics and Physics (official syllabus). No weightage is published."
+   ],
+   "en": [
+    "Exam session: afternoon, 2:30 pm – 5:30 pm (14 Feb 2027)."
+   ],
+   "ms": [
+    "Exam session: afternoon, 2:30 pm – 5:30 pm (14 Feb 2027).",
+    "Official syllabus: Mathematics (Sections 1–3) carries about 25% weight and Statistics (Sections 4–12) about 75%."
+   ]
+  },
+  "src": [
+   [
+    "JAM 2027 Information Brochure — Sec 2.5–2.6 (official)",
+    "https://jam.iitkgp.ac.in/docs/Info_Brochure_v3.pdf"
+   ],
+   [
+    "JAM syllabus & test pattern page",
+    "https://jam.iitkgp.ac.in/syllabus.html"
+   ]
+  ]
+ },
+ {
+  "e": "cuetpg",
+  "t": "Question paper pattern (same for all subjects)",
+  "ed": "Source: CUET (PG) 2026 Information Bulletin, Ch. 2 — the 2027 bulletin was not out when we checked, so the scheme may change",
+  "sm": "75 MCQs · 300 marks · 90 min",
+  "facts": [
+   [
+    "Mode",
+    "Computer Based Test (CBT) only"
+   ],
+   [
+    "Papers",
+    "Up to 4 subject papers per candidate"
+   ],
+   [
+    "Duration",
+    "90 minutes per paper"
+   ],
+   [
+    "Questions",
+    "75 per paper — all compulsory"
+   ],
+   [
+    "Marks per question",
+    "4"
+   ],
+   [
+    "Total marks",
+    "300 per paper (75 × 4)"
+   ],
+   [
+    "Language",
+    "Bilingual — English and Hindi"
+   ]
+  ],
+  "cols": [
+   "Part",
+   "Question type",
+   "Questions",
+   "Marks",
+   "Negative marking"
+  ],
+  "rows": [
+   [
+    "Subject paper",
+    "MCQ — one correct option",
+    "75 × 4 marks",
+    "300",
+    "−1 for a wrong answer"
+   ],
+   [
+    "Total",
+    "",
+    "75 questions",
+    "300",
+    ""
+   ]
+  ],
+  "notes": [
+   "There is no separate general section — every question is based on subject-specific knowledge.",
+   "Unanswered questions get no marks. A question that is answered and marked for review is evaluated; one marked for review without an answer is not.",
+   "Answers can be changed at any time during the test."
+  ],
+  "src": [
+   [
+    "CUET (PG) 2026 Information Bulletin (NTA)",
+    "https://cdnbbsr.s3waas.gov.in/s388a839f2f6f1427879fc33ee4acf4f66/uploads/2025/12/202512161583029269.pdf"
+   ],
+   [
+    "NTA CUET (PG) official page",
+    "https://exams.nta.nic.in/cuet-pg/"
+   ]
+  ]
+ },
+ {
+  "e": "tifr",
+  "p": [
+   "ma"
+  ],
+  "t": "Stage I written test — Mathematics",
+  "ed": "Source: TIFR School of Mathematics — Graduate Admissions, Stage I test instructions (test on 13 Dec 2026)",
+  "sm": "Part A MCQ + Part B True/False",
+  "facts": [
+   [
+    "Test",
+    "Common written test (Stage I) held at centres across India"
+   ],
+   [
+    "Parts",
+    "Two — Part A and Part B; all questions are mandatory"
+   ],
+   [
+    "Duration, number of questions, total marks",
+    "Not stated on the official instructions page"
+   ]
+  ],
+  "cols": [
+   "Part",
+   "Question type",
+   "Correct answer",
+   "Wrong answer",
+   "Unanswered"
+  ],
+  "rows": [
+   [
+    "A",
+    "MCQ — four options, exactly one correct",
+    "+2",
+    "−1",
+    "0"
+   ],
+   [
+    "B",
+    "True / False",
+    "+2",
+    "−2",
+    "0"
+   ]
+  ],
+  "notes": [
+   "Stage II is a written test at TIFR Mumbai (for the GS 2026 Stage II paper: 10 problems, any 8 to be solved, 10 points each). Shortlisted candidates then have an online interview.",
+   "For the integrated PhD at TIFR CAM Bengaluru only Part A is evaluated."
+  ],
+  "src": [
+   [
+    "TIFR Mathematics — Stage I test instructions",
+    "https://mathweb.tifr.res.in/Documents/Test_Syllabus_GS_Maths.pdf"
+   ],
+   [
+    "TIFR School of Mathematics — admissions",
+    "https://mathweb.tifr.res.in/admissions.html"
+   ]
+  ]
+ },
+ {
+  "e": "tifr",
+  "p": [
+   "ph"
+  ],
+  "t": "TIFR GS Physics — exam instructions",
+  "ed": "TIFR publishes the paper format and marking scheme for each subject in its official instructions document",
+  "sm": "Official instructions PDF",
+  "facts": [
+   [
+    "Where to find it",
+    "Open TIFR's official \"Syllabus & exam instructions\" PDF for this subject (button below)"
+   ]
+  ],
+  "notes": [
+   "We show only numbers we have checked against an official document. For the exact format and marking of this subject, please use the official PDF."
+  ],
+  "src": [
+   [
+    "TIFR GS Physics — official instructions",
+    "https://www.tifr.res.in/academics/docs/Physics_syllabus_exam_instructions.pdf"
+   ]
+  ]
+ },
+ {
+  "e": "tifr",
+  "p": [
+   "cy"
+  ],
+  "t": "TIFR GS Chemistry — exam instructions",
+  "ed": "TIFR publishes the paper format and marking scheme for each subject in its official instructions document",
+  "sm": "Official instructions PDF",
+  "facts": [
+   [
+    "Where to find it",
+    "Open TIFR's official \"Syllabus & exam instructions\" PDF for this subject (button below)"
+   ]
+  ],
+  "notes": [
+   "We show only numbers we have checked against an official document. For the exact format and marking of this subject, please use the official PDF."
+  ],
+  "src": [
+   [
+    "TIFR GS Chemistry — official instructions",
+    "https://www.tifr.res.in/academics/docs/Chemistry_syllabus_exam_instructions.pdf"
+   ]
+  ]
+ },
+ {
+  "e": "tifr",
+  "p": [
+   "bg"
+  ],
+  "t": "TIFR GS Biology — exam instructions",
+  "ed": "TIFR publishes the paper format and marking scheme for each subject in its official instructions document",
+  "sm": "Official instructions PDF",
+  "facts": [
+   [
+    "Where to find it",
+    "Open TIFR's official \"Syllabus & exam instructions\" PDF for this subject (button below)"
+   ]
+  ],
+  "notes": [
+   "We show only numbers we have checked against an official document. For the exact format and marking of this subject, please use the official PDF."
+  ],
+  "src": [
+   [
+    "TIFR GS Biology — official instructions",
+    "https://www.tifr.res.in/academics/docs/Jgeebils_Instructions_2025.pdf"
+   ]
+  ]
+ },
+ {
+  "e": "tifr",
+  "p": [
+   "cs"
+  ],
+  "t": "TIFR GS Computer Science — exam instructions",
+  "ed": "TIFR publishes the paper format and marking scheme for each subject in its official instructions document",
+  "sm": "Official instructions PDF",
+  "facts": [
+   [
+    "Where to find it",
+    "Open TIFR's official \"Syllabus & exam instructions\" PDF for this subject (button below)"
+   ]
+  ],
+  "notes": [
+   "We show only numbers we have checked against an official document. For the exact format and marking of this subject, please use the official PDF."
+  ],
+  "src": [
+   [
+    "TIFR GS Computer Science — official instructions",
+    "https://www.tifr.res.in/academics/docs/CS_LIDS_syllabus_exam_instructions.pdf"
+   ]
+  ]
+ },
+ {
+  "e": "tifr",
+  "p": [
+   "se"
+  ],
+  "t": "TIFR GS Science Education — exam instructions",
+  "ed": "TIFR publishes the paper format and marking scheme for each subject in its official instructions document",
+  "sm": "Official instructions PDF",
+  "facts": [
+   [
+    "Where to find it",
+    "Open TIFR's official \"Syllabus & exam instructions\" PDF for this subject (button below)"
+   ]
+  ],
+  "notes": [
+   "We show only numbers we have checked against an official document. For the exact format and marking of this subject, please use the official PDF."
+  ],
+  "src": [
+   [
+    "TIFR GS Science Education — official instructions",
+    "https://www.tifr.res.in/academics/docs/ScienceEducation_syllabus_exam_instructions.pdf"
+   ]
+  ]
+ },
+ {
+  "e": "gate",
+  "t": "Test paper pattern — MA, PH, CY, ST, EY, DA",
+  "ed": "Source: GATE 2027 Information Brochure (revised 27 Aug 2026), Sec 4 and 7",
+  "sm": "65 Qs · 100 marks · 3 hours",
+  "facts": [
+   [
+    "Mode",
+    "Computer Based Test (CBT)"
+   ],
+   [
+    "Duration",
+    "3 hours"
+   ],
+   [
+    "Total questions",
+    "65 (General Aptitude 10 + subject 55)"
+   ],
+   [
+    "Total marks",
+    "100"
+   ],
+   [
+    "Question types",
+    "MCQ, MSQ and NAT — each can carry 1 or 2 marks"
+   ],
+   [
+    "Calculator",
+    "Virtual scientific calculator on screen"
+   ]
+  ],
+  "cols": [
+   "Part",
+   "Questions",
+   "Marks"
+  ],
+  "rows": [
+   [
+    "General Aptitude (GA)",
+    "10 (5 × 1 mark + 5 × 2 marks)",
+    "15"
+   ],
+   [
+    "Subject paper",
+    "55 (25 × 1 mark + 30 × 2 marks)",
+    "85"
+   ],
+   [
+    "Total",
+    "65",
+    "100"
+   ]
+  ],
+  "notes": [
+   "Negative marking: MCQ — 1/3 mark is deducted for a wrong 1-mark question and 2/3 for a wrong 2-mark question. MSQ and NAT — no negative marking. There is no partial marking for any question.",
+   "MCQ has one correct option out of four, MSQ has one or more correct options, and NAT is a numerical answer typed on a virtual keypad.",
+   "The 1-mark / 2-mark split of the subject questions follows from the official totals (65 questions, 100 marks, GA = 5 + 5). GATE does not publish a topic-wise marks split for this paper."
+  ],
+  "src": [
+   [
+    "GATE 2027 — Question paper pattern (official)",
+    "https://gate2027.iitm.ac.in/question_paper_pattern"
+   ],
+   [
+    "GATE 2027 Information Brochure (official)",
+    "https://gate2027.iitm.ac.in/static/doc/IB/GATE2027-IB.pdf"
+   ]
+  ]
+ },
+ {
+  "e": "gate",
+  "p": [
+   "bt"
+  ],
+  "t": "Test paper pattern — Biotechnology (BT)",
+  "ed": "Source: GATE 2027 Information Brochure (revised 27 Aug 2026), Sec 4 and 7",
+  "sm": "65 Qs · 100 marks · 3 hours",
+  "facts": [
+   [
+    "Mode",
+    "Computer Based Test (CBT)"
+   ],
+   [
+    "Duration",
+    "3 hours"
+   ],
+   [
+    "Total questions",
+    "65 (General Aptitude 10 + subject 55)"
+   ],
+   [
+    "Total marks",
+    "100"
+   ],
+   [
+    "Question types",
+    "MCQ, MSQ and NAT — each can carry 1 or 2 marks"
+   ],
+   [
+    "Calculator",
+    "Virtual scientific calculator on screen"
+   ]
+  ],
+  "cols": [
+   "Part",
+   "Questions",
+   "Marks"
+  ],
+  "rows": [
+   [
+    "General Aptitude (GA)",
+    "10 (5 × 1 mark + 5 × 2 marks)",
+    "15"
+   ],
+   [
+    "Engineering Mathematics",
+    "Part of the 55 subject questions",
+    "13"
+   ],
+   [
+    "Biotechnology subject questions",
+    "Part of the 55 subject questions",
+    "72"
+   ],
+   [
+    "Total",
+    "65",
+    "100"
+   ]
+  ],
+  "notes": [
+   "Negative marking: MCQ — 1/3 mark is deducted for a wrong 1-mark question and 2/3 for a wrong 2-mark question. MSQ and NAT — no negative marking. There is no partial marking for any question.",
+   "MCQ has one correct option out of four, MSQ has one or more correct options, and NAT is a numerical answer typed on a virtual keypad.",
+   "Engineering Mathematics (13 marks) is paper-specific, as the official brochure states."
+  ],
+  "src": [
+   [
+    "GATE 2027 — Question paper pattern (official)",
+    "https://gate2027.iitm.ac.in/question_paper_pattern"
+   ],
+   [
+    "GATE 2027 Information Brochure (official)",
+    "https://gate2027.iitm.ac.in/static/doc/IB/GATE2027-IB.pdf"
+   ]
+  ]
+ },
+ {
+  "e": "gate",
+  "p": [
+   "gg"
+  ],
+  "t": "Test paper pattern — Geology & Geophysics (GG)",
+  "ed": "Source: GATE 2027 Information Brochure (revised 27 Aug 2026), Sec 4 and 7",
+  "sm": "65 Qs · 100 marks · 3 hours",
+  "facts": [
+   [
+    "Mode",
+    "Computer Based Test (CBT)"
+   ],
+   [
+    "Duration",
+    "3 hours"
+   ],
+   [
+    "Total questions",
+    "65 (General Aptitude 10 + subject 55)"
+   ],
+   [
+    "Total marks",
+    "100"
+   ],
+   [
+    "Question types",
+    "MCQ, MSQ and NAT — each can carry 1 or 2 marks"
+   ],
+   [
+    "Calculator",
+    "Virtual scientific calculator on screen"
+   ]
+  ],
+  "cols": [
+   "Part",
+   "Questions",
+   "Marks"
+  ],
+  "rows": [
+   [
+    "General Aptitude (GA)",
+    "10 (5 × 1 mark + 5 × 2 marks)",
+    "15"
+   ],
+   [
+    "Part A — common to Geology & Geophysics",
+    "16 (7 × 1 mark + 9 × 2 marks)",
+    "25"
+   ],
+   [
+    "Part B — B1 Geology or B2 Geophysics",
+    "39 (18 × 1 mark + 21 × 2 marks)",
+    "60"
+   ],
+   [
+    "Total",
+    "65",
+    "100"
+   ]
+  ],
+  "notes": [
+   "Negative marking: MCQ — 1/3 mark is deducted for a wrong 1-mark question and 2/3 for a wrong 2-mark question. MSQ and NAT — no negative marking. There is no partial marking for any question.",
+   "MCQ has one correct option out of four, MSQ has one or more correct options, and NAT is a numerical answer typed on a virtual keypad.",
+   "Part B1 (Geology) or B2 (Geophysics) has to be chosen at the time of application."
+  ],
+  "src": [
+   [
+    "GATE 2027 — Question paper pattern (official)",
+    "https://gate2027.iitm.ac.in/question_paper_pattern"
+   ],
+   [
+    "GATE 2027 Information Brochure (official)",
+    "https://gate2027.iitm.ac.in/static/doc/IB/GATE2027-IB.pdf"
+   ]
+  ]
+ },
+ {
+  "e": "gate",
+  "p": [
+   "xh"
+  ],
+  "t": "Test paper pattern — Humanities & Social Sciences (XH)",
+  "ed": "Source: GATE 2027 Information Brochure (revised 27 Aug 2026), Sec 4 and 7",
+  "sm": "65 Qs · 100 marks · 3 hours",
+  "facts": [
+   [
+    "Mode",
+    "Computer Based Test (CBT)"
+   ],
+   [
+    "Duration",
+    "3 hours"
+   ],
+   [
+    "Total questions",
+    "65 (General Aptitude 10 + subject 55)"
+   ],
+   [
+    "Total marks",
+    "100"
+   ],
+   [
+    "Question types",
+    "MCQ, MSQ and NAT — each can carry 1 or 2 marks"
+   ],
+   [
+    "Calculator",
+    "Virtual scientific calculator on screen"
+   ]
+  ],
+  "cols": [
+   "Part",
+   "Questions",
+   "Marks"
+  ],
+  "rows": [
+   [
+    "General Aptitude (GA)",
+    "10 (5 × 1 mark + 5 × 2 marks)",
+    "15"
+   ],
+   [
+    "XH0 — Reasoning & Comprehension (common)",
+    "16 (7 × 1 mark + 9 × 2 marks)",
+    "25"
+   ],
+   [
+    "One optional section: XH1–XH6",
+    "39 (18 × 1 mark + 21 × 2 marks)",
+    "60"
+   ],
+   [
+    "Total",
+    "65",
+    "100"
+   ]
+  ],
+  "notes": [
+   "Negative marking: MCQ — 1/3 mark is deducted for a wrong 1-mark question and 2/3 for a wrong 2-mark question. MSQ and NAT — no negative marking. There is no partial marking for any question.",
+   "MCQ has one correct option out of four, MSQ has one or more correct options, and NAT is a numerical answer typed on a virtual keypad.",
+   "Optional sections: XH1 Economics, XH2 English, XH3 Linguistics, XH4 Philosophy, XH5 Psychology, XH6 Sociology. One has to be chosen at the time of application."
+  ],
+  "src": [
+   [
+    "GATE 2027 — Question paper pattern (official)",
+    "https://gate2027.iitm.ac.in/question_paper_pattern"
+   ],
+   [
+    "GATE 2027 Information Brochure (official)",
+    "https://gate2027.iitm.ac.in/static/doc/IB/GATE2027-IB.pdf"
+   ]
+  ]
+ },
+ {
+  "e": "gate",
+  "p": [
+   "ls"
+  ],
+  "t": "Test paper pattern — Life Sciences (XL)",
+  "ed": "Source: GATE 2027 Information Brochure (revised 27 Aug 2026), Sec 4 and 7",
+  "sm": "65 Qs · 100 marks · 3 hours",
+  "facts": [
+   [
+    "Mode",
+    "Computer Based Test (CBT)"
+   ],
+   [
+    "Duration",
+    "3 hours"
+   ],
+   [
+    "Total questions",
+    "65 (General Aptitude 10 + subject 55)"
+   ],
+   [
+    "Total marks",
+    "100"
+   ],
+   [
+    "Question types",
+    "MCQ, MSQ and NAT — each can carry 1 or 2 marks"
+   ],
+   [
+    "Calculator",
+    "Virtual scientific calculator on screen"
+   ]
+  ],
+  "cols": [
+   "Part",
+   "Questions",
+   "Marks"
+  ],
+  "rows": [
+   [
+    "General Aptitude (GA)",
+    "10 (5 × 1 mark + 5 × 2 marks)",
+    "15"
+   ],
+   [
+    "XL0 — Chemistry (common)",
+    "17 (9 × 1 mark + 8 × 2 marks)",
+    "25"
+   ],
+   [
+    "Two optional sections from XL1–XL5 (30 marks each)",
+    "38 (2 × 19: 8 × 1 mark + 11 × 2 marks each)",
+    "60"
+   ],
+   [
+    "Total",
+    "65",
+    "100"
+   ]
+  ],
+  "notes": [
+   "Negative marking: MCQ — 1/3 mark is deducted for a wrong 1-mark question and 2/3 for a wrong 2-mark question. MSQ and NAT — no negative marking. There is no partial marking for any question.",
+   "MCQ has one correct option out of four, MSQ has one or more correct options, and NAT is a numerical answer typed on a virtual keypad.",
+   "Optional sections: XL1 Biochemistry, XL2 Botany, XL3 Microbiology, XL4 Zoology, XL5 Food Technology.",
+   "The brochure says \"at most two\" in one place and \"any two\" in another — follow the instruction shown at the time of the exam."
+  ],
+  "src": [
+   [
+    "GATE 2027 — Question paper pattern (official)",
+    "https://gate2027.iitm.ac.in/question_paper_pattern"
+   ],
+   [
+    "GATE 2027 Information Brochure (official)",
+    "https://gate2027.iitm.ac.in/static/doc/IB/GATE2027-IB.pdf"
+   ]
+  ]
+ },
+ {
+  "e": "csir",
+  "p": [
+   "ma"
+  ],
+  "t": "Test paper pattern — Mathematical Sciences",
+  "ed": "Source: Joint CSIR-UGC NET December 2026 Information Bulletin, Sec 3.2",
+  "sm": "200 marks · 3 hours · Parts A, B, C",
+  "facts": [
+   [
+    "Mode",
+    "Computer Based Test (CBT)"
+   ],
+   [
+    "Duration",
+    "3 hours (180 minutes)"
+   ],
+   [
+    "Total marks",
+    "200"
+   ],
+   [
+    "Parts",
+    "Three — A, B and C"
+   ],
+   [
+    "Language",
+    "Bilingual — Hindi and English (English version prevails)"
+   ]
+  ],
+  "cols": [
+   "Part",
+   "What it tests",
+   "Questions given",
+   "To attempt",
+   "Marks per correct answer",
+   "Marks per wrong answer",
+   "Max marks"
+  ],
+  "rows": [
+   [
+    "A",
+    "General aptitude (common to all subjects)",
+    "20",
+    "15",
+    "2",
+    "−0.5",
+    "30"
+   ],
+   [
+    "B",
+    "Subject MCQs",
+    "40",
+    "25",
+    "3",
+    "−0.75",
+    "75"
+   ],
+   [
+    "C",
+    "Higher-order questions — one or more options may be correct",
+    "60",
+    "20",
+    "4.75",
+    "0 (no negative marking)",
+    "95"
+   ],
+   [
+    "Total",
+    "",
+    "120",
+    "60",
+    "",
+    "",
+    "200"
+   ]
+  ],
+  "notes": [
+   "Attempt only the number of questions allowed in each part — the bulletin says answers beyond the limit are not evaluated.",
+   "There is no separate cut-off for Parts A, B and C; the combined marks decide the merit list.",
+   "Part C: each question may have one or more correct options. Credit is given only if ALL correct options are identified."
+  ],
+  "src": [
+   [
+    "CSIR-UGC NET Dec 2026 Information Bulletin — Sec 3.2 (official)",
+    "https://cdnbbsr.s3waas.gov.in/s3efdf562ce2fb0ad460fd8e9d33e57f57/uploads/2026/10/202610071407707951.pdf"
+   ],
+   [
+    "NTA CSIR NET official page",
+    "https://csirnet.nta.nic.in/"
+   ]
+  ]
+ },
+ {
+  "e": "csir",
+  "p": [
+   "pys"
+  ],
+  "t": "Test paper pattern — Physical Sciences",
+  "ed": "Source: Joint CSIR-UGC NET December 2026 Information Bulletin, Sec 3.2",
+  "sm": "200 marks · 3 hours · Parts A, B, C",
+  "facts": [
+   [
+    "Mode",
+    "Computer Based Test (CBT)"
+   ],
+   [
+    "Duration",
+    "3 hours (180 minutes)"
+   ],
+   [
+    "Total marks",
+    "200"
+   ],
+   [
+    "Parts",
+    "Three — A, B and C"
+   ],
+   [
+    "Language",
+    "Bilingual — Hindi and English (English version prevails)"
+   ]
+  ],
+  "cols": [
+   "Part",
+   "What it tests",
+   "Questions given",
+   "To attempt",
+   "Marks per correct answer",
+   "Marks per wrong answer",
+   "Max marks"
+  ],
+  "rows": [
+   [
+    "A",
+    "General aptitude (common to all subjects)",
+    "20",
+    "15",
+    "2",
+    "−0.5",
+    "30"
+   ],
+   [
+    "B",
+    "Subject MCQs",
+    "25",
+    "20",
+    "3.5",
+    "−0.875",
+    "70"
+   ],
+   [
+    "C",
+    "Higher-order questions",
+    "30",
+    "20",
+    "5",
+    "−1.25",
+    "100"
+   ],
+   [
+    "Total",
+    "",
+    "75",
+    "55",
+    "",
+    "",
+    "200"
+   ]
+  ],
+  "notes": [
+   "Attempt only the number of questions allowed in each part — the bulletin says answers beyond the limit are not evaluated.",
+   "There is no separate cut-off for Parts A, B and C; the combined marks decide the merit list.",
+   "Negative marking is 25% of the marks of the question in all three parts."
+  ],
+  "src": [
+   [
+    "CSIR-UGC NET Dec 2026 Information Bulletin — Sec 3.2 (official)",
+    "https://cdnbbsr.s3waas.gov.in/s3efdf562ce2fb0ad460fd8e9d33e57f57/uploads/2026/10/202610071407707951.pdf"
+   ],
+   [
+    "NTA CSIR NET official page",
+    "https://csirnet.nta.nic.in/"
+   ]
+  ]
+ },
+ {
+  "e": "csir",
+  "p": [
+   "chs"
+  ],
+  "t": "Test paper pattern — Chemical Sciences",
+  "ed": "Source: Joint CSIR-UGC NET December 2026 Information Bulletin, Sec 3.2",
+  "sm": "200 marks · 3 hours · Parts A, B, C",
+  "facts": [
+   [
+    "Mode",
+    "Computer Based Test (CBT)"
+   ],
+   [
+    "Duration",
+    "3 hours (180 minutes)"
+   ],
+   [
+    "Total marks",
+    "200"
+   ],
+   [
+    "Parts",
+    "Three — A, B and C"
+   ],
+   [
+    "Language",
+    "Bilingual — Hindi and English (English version prevails)"
+   ]
+  ],
+  "cols": [
+   "Part",
+   "What it tests",
+   "Questions given",
+   "To attempt",
+   "Marks per correct answer",
+   "Marks per wrong answer",
+   "Max marks"
+  ],
+  "rows": [
+   [
+    "A",
+    "General aptitude (common to all subjects)",
+    "20",
+    "15",
+    "2",
+    "−0.5",
+    "30"
+   ],
+   [
+    "B",
+    "Subject MCQs",
+    "40",
+    "35",
+    "2",
+    "−0.5",
+    "70"
+   ],
+   [
+    "C",
+    "Higher-order questions",
+    "60",
+    "25",
+    "4",
+    "−1",
+    "100"
+   ],
+   [
+    "Total",
+    "",
+    "120",
+    "75",
+    "",
+    "",
+    "200"
+   ]
+  ],
+  "notes": [
+   "Attempt only the number of questions allowed in each part — the bulletin says answers beyond the limit are not evaluated.",
+   "There is no separate cut-off for Parts A, B and C; the combined marks decide the merit list.",
+   "Negative marking is 25% of the marks of the question in all three parts."
+  ],
+  "src": [
+   [
+    "CSIR-UGC NET Dec 2026 Information Bulletin — Sec 3.2 (official)",
+    "https://cdnbbsr.s3waas.gov.in/s3efdf562ce2fb0ad460fd8e9d33e57f57/uploads/2026/10/202610071407707951.pdf"
+   ],
+   [
+    "NTA CSIR NET official page",
+    "https://csirnet.nta.nic.in/"
+   ]
+  ]
+ },
+ {
+  "e": "csir",
+  "p": [
+   "ls"
+  ],
+  "t": "Test paper pattern — Life Sciences & Biotechnology",
+  "ed": "Source: Joint CSIR-UGC NET December 2026 Information Bulletin, Sec 3.2",
+  "sm": "200 marks · 3 hours · Parts A, B, C",
+  "facts": [
+   [
+    "Mode",
+    "Computer Based Test (CBT)"
+   ],
+   [
+    "Duration",
+    "3 hours (180 minutes)"
+   ],
+   [
+    "Total marks",
+    "200"
+   ],
+   [
+    "Parts",
+    "Three — A, B and C"
+   ],
+   [
+    "Language",
+    "Bilingual — Hindi and English (English version prevails)"
+   ]
+  ],
+  "cols": [
+   "Part",
+   "What it tests",
+   "Questions given",
+   "To attempt",
+   "Marks per correct answer",
+   "Marks per wrong answer",
+   "Max marks"
+  ],
+  "rows": [
+   [
+    "A",
+    "General aptitude (common to all subjects)",
+    "20",
+    "15",
+    "2",
+    "−0.5",
+    "30"
+   ],
+   [
+    "B",
+    "Subject MCQs",
+    "50",
+    "35",
+    "2",
+    "−0.5",
+    "70"
+   ],
+   [
+    "C",
+    "Higher-order questions",
+    "75",
+    "25",
+    "4",
+    "−1",
+    "100"
+   ],
+   [
+    "Total",
+    "",
+    "145",
+    "75",
+    "",
+    "",
+    "200"
+   ]
+  ],
+  "notes": [
+   "Attempt only the number of questions allowed in each part — the bulletin says answers beyond the limit are not evaluated.",
+   "There is no separate cut-off for Parts A, B and C; the combined marks decide the merit list.",
+   "Negative marking is 25% of the marks of the question in all three parts.",
+   "From the December 2026 cycle Life Sciences and Biotechnology share this single paper (CSIR and DBT joint fellowship)."
+  ],
+  "src": [
+   [
+    "CSIR-UGC NET Dec 2026 Information Bulletin — Sec 3.2 (official)",
+    "https://cdnbbsr.s3waas.gov.in/s3efdf562ce2fb0ad460fd8e9d33e57f57/uploads/2026/10/202610071407707951.pdf"
+   ],
+   [
+    "NTA CSIR NET official page",
+    "https://csirnet.nta.nic.in/"
+   ]
+  ]
+ },
+ {
+  "e": "csir",
+  "p": [
+   "eas"
+  ],
+  "t": "Test paper pattern — Earth, Atmospheric, Ocean & Planetary Sciences",
+  "ed": "Source: Joint CSIR-UGC NET December 2026 Information Bulletin, Sec 3.2",
+  "sm": "200 marks · 3 hours · Parts A, B, C",
+  "facts": [
+   [
+    "Mode",
+    "Computer Based Test (CBT)"
+   ],
+   [
+    "Duration",
+    "3 hours (180 minutes)"
+   ],
+   [
+    "Total marks",
+    "200"
+   ],
+   [
+    "Parts",
+    "Three — A, B and C"
+   ],
+   [
+    "Language",
+    "Bilingual — Hindi and English (English version prevails)"
+   ]
+  ],
+  "cols": [
+   "Part",
+   "What it tests",
+   "Questions given",
+   "To attempt",
+   "Marks per correct answer",
+   "Marks per wrong answer",
+   "Max marks"
+  ],
+  "rows": [
+   [
+    "A",
+    "General aptitude (common to all subjects)",
+    "20",
+    "15",
+    "2",
+    "−0.5",
+    "30"
+   ],
+   [
+    "B",
+    "Subject MCQs",
+    "50",
+    "35",
+    "2",
+    "−0.5",
+    "70"
+   ],
+   [
+    "C",
+    "Higher-order questions",
+    "80",
+    "25",
+    "4",
+    "−1.32",
+    "100"
+   ],
+   [
+    "Total",
+    "",
+    "150",
+    "75",
+    "",
+    "",
+    "200"
+   ]
+  ],
+  "notes": [
+   "Attempt only the number of questions allowed in each part — the bulletin says answers beyond the limit are not evaluated.",
+   "There is no separate cut-off for Parts A, B and C; the combined marks decide the merit list.",
+   "Negative marking is 25% in Parts A and B but 33% in Part C (−1.32 per wrong answer)."
+  ],
+  "src": [
+   [
+    "CSIR-UGC NET Dec 2026 Information Bulletin — Sec 3.2 (official)",
+    "https://cdnbbsr.s3waas.gov.in/s3efdf562ce2fb0ad460fd8e9d33e57f57/uploads/2026/10/202610071407707951.pdf"
+   ],
+   [
+    "NTA CSIR NET official page",
+    "https://csirnet.nta.nic.in/"
+   ]
+  ]
+ },
+ {
+  "e": "nbhm",
+  "t": "Scholarship test pattern (2026 paper)",
+  "ed": "Source: NBHM written test paper of 24 Jan 2026 and the 2026 scholarship advertisement. NBHM says the pattern can change every year.",
+  "sm": "40 problems · 3 hours",
+  "facts": [
+   [
+    "Test",
+    "One combined written test for the Master's (M.A./M.Sc.) and the Doctoral scholarships"
+   ],
+   [
+    "Duration",
+    "3 hours (2026: 10:30 am – 1:30 pm)"
+   ],
+   [
+    "Problems",
+    "40 — 4 marks each"
+   ],
+   [
+    "Answer format",
+    "Only the final answer is written in the answer box"
+   ],
+   [
+    "Syllabus",
+    "No prescribed syllabus (official advertisement, Sec 6.1)"
+   ]
+  ],
+  "cols": [
+   "Part / section",
+   "Problems",
+   "Type",
+   "Marks",
+   "Negative marking"
+  ],
+  "rows": [
+   [
+    "Part M — Section 1",
+    "Q1–20",
+    "Short answer",
+    "80",
+    "None"
+   ],
+   [
+    "Part M — Section 2",
+    "Q21–25",
+    "True / False",
+    "20",
+    "Yes — see the paper's instructions"
+   ],
+   [
+    "Part D — Section 1",
+    "Q26–35",
+    "Short answer",
+    "40",
+    "None"
+   ],
+   [
+    "Part D — Section 2",
+    "Q36–40",
+    "True / False",
+    "20",
+    "Yes — see the paper's instructions"
+   ],
+   [
+    "Total",
+    "40",
+    "",
+    "160",
+    ""
+   ]
+  ],
+  "notes": [
+   "Master's score = Part M + Part D marks (maximum 160). Doctoral score = Part M marks + 1.5 × Part D marks (maximum 190).",
+   "NBHM's advertisement says the pattern and difficulty level may vary from those of previous editions, and that the number of sections has changed over the years.",
+   "Selection: written test, followed by an online interview."
+  ],
+  "src": [
+   [
+    "NBHM 2026 test paper (official)",
+    "https://www.imsc.res.in/~nbhm/qp/comb26.pdf"
+   ],
+   [
+    "NBHM scholarship advertisement (official)",
+    "https://www.imsc.res.in/~nbhm/ST_2026/advert.pdf"
+   ],
+   [
+    "NBHM past papers (official)",
+    "https://www.imsc.res.in/~nbhm/qp/"
+   ]
+  ]
+ },
+ {
+  "e": "isi",
+  "t": "Admission test pattern (M.Math)",
+  "ed": "Source: ISI Prospectus 2026-27 (Sec 7.5, Table 14) and ISI Selection Policy 2026",
+  "sm": "PMA (MCQ) + PMB (descriptive)",
+  "facts": [
+   [
+    "Tests",
+    "Two tests on the same day — PMA (objective) in the forenoon and PMB (descriptive) in the afternoon"
+   ],
+   [
+    "Level",
+    "Roughly the Mathematics Honours/Major level of Indian universities"
+   ],
+   [
+    "Number of questions, negative marking",
+    "Not stated in the official prospectus or notice"
+   ]
+  ],
+  "cols": [
+   "Test",
+   "Type",
+   "Time",
+   "Maximum marks"
+  ],
+  "rows": [
+   [
+    "PMA",
+    "Multiple-choice questions in Mathematics",
+    "10:30 am – 12:30 pm (2 hours)",
+    "120"
+   ],
+   [
+    "PMB",
+    "Short-answer (descriptive) questions in Mathematics",
+    "2:00 pm – 4:00 pm (2 hours)",
+    "80"
+   ]
+  ],
+  "notes": [
+   "For the 2026 interview shortlist ISI used the PMA score and a combined score of PMA + 3.5 × PMB. The weights are fixed by ISI each year.",
+   "ISI publishes sample questions every year, but says that the actual questions may not follow their structure.",
+   "Maximum marks are taken from ISI's 2026 selection policy."
+  ],
+  "src": [
+   [
+    "ISI Prospectus 2026-27 (official)",
+    "https://admission.isical.ac.in/Documents/IsiAdmission2026/ISI-Prospectus-2026-27.pdf"
+   ],
+   [
+    "ISI Selection Policy 2026 (official)",
+    "https://admission.isical.ac.in/Documents/IsiAdmission2026/Selection-Policy-Non-JRF-2026.pdf"
+   ],
+   [
+    "ISI M.Math sample questions — PMA 2026",
+    "https://admission.isical.ac.in/PreviousQuestion/MMath-PMA-2026.pdf"
+   ]
+  ]
+ },
+ {
+  "e": "cmi",
+  "t": "Entrance paper pattern (M.Sc. Mathematics)",
+  "ed": "Source: CMI M.Sc./Ph.D. Mathematics entrance paper of 2 May 2026 (the 2025 paper has the same structure)",
+  "sm": "3 hours · Part A + Part B · 100 marks",
+  "facts": [
+   [
+    "Duration",
+    "3 hours"
+   ],
+   [
+    "Question paper",
+    "Common for M.Sc. and Ph.D. — the cut-offs are separate"
+   ],
+   [
+    "Selection",
+    "Written test; interview at the Admissions Committee's discretion"
+   ]
+  ],
+  "cols": [
+   "Part",
+   "Questions",
+   "Marks",
+   "Details"
+  ],
+  "rows": [
+   [
+    "A",
+    "10 (Q1–10)",
+    "4 each = 40",
+    "One or more options may be correct — credit only if all correct options and no incorrect option are chosen"
+   ],
+   [
+    "B",
+    "10 (Q11–20), answer any 6",
+    "10 each = 60",
+    "Problems needing detailed solutions"
+   ],
+   [
+    "Total",
+    "",
+    "100",
+    ""
+   ]
+  ],
+  "notes": [
+   "Part A works as a screening section: its cut-off is not more than 20 out of 40, and Part B is marked only if you clear it. The scores of both parts are then taken into account.",
+   "The paper advises spending at least 90 minutes on Part B.",
+   "Negative marking is not mentioned on the question paper."
+  ],
+  "src": [
+   [
+    "CMI 2026 entrance paper (official)",
+    "https://www.cmi.ac.in/admissions/sample-qp/pgmath2026.pdf"
+   ],
+   [
+    "CMI admissions page (official)",
+    "https://www.cmi.ac.in/admissions/"
+   ]
+  ]
+ }
 ]
 };

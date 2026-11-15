@@ -59,3 +59,31 @@ body{padding-bottom:100px}
 .hdr-logo{white-space:nowrap}@media(max-width:400px){.hdr-logo{font-size:15px;gap:7px}}
 /* Hide Botpress floating bubble; chat opens from the Ask button */
 .bpFab,.bpFabImage{display:none!important}
+
+/* ---- Material -> Exam Pattern (paper structure & marks distribution) ---- */
+.a-card.pat{margin:0 0 14px}
+.section-inner .pat h3{color:var(--text);font-size:17px;margin:2px 0 0}
+.pat-facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:8px;margin:14px 0 4px}
+.pat-facts>div{background:var(--blue-light);border-radius:10px;padding:9px 12px}
+.pat-facts dt{font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:.4px}
+.pat-facts dd{margin:3px 0 0;color:var(--text);font-size:14px;font-weight:500;line-height:1.4}
+.pat-tbl{overflow-x:auto;margin:14px 0 4px;-webkit-overflow-scrolling:touch}
+.pat-tbl table{border-collapse:collapse;width:100%;min-width:460px;font-size:13px}
+.pat-tbl th,.pat-tbl td{border:1px solid var(--border-strong);padding:8px 10px;text-align:left;vertical-align:top;color:var(--text);line-height:1.4}
+.pat-tbl th{background:var(--blue-light);font-weight:600;white-space:nowrap}
+.pat-tbl tr.tot td{font-weight:700;background:var(--surface2)}
+.pat-notes{margin:12px 0 2px;padding-left:18px;color:var(--text2);font-size:13.5px;line-height:1.6}
+.pat-notes li{margin:5px 0}
+.pat-foot{font-size:12.5px;color:var(--text3)!important;margin-top:6px}
+/* phones: every table row becomes a small card (no sideways scrolling) */
+@media(max-width:640px){
+ .pat-tbl{overflow:visible}
+ .pat-tbl table,.pat-tbl tbody,.pat-tbl tr,.pat-tbl td{display:block;min-width:0;width:100%}
+ .pat-tbl thead{display:none}
+ .pat-tbl tr{border:1px solid var(--border-strong);border-radius:10px;margin:0 0 10px;padding:6px 12px}
+ .pat-tbl td{border:0;padding:5px 0;display:flex;gap:12px;justify-content:space-between;align-items:baseline}
+ .pat-tbl td::before{content:attr(data-label);flex:0 0 36%;color:var(--text3);font-size:11px;text-transform:uppercase;letter-spacing:.4px}
+ .pat-tbl td:empty{display:none}
+ .pat-tbl tr.tot{background:var(--surface2)}
+ .pat-tbl tr.tot td{background:none}
+}

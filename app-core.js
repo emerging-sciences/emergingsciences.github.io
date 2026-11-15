@@ -19,7 +19,8 @@ const pageTitle={lectures:'Lectures',material:'Study Material',mock:'Mock Tests'
 const DEFP='ma',PAP=id=>(D.papers||[]).find(x=>x.id==id),papersOf=e=>(e.papers||[]).map(PAP).filter(Boolean),hasP=e=>papersOf(e).length>0;
 const subP=s=>s.p||DEFP,topicsOf=(ex,p)=>ex.subjects.map(S).filter(Boolean).filter(s=>!hasP(ex)||subP(s)==p);
 const mockOf=(ex,sid,p)=>(D.mocks||[]).filter(m=>m.e==ex.id&&m.s==sid&&(!p||sid!='full'||(m.p||DEFP)==p));
-const stepText={lectures:'Step 2 — choose a subject',material:'Step 2 — choose Syllabus, year-wise PYQs or a subject',mock:'Step 2 — choose full-length tests or a subject'};
+const stepText={lectures:'Step 2 — choose a subject',material:'Step 2 — choose Syllabus, year-wise PYQs, Exam Pattern or a subject',mock:'Step 2 — choose full-length tests or a subject'},
+ step3Text={lectures:'Step 3 — choose a topic',material:'Step 3 — choose Syllabus, PYQs, Exam Pattern or a topic',mock:'Step 3 — choose full-length tests or a topic'};
 function dash(){const el=$('#dash');if(!el)return;const t=study()[day()]||0,g=goal(),pct=Math.min(100,t/g*100);
  const up=(D.exams||[]).filter(e=>days(e)>=0).sort((a,b)=>days(a)-days(b))[0];
  el.innerHTML=`<div class="a-card"><b>Daily goal</b><div class="bar"><i style="width:${pct}%"></i></div><small>${Math.floor(t/60)} / ${g/60} min · counts while a lecture plays</small></div>
@@ -35,7 +36,7 @@ function chooser(page){return `<section class="section"><div class="section-inne
 function crumbs(page,e,sub,pp){return `<div class="crumbs"><a href="${page}.html">${pageTitle[page]}</a>${e?` › <a href="${page}.html?e=${e.id}">${esc(e.short)}</a>`:''}${pp?` › <a href="${page}.html?e=${e.id}&p=${pp.id}">${esc(pp.name)}</a>`:''}${sub?` › <span>${esc(sub)}</span>`:''}</div>`}
 function subjCards(page,ex,p){page=page||'lectures';const d=done(),q=`?e=${ex.id}${p?'&p='+p:''}&s=`,list=topicsOf(ex,p);
  const full=page=='mock'?[{id:'full',name:'Full-Length Mock Tests',icon:'📝',live:true}]:[];
- return `<div class="a-grid">`+(page=='material'||p?matExtra(ex,p):'')+full.concat(list).map(s=>{
+ return `<div class="a-grid">`+(page=='material'?matExtra(ex,p):'')+full.concat(list).map(s=>{
   if(page=='mock'){const T=mockOf(ex,s.id,p);if(!T.length)return `<div class="a-card dim"><span class="ic">${s.icon}</span><h3>${s.name}</h3><small>Coming soon</small></div>`;
    return `<a class="a-card" href="mock.html${q}${s.id}"><span class="ic">${s.icon}</span><h3>${s.name}</h3><small>${T.length} test${T.length==1?'':'s'}</small></a>`}
   if(page=='material'){const M=D.material.filter(m=>m.s==s.id);if(!M.length)return `<div class="a-card dim"><span class="ic">${s.icon}</span><h3>${s.name}</h3><small>Coming soon</small></div>`;return `<a class="a-card" href="material.html${q}${s.id}"><span class="ic">${s.icon}</span><h3>${s.name}</h3><small>${M.length} PDF${M.length==1?'':'s'}</small></a>`}
@@ -46,11 +47,11 @@ function resolve(){const sid=P.get('s'),sub=sid=='full'?{id:'full',name:'Full-Le
 function stepView(page,ex,p){const hp=hasP(ex),c=`${cd(ex)} (${esc(ex.dateText)}, ${esc(ex.note)})`;
  if(hp&&!p)return `<section class="section"><div class="section-inner">${crumbs(page,ex)}<h1 class="a-h">${esc(ex.name)}</h1><p>Step 2 — choose your subject · ${c}</p>${paperCards(page,ex)}</div></section>`;
  const pp=hp?PAP(p):null;
- return `<section class="section"><div class="section-inner">${crumbs(page,ex,null,pp)}<h1 class="a-h">${pp?pp.icon+' '+esc(pp.name):esc(ex.name)}</h1><p>${pp?'Step 3 — choose Syllabus, PYQs or a topic':stepText[page]} · ${c}</p>${subjCards(page,ex,p)}</div></section>`}
+ return `<section class="section"><div class="section-inner">${crumbs(page,ex,null,pp)}<h1 class="a-h">${pp?pp.icon+' '+esc(pp.name):esc(ex.name)}</h1><p>${pp?step3Text[page]:stepText[page]} · ${c}</p>${subjCards(page,ex,p)}</div></section>`}
 function paperCards(page,ex){return `<div class="a-grid">`+papersOf(ex).map(pp=>{const T=topicsOf(ex,pp.id);let n;
-  if(page=='lectures'){const k=T.reduce((a,s)=>a+LECS(s.id).length,0);n=k?k+' lectures':'Syllabus & PYQs · lectures coming soon'}
-  else if(page=='material'){const k=T.reduce((a,s)=>a+D.material.filter(m=>m.s==s.id).length,0);n=k?k+' PDFs · Syllabus · PYQs':'Syllabus & PYQs'}
-  else{const k=(D.mocks||[]).filter(m=>m.e==ex.id&&(m.s=='full'?(m.p||DEFP)==pp.id:T.some(s=>s.id==m.s))).length;n=k?k+' test'+(k==1?'':'s'):'Syllabus & PYQs · tests coming soon'}
+  if(page=='lectures'){const k=T.reduce((a,s)=>a+LECS(s.id).length,0);n=k?k+' lectures':'Lectures coming soon'}
+  else if(page=='material'){const k=T.reduce((a,s)=>a+D.material.filter(m=>m.s==s.id).length,0);n=k?k+' PDFs · Syllabus · PYQs · Pattern':'Syllabus, PYQs & Exam Pattern'}
+  else{const k=(D.mocks||[]).filter(m=>m.e==ex.id&&(m.s=='full'?(m.p||DEFP)==pp.id:T.some(s=>s.id==m.s))).length;n=k?k+' test'+(k==1?'':'s'):'Tests coming soon'}
   return `<a class="a-card" href="${page}.html?e=${ex.id}&p=${pp.id}"><span class="ic">${pp.icon}</span><h3>${esc(pp.name)}</h3><small>${n}</small></a>`}).join('')+`</div>`}
 function lecRow(l){const d=done(),sv=saved(),e=P.get('e');return `<a class="a-row lec" href="watch.html?id=${l.id}${e?'&e='+encodeURIComponent(e):''}"><span class="lec-th"><img loading="lazy" src="https://i.ytimg.com/vi/${encodeURIComponent(l.yt)}/mqdefault.jpg" alt=""><span class="ln">${esc(l.n)}</span></span><span class="tt"><span class="lt">${esc(l.t)}</span><span class="lm"><span class="tag">${l.k=='P'?'Practice':'Theory'}</span><span>${d[l.id]?'✅':''}${sv[l.id]?'🔖':''}</span></span></span></a>`}
 function matCard(m){const sv=saved();return `<div class="a-card"><h3>${esc(m.t)}</h3><small>${esc(m.d)}</small><div class="tags"><span class="tag">${m.k}</span><span class="tag">${S(m.s).name}</span></div>
@@ -58,6 +59,8 @@ function matCard(m){const sv=saved();return `<div class="a-card"><h3>${esc(m.t)}
 /* ---- Syllabus + year-wise PYQs (data.js: syllabus, pyqs, pyqPortals) ---- */
 const inP=(r,p)=>!p||(r.p||DEFP)==p, syEx=(id,p)=>(D.syllabus||[]).filter(r=>r.e==id&&inP(r,p)), pyEx=(id,p)=>(D.pyqs||[]).filter(r=>r.e==id&&inP(r,p)).sort((a,b)=>b.y-a.y), portal=(id,p)=>(D.pyqPortals||{})[p&&(D.pyqPortals||{})[id+'-'+p]?id+'-'+p:id];
 const rng=a=>{const x=Math.min(...a),y=Math.max(...a);return x==y?''+x:x+'–'+y};
+/* Exam Pattern entries (data.js: patterns). An entry with "p":[paper ids] wins over an exam-wide entry (no "p") for those papers. */
+const patEx=(id,p)=>{const a=(D.patterns||[]).filter(r=>r.e==id),s=p?a.filter(r=>r.p&&r.p.indexOf(p)>-1):[];return s.length?s:a.filter(r=>!r.p||!r.p.length)};
 const href=u=>/^https?:\/\//i.test(u)?esc(u):'#';
 const dlink=id=>esc('https://drive.google.com/uc?export=download&id='+encodeURIComponent(id));
 function fbtn(lbl,url,drv,t){
@@ -67,9 +70,20 @@ function synCard(r){return `<div class="a-card"><h3>${esc(r.t)}</h3><small>${esc
 function pyqCard(r){return `<div class="a-card"><h3>${esc(r.y)}${r.g?' · '+esc(r.g):''}</h3><small>${esc(r.t)}${r.n?' — '+esc(r.n):''}</small><div class="btns">${fbtn('📄 Paper',r.qp,r.qpDrive,r.t+' — Paper')}${fbtn('🔑 Key',r.key,r.keyDrive,r.t+' — Key')}</div></div>`}
 function portalBox(id,pid){const p=portal(id,pid);if(!p)return '';
  return `<div class="a-card"><h3>🌐 Official source</h3><small>All years and the latest papers are always on the official page.</small><div class="btns"><a href="${href(p.url)}" target="_blank" rel="noopener noreferrer">${esc(p.label||'Official page')} ↗</a>${p.more?`<a href="${href(p.more)}" target="_blank" rel="noopener noreferrer">${esc(p.moreLabel||'More')} ↗</a>`:''}</div></div>`}
-function matExtra(ex,p){const q=`?e=${ex.id}${p?'&p='+p:''}&s=`,sy=syEx(ex.id,p),py=pyEx(ex.id,p),pt=portal(ex.id,p),yr=py.map(r=>+r.y);
+function matExtra(ex,p){const q=`?e=${ex.id}${p?'&p='+p:''}&s=`,sy=syEx(ex.id,p),py=pyEx(ex.id,p),pt=portal(ex.id,p),yr=py.map(r=>+r.y),pa=patEx(ex.id,p);
  return (sy.length?`<a class="a-card" href="material.html${q}syllabus"><span class="ic">📋</span><h3>Syllabus</h3><small>${sy.length} document${sy.length==1?'':'s'}</small></a>`:`<div class="a-card dim"><span class="ic">📋</span><h3>Syllabus</h3><small>Coming soon</small></div>`)
- +(py.length||pt?`<a class="a-card" href="material.html${q}pyqs"><span class="ic">🗂️</span><h3>PYQs · Year-wise</h3><small>${py.length?py.length+' paper'+(py.length==1?'':'s')+' · '+rng(yr):'Official papers page'}</small></a>`:`<div class="a-card dim"><span class="ic">🗂️</span><h3>PYQs · Year-wise</h3><small>Coming soon</small></div>`)}
+ +(py.length||pt?`<a class="a-card" href="material.html${q}pyqs"><span class="ic">🗂️</span><h3>PYQs · Year-wise</h3><small>${py.length?py.length+' paper'+(py.length==1?'':'s')+' · '+rng(yr):'Official papers page'}</small></a>`:`<div class="a-card dim"><span class="ic">🗂️</span><h3>PYQs · Year-wise</h3><small>Coming soon</small></div>`)
+ +(pa.length?`<a class="a-card" href="material.html${q}pattern"><span class="ic">📊</span><h3>Exam Pattern</h3><small>${esc(pa[0].sm||'Paper structure & marks distribution')}</small></a>`:`<div class="a-card dim"><span class="ic">📊</span><h3>Exam Pattern</h3><small>Coming soon</small></div>`)}
+function patCard(r,p){const nt=((r.pn&&p&&r.pn[p])||[]).concat(r.notes||[]),rows=r.rows||[];
+ return `<div class="a-card pat"><h3>${esc(r.t||'Exam pattern')}</h3>${r.ed?`<small>${esc(r.ed)}</small>`:''}
+ ${(r.facts||[]).length?`<dl class="pat-facts">${r.facts.map(f=>`<div><dt>${esc(f[0])}</dt><dd>${esc(f[1])}</dd></div>`).join('')}</dl>`:''}
+ ${rows.length?`<div class="pat-tbl"><table><thead><tr>${(r.cols||[]).map(c=>`<th>${esc(c)}</th>`).join('')}</tr></thead><tbody>${rows.map(x=>`<tr${x[0]=='Total'?' class="tot"':''}>${x.map((c,i)=>`<td data-label="${esc((r.cols||[])[i]||'')}">${esc(c)}</td>`).join('')}</tr>`).join('')}</tbody></table></div>`:''}
+ ${nt.length?`<ul class="pat-notes">${nt.map(n=>`<li>${esc(n)}</li>`).join('')}</ul>`:''}
+ ${(r.src||[]).length?`<div class="btns">${r.src.map(s=>`<a href="${href(s[1])}" target="_blank" rel="noopener noreferrer">${esc(s[0])} ↗</a>`).join('')}</div>`:''}</div>`}
+function patView(ex,p){const pp=p?PAP(p):null,L=patEx(ex.id,p);
+ return `<section class="section"><div class="section-inner">${crumbs('material',ex,'Exam Pattern',pp)}<h1 class="a-h">📊 ${esc(ex.short)}${pp?' '+esc(pp.name):''} · Exam Pattern</h1><p>${esc(ex.name)} · paper structure, marks distribution and marking scheme</p>
+ ${L.map(r=>patCard(r,p)).join('')||'<p>The exam pattern for this paper is coming soon.</p>'}
+ <p class="pat-foot">Checked against the official documents on ${esc(D.patternsChecked||'')}. Exam bodies can change the pattern, so always confirm it in the latest official notification.</p></div></section>`}
 function sylView(ex,p){const L=syEx(ex.id,p),pp=p?PAP(p):null;
  return `<section class="section"><div class="section-inner">${crumbs('material',ex,'Syllabus',pp)}<h1 class="a-h">📋 ${esc(ex.short)}${pp?' '+esc(pp.name):''} Syllabus</h1><p>${esc(ex.name)} · ${L.length} document${L.length==1?'':'s'}</p>
  <div class="a-grid">${L.map(synCard).join('')||'<p>Syllabus for this exam is coming soon.</p>'}</div></div></section>`}
@@ -106,7 +120,7 @@ watch(el){const l=LEC(P.get('id'));if(!l){el.innerHTML=`<section class="section"
  $('#spd').onclick=e=>{const v=e.target.dataset.v;if(v){e.preventDefault();pl&&pl.setPlaybackRate(+v)}};
  const s=document.createElement('script');s.src='https://www.youtube.com/iframe_api';document.head.appendChild(s);window.onYouTubeIframeAPIReady=mk;
  setInterval(()=>{if(pl&&pl.getPlayerState&&pl.getPlayerState()==1)addSec()},1000)},
-material(el){const sp=P.get('s'),ex0=EX(P.get('e'));if(ex0&&(sp=='syllabus'||sp=='pyqs')){const p0=hasP(ex0)?(ex0.papers.includes(P.get('p'))?P.get('p'):ex0.papers[0]):null;el.innerHTML=sp=='syllabus'?sylView(ex0,p0):pyqView(ex0,p0);return}
+material(el){const sp=P.get('s'),ex0=EX(P.get('e'));if(ex0&&(sp=='syllabus'||sp=='pyqs'||sp=='pattern')){const p0=hasP(ex0)?(ex0.papers.includes(P.get('p'))?P.get('p'):ex0.papers[0]):null;el.innerHTML=sp=='syllabus'?sylView(ex0,p0):sp=='pyqs'?pyqView(ex0,p0):patView(ex0,p0);return}
  const {ex,sub,p}=resolve();if(!ex){el.innerHTML=chooser('material');return}
  if(!sub||!sub.live&&!D.material.some(m=>m.s==sub.id)){el.innerHTML=stepView('material',ex,p);return}
  const s=sub.id,all=D.material.filter(m=>m.s==s),kinds=[...new Set(all.map(m=>m.k))],k=P.get('k')||'all';

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../app_state.dart';
+import '../config.dart';
 import '../core/models.dart';
 import '../theme.dart';
 import '../widgets.dart';
@@ -8,6 +9,7 @@ import 'lectures.dart';
 import 'mocks.dart';
 import 'search.dart';
 import 'study_material.dart';
+import 'web_page.dart';
 
 String pageTitle(String page) {
   if (page == 'lectures') return 'Lectures';
@@ -114,20 +116,28 @@ class BrowseScreen extends StatelessWidget {
           );
         }
 
-        // Step 3: syllabus / PYQs / topics
+        // Step 3: topics (Material tab only: also Syllabus / PYQs / Exam Pattern)
         final pp = hp ? data.paper(paperId) : null;
         final p = hp ? paperId : null;
         final topics = data.topicsOf(ex, p);
         final children = <Widget>[];
+        final String stepLine;
+        if (pp == null) {
+          stepLine = page == 'material' ? 'Choose Syllabus, PYQs, Exam Pattern or a subject' : 'Choose a topic';
+        } else if (page == 'material') {
+          stepLine = 'Step 3 — choose Syllabus, PYQs, Exam Pattern or a topic';
+        } else if (page == 'mock') {
+          stepLine = 'Step 3 — choose full-length tests or a topic';
+        } else {
+          stepLine = 'Step 3 — choose a topic';
+        }
         children.add(Padding(
           padding: const EdgeInsets.only(bottom: 12),
-          child: Text(
-            '${pp != null ? 'Step 3 — choose Syllabus, PYQs or a topic' : 'Choose a topic'} · $status',
-            style: kBody,
-          ),
+          child: Text('$stepLine · $status', style: kBody),
         ));
 
-        if (page == 'material' || p != null) {
+        // Syllabus, PYQs and Exam Pattern boxes belong to the Material tab only.
+        if (page == 'material') {
           final sy = data.syllabusOf(examId, p);
           final py = data.pyqsOf(examId, p);
           final portal = data.portalOf(examId, p);
@@ -152,6 +162,20 @@ class BrowseScreen extends StatelessWidget {
                 ? null
                 : () => Navigator.of(context).push(MaterialPageRoute<void>(
                       builder: (_) => PyqScreen(examId: examId, paperId: p),
+                    )),
+          ));
+          final pat = data.patternOf(examId, p);
+          children.add(PickRow(
+            icon: '📊',
+            title: 'Exam Pattern',
+            lines: [pat == null ? 'Coming soon' : (pat.sm.isEmpty ? 'Paper structure & marks distribution' : pat.sm)],
+            onTap: pat == null
+                ? null
+                : () => Navigator.of(context).push(MaterialPageRoute<void>(
+                      builder: (_) => WebPageScreen(
+                        title: 'Exam Pattern',
+                        url: '${kSiteBase}material.html?e=$examId${p != null ? '&p=$p' : ''}&s=pattern',
+                      ),
                     )),
           ));
         }

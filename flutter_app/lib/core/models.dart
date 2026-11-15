@@ -86,6 +86,14 @@ class Portal {
   Portal(this.url, this.label, this.more, this.moreLabel);
 }
 
+/// One "Exam Pattern" entry of data.js. The app only needs to know that a pattern exists (and its one-line
+/// summary); the full page is the website's Material -> Exam Pattern page, shown inside the app.
+class PatternRef {
+  final String e, sm;
+  final List<String> p; // paper ids; empty = every paper of that exam
+  PatternRef(this.e, this.p, this.sm);
+}
+
 class FaqItem {
   final String q, a;
   FaqItem(this.q, this.a);
@@ -110,6 +118,7 @@ class EsData {
   final List<FaqItem> faq;
   final List<UpdateItem> updates;
   final Map<String, String> links;
+  final List<PatternRef> patterns;
 
   EsData({
     required this.goalMin,
@@ -125,6 +134,7 @@ class EsData {
     required this.faq,
     required this.updates,
     required this.links,
+    this.patterns = const <PatternRef>[],
   });
 
   static const String defaultPaper = 'ma';
@@ -219,6 +229,10 @@ class EsData {
         }
       });
     }
+    final patterns = _maps(d['patterns'])
+        .map((m) => PatternRef(_s(m['e']), _strList(m['p']), _s(m['sm'])))
+        .where((r) => r.e.isNotEmpty)
+        .toList();
     final faq = _maps(d['faq']).map((m) => FaqItem(_s(m['q']), _s(m['a']))).toList();
     final updates = _maps(d['updates']).map((m) => UpdateItem(_s(m['date']), _s(m['text']))).toList();
     final links = <String, String>{};
@@ -241,6 +255,7 @@ class EsData {
       faq: faq,
       updates: updates,
       links: links,
+      patterns: patterns,
     );
   }
 
@@ -321,6 +336,20 @@ class EsData {
 
   List<Syllabus> syllabusOf(String examId, String? p) =>
       syllabus.where((r) => r.e == examId && (p == null || r.p == p)).toList();
+
+  /// "Exam Pattern" entry for an exam (+ paper): an entry written for that paper wins over the exam-wide one.
+  PatternRef? patternOf(String examId, String? p) {
+    PatternRef? general;
+    for (final r in patterns) {
+      if (r.e != examId) continue;
+      if (r.p.isEmpty) {
+        general ??= r;
+      } else if (p != null && r.p.contains(p)) {
+        return r;
+      }
+    }
+    return general;
+  }
 
   List<Pyq> pyqsOf(String examId, String? p) {
     final rows = pyqs.where((r) => r.e == examId && (p == null || r.p == p)).toList();
@@ -405,19 +434,19 @@ class EsData {
       for (final t in topics) {
         k += lecturesOf(t.id, examId: ex.id).length;
       }
-      return k > 0 ? '$k lectures' : 'Syllabus & PYQs · lectures coming soon';
+      return k > 0 ? '$k lectures' : 'Lectures coming soon';
     }
     if (page == 'material') {
       var k = 0;
       for (final t in topics) {
         k += materialOf(t.id, examId: ex.id).length;
       }
-      return k > 0 ? '$k PDFs · Syllabus · PYQs' : 'Syllabus & PYQs';
+      return k > 0 ? '$k PDFs · Syllabus · PYQs · Pattern' : 'Syllabus, PYQs & Exam Pattern';
     }
     final k = mocks
         .where((m) => m.e == ex.id && (m.s == 'full' ? m.p == pp.id : topics.any((t) => t.id == m.s)))
         .length;
-    return k > 0 ? '$k test${k == 1 ? '' : 's'}' : 'Syllabus & PYQs · tests coming soon';
+    return k > 0 ? '$k test${k == 1 ? '' : 's'}' : 'Tests coming soon';
   }
 
   /// Does a topic have content for this page? (used to grey out "coming soon" rows)

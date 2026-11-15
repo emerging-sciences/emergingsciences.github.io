@@ -48,23 +48,53 @@ body{padding-bottom:96px}body.testing{padding-bottom:0}body.testing .bnav{displa
 const T=(window.ES_MOCKS||{})[new URLSearchParams(location.search).get('t')];
 if(!T){document.getElementById('app').innerHTML='<div class=card><h2>Test not found</h2><p><a href="mock.html">Back to Mock Tests</a></p></div>';throw 0}
 const CFG=T.cfg,Q=T.q;
+/* ===== Exam rules: every exam gets its OWN marking scheme + instructions =====
+   The exam is read from cfg.exam, or else from the start of the test id in mocks.js / data.js
+   (jam-full-1 -> jam, gate-ma-1 -> gate, cuetpg-ma-1, csir-ma-1, tifr-ma-1, nbhm-1, isi-1, cmi-1).
+   neg(q) = marks taken off for a WRONG answer (only MCQ questions are ever penalised; MSQ / NAT never are).
+   A single test can override it in its cfg, per section key:  negAbs:{B:2}  (marks)   or   negFrac:{A:.25,C:0}  (fraction of the question's marks);
+   a single question can carry  n:2.   (TIFR True/False part: make it an MCQ with two options "True","False" and set negAbs:{B:2}.)
+   Not supported yet (needs an engine change when such a mock is made): "attempt any N of M" sections (CSIR NET, CMI Part B) and written / proof answers (ISI PMB, CMI Part B, TIFR Stage II). */
+const NOTE_NAT='Type the numerical answer using the on-screen keypad. No negative marking.';
+const NOTE_MSQ='Full marks only if <i>all</i> correct options (and no wrong option) are selected. No negative marking and no partial marking.';
+const RULES={
+ _:{name:'',neg:q=>0,note:{MCQ:'Negative marking, if any, is shown in the table above.',MSQ:'Full marks only if <i>all</i> correct options (and no wrong option) are selected. No partial marking.',NAT:NOTE_NAT}},
+ jam:{name:'IIT JAM',neg:q=>q.m/3,note:{MCQ:'1-mark question: −1/3 for a wrong answer. 2-mark question: −2/3 for a wrong answer.',MSQ:NOTE_MSQ,NAT:NOTE_NAT}},
+ gate:{name:'GATE',neg:q=>q.m/3,note:{MCQ:'1-mark question: −1/3 for a wrong answer. 2-mark question: −2/3 for a wrong answer.',MSQ:NOTE_MSQ,NAT:NOTE_NAT}},
+ cuetpg:{name:'CUET (PG)',neg:q=>1,note:{MCQ:'Choose the most appropriate option. A correct answer earns the marks shown with the question (4 in the official exam); a wrong answer costs 1 mark.'}},
+ csir:{name:'CSIR-UGC NET',neg:q=>q.m*0.25,note:{MCQ:'A wrong answer costs 25% of that question\'s marks (the table above shows the exact deduction for each part).',MSQ:'As in Part C of Mathematical Sciences: credit only if <i>all</i> correct options are identified. No negative marking.',NAT:NOTE_NAT}},
+ tifr:{name:'TIFR GS Mathematics (Stage I)',neg:q=>q.m/2,note:{MCQ:'Part A has four options with exactly one correct; Part B is True / False. Correct answer +2, unanswered 0; a wrong answer costs 1 mark in Part A and 2 marks in Part B.'}},
+ nbhm:{name:'NBHM',neg:q=>0,note:{MCQ:'True / False problems carry negative marking in the real NBHM test — the deduction for this mock is shown in the table above.',NAT:'Type only the final answer. No negative marking for short-answer problems.'}},
+ isi:{name:'ISI M.Math (PMA)',neg:q=>0,note:{MCQ:'ISI has not published a negative-marking rule, so this mock has none unless the table above says otherwise.'}},
+ cmi:{name:'CMI M.Sc. Mathematics',neg:q=>0,note:{MSQ:'Credit only if <i>all</i> correct options are chosen and no incorrect option is chosen. Negative marking is not mentioned on the official paper.'}}
+};
+const EXID=String(CFG.exam||new URLSearchParams(location.search).get('t')||'').split('-')[0].toLowerCase(),RULE=RULES[EXID]||RULES._;
+const neg=q=>{if(q.t!='MCQ')return 0;const a=CFG.negAbs,fq=CFG.negFrac;
+ if(q.n!==undefined)return q.n;if(a&&a[q.s]!==undefined)return a[q.s];if(fq&&fq[q.s]!==undefined)return fq[q.s]*q.m;return RULE.neg(q)};
+const fr=x=>{if(Math.abs(x-Math.round(x))<1e-4)return String(Math.round(x));for(const d of [2,3,4,8]){const n=x*d;if(Math.abs(n-Math.round(n))<1e-4)return Math.round(n)+'/'+d}return String(+x.toFixed(3))};
 /* ===== Engine ===== */
 const $=s=>document.querySelector(s),app=$('#app'),LET='ABCD',f=n=>String(n).padStart(2,'0');
 let S,endT,tm,nm='';
 const has=i=>Q[i].t=='NAT'?S.ans[i]!=='':S.ans[i].length>0;
 const mk=i=>S.st[i]==3||S.st[i]==4;
-const pen=q=>q.t=='MCQ'?'Negative −'+(q.m==1?'1/3':q.m==2?'2/3':q.m+'/3'):'No negative';
+const pen=q=>{const n=neg(q);return n>0?'Negative −'+fr(n):'No negative'};
 const mth=()=>window.renderMathInElement&&renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}],throwOnError:false});
 const CL=['nv','n','a','m','am'];
 const leg=`<div class=leg><span><i>1</i>Not Visited</span><span><i class=n>2</i>Not Answered</span><span><i class=a>3</i>Answered</span><span><i class=m>4</i>Marked for Review</span><span style="grid-column:span 2"><i class=am>5</i>Answered &amp; Marked for Review (will be evaluated)</span></div>`;
 function intro(){
- const tot=Q.reduce((a,q)=>a+q.m,0);
- const pat=[...new Set(Q.map(x=>x.s))].map(s=>{const z=Q.filter(x=>x.s==s),n1=z.filter(x=>x.m==1).length,n2=z.filter(x=>x.m==2).length,ty=z[0].t,mix=[n1?n1+' × 1 mark':'',n2?n2+' × 2 marks':''].filter(Boolean).join(', ');return '<tr><td>'+CFG.secs[s]+'</td><td>'+z.length+' ('+mix+')</td><td>'+z.reduce((a,x)=>a+x.m,0)+'</td><td>'+(ty=='MCQ'?'−1/3 (1-mark), −2/3 (2-mark)':ty=='MSQ'?'None (no partial marking)':'None')+'</td></tr>'}).join('');
+ const tot=Q.reduce((a,q)=>a+q.m,0),secs=[...new Set(Q.map(x=>x.s))];
+ const mixTxt=z=>{const c={};z.forEach(q=>c[q.m]=(c[q.m]||0)+1);return Object.keys(c).map(Number).sort((a,b)=>a-b).map(m=>c[m]+' × '+m+' mark'+(m==1?'':'s')).join(', ')};
+ const negTxt=z=>{const parts=[...new Set(z.map(q=>q.t))].map(t=>{const g={};z.filter(q=>q.t==t).forEach(q=>{g[q.m+'|'+neg(q)]=[q.m,neg(q)]});const a=Object.values(g).sort((x,y)=>x[0]-y[0]);
+   return {t:t,txt:a.every(x=>!x[1])?'None':a.map(x=>(x[1]?'−'+fr(x[1]):'None')+(a.length>1?' ('+x[0]+'-mark)':'')).join(', ')}});
+  if(parts.length==1)return parts[0].txt+(parts[0].t=='MSQ'&&parts[0].txt=='None'?' (no partial marking)':'');
+  return parts.map(x=>x.t+': '+x.txt).join('; ')};
+ const pat=secs.map(s=>{const z=Q.filter(x=>x.s==s);return '<tr><td>'+CFG.secs[s]+'</td><td>'+z.length+' ('+mixTxt(z)+')</td><td>'+z.reduce((a,x)=>a+x.m,0)+'</td><td>'+negTxt(z)+'</td></tr>'}).join('');
+ const ns=secs.filter(s=>Q.some(q=>q.s==s&&neg(q)>0)),nsTxt=!ns.length?'None':ns.length==secs.length?'All sections':'Section '+ns.join(' &amp; ')+' only';
+ const TN={MCQ:'MCQ (one correct option)',MSQ:'MSQ (one or more correct options)',NAT:'NAT (numerical answer)'};
+ const ins=[...new Set(Q.map(x=>x.t))].map(t=>'<li><b>'+(TN[t]||t)+':</b> '+(RULE.note[t]||RULES._.note[t])+'</li>').join('');
  app.innerHTML=`<div class=card><h2>${CFG.title}</h2><p>Total Questions: <b>${Q.length}</b> &nbsp;·&nbsp; Maximum Marks: <b>${tot}</b> &nbsp;·&nbsp; Duration: <b>${CFG.minutes} minutes</b></p>
- <h3>Marking Scheme (IIT JAM pattern)</h3><table><tr><th>Section</th><th>Questions</th><th>Marks</th><th>Negative marking</th></tr>${pat}<tr><th>Total</th><th>${Q.length}</th><th>${tot}</th><th>Section A only</th></tr></table><h3>Instructions</h3><ul>
- <li><b>Section A – MCQ:</b> one correct option. 1-mark question: −1/3 for a wrong answer. 2-mark question: −2/3 for a wrong answer.</li>
- <li><b>Section B – MSQ:</b> one or more correct options. Full marks only if <i>all</i> correct options (and no wrong option) are selected. No negative marking and no partial marking.</li>
- <li><b>Section C – NAT:</b> type the numerical answer using the on-screen keypad. No negative marking.</li>
+ <h3>Marking Scheme${RULE.name?' — '+RULE.name+' pattern':''}</h3><table><tr><th>Section</th><th>Questions</th><th>Marks</th><th>Negative marking</th></tr>${pat}<tr><th>Total</th><th>${Q.length}</th><th>${tot}</th><th>${nsTxt}</th></tr></table><h3>Instructions</h3><ul>
+ ${ins}
  <li>Unattempted questions carry zero marks. The test auto-submits when the timer ends.</li>
  <li>Questions "Marked for Review" with an answer are evaluated; without an answer they are treated as unattempted.</li></ul>${leg}
  <p>Candidate name: <input type=text id=nm placeholder="Your name"></p>
@@ -114,7 +144,7 @@ function summary(){
 }
 function score(i){
  const q=Q[i],a=S.ans[i];if(!has(i))return 0;
- if(q.t=='MCQ')return a[0]==q.a[0]?q.m:-q.m/3;
+ if(q.t=='MCQ')return a[0]==q.a[0]?q.m:-neg(q);
  if(q.t=='MSQ')return a.length==q.a.length&&a.every(x=>q.a.includes(x))?q.m:0;
  const v=parseFloat(a);return !isNaN(v)&&v>=q.a[0]-1e-6&&v<=q.a[1]+1e-6?q.m:0;
 }
