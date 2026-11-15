@@ -6,28 +6,74 @@ import { collection, query, orderBy, limit, onSnapshot, updateDoc, doc }
 
 const css = document.createElement("style");
 css.textContent = `
-#esBell{position:fixed;left:14px;bottom:14px;z-index:9998;width:48px;height:48px;border-radius:50%;border:1px solid rgba(255,255,255,.3);background:#14172a;color:#fff;font-size:22px;cursor:pointer;display:none;align-items:center;justify-content:center}
-#esBell b{position:absolute;top:-4px;right:-4px;min-width:20px;height:20px;border-radius:10px;background:#e53935;color:#fff;font-size:12px;line-height:20px;text-align:center;padding:0 4px}
-#esPanel{position:fixed;left:14px;bottom:70px;z-index:9998;width:min(340px,calc(100vw - 28px));max-height:60vh;overflow:auto;border-radius:12px;border:1px solid rgba(255,255,255,.25);background:#0d1020;color:#fff;display:none;font-size:14px}
-#esPanel .ph{display:flex;justify-content:space-between;align-items:center;padding:10px 12px;border-bottom:1px solid rgba(255,255,255,.15)}
-#esPanel .ph button{background:none;border:0;color:#9db1ff;cursor:pointer;font:inherit;font-size:12px}
-#esPanel .ni{padding:10px 12px;border-bottom:1px solid rgba(255,255,255,.1);cursor:pointer}
-#esPanel .ni.new{background:rgba(110,140,255,.18)}
+#esBell{position:relative;background:none;border:0;cursor:pointer;color:var(--text,#fff);padding:8px;border-radius:10px;display:none;align-items:center;justify-content:center;min-width:36px;min-height:36px;font:inherit}
+#esBell:hover{background:var(--blue-light,rgba(79,140,255,.12))}
+#esBell svg{display:block}
+#esBell b{position:absolute;top:0;right:0;min-width:18px;height:18px;border-radius:9px;background:#e53935;color:#fff;font-size:11px;font-weight:700;line-height:18px;text-align:center;padding:0 4px}
+#esBell.fl{position:fixed;left:14px;bottom:14px;z-index:9998;width:48px;height:48px;border-radius:50%;border:1px solid var(--border-strong,rgba(255,255,255,.3));background:var(--surface,#14172a)}
+#esPanel{position:fixed;z-index:9998;overflow:auto;border-radius:12px;border:1px solid var(--border-strong,rgba(255,255,255,.25));background:var(--surface,#0d1020);color:var(--text,#fff);display:none;font-size:14px;box-shadow:0 10px 30px rgba(0,0,0,.45)}
+#esPanel .ph{display:flex;justify-content:space-between;align-items:center;padding:10px 12px;border-bottom:1px solid var(--border,rgba(255,255,255,.15))}
+#esPanel .ph button{background:none;border:0;color:var(--blue,#9db1ff);cursor:pointer;font:inherit;font-size:12px}
+#esPanel .ni{padding:10px 12px;border-bottom:1px solid var(--border,rgba(255,255,255,.1));cursor:pointer}
+#esPanel .ni.new{background:var(--blue-light,rgba(110,140,255,.18))}
 #esPanel .ni small{opacity:.7;display:block;margin-top:2px}
 #esPanel .em{padding:16px 12px;opacity:.7}
 `;
 document.head.appendChild(css);
 
+// The bell lives in the site header (next to Search / theme), so it can never cover the bottom bar's Home button.
+// If the header is hidden (e.g. inside the mobile app) it floats just above the bottom bar instead.
 const bell = document.createElement("button");
 bell.id = "esBell";
+bell.type = "button";
 bell.setAttribute("aria-label", "Notifications");
-bell.textContent = "🔔";
+bell.innerHTML =
+  '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' +
+  '<path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 01-3.4 0"/></svg>';
 const badge = document.createElement("b");
 badge.style.display = "none";
 bell.appendChild(badge);
 const panel = document.createElement("div");
 panel.id = "esPanel";
-document.body.append(bell, panel);
+document.body.appendChild(panel);
+
+function mountBell() {
+  const hdr = document.querySelector(".hdr");
+  const hr = document.querySelector(".hdr-r");
+  const inHeader = hdr && hr && getComputedStyle(hdr).display !== "none";
+  if (inHeader) {
+    bell.classList.remove("fl");
+    bell.style.bottom = "";
+    if (bell.parentNode !== hr) hr.insertBefore(bell, hr.querySelector(".th-toggle"));
+  } else {
+    bell.classList.add("fl");
+    if (bell.parentNode !== document.body) document.body.appendChild(bell);
+    let off = 14;
+    const nb = document.querySelector(".bnav");
+    if (nb && getComputedStyle(nb).display !== "none") {
+      const r = nb.getBoundingClientRect();
+      if (r.height > 0) off = Math.round(window.innerHeight - r.top) + 12;
+    }
+    bell.style.bottom = off + "px";
+  }
+}
+
+function placePanel() {
+  const r = bell.getBoundingClientRect();
+  const w = Math.min(340, window.innerWidth - 16);
+  panel.style.width = w + "px";
+  if (bell.classList.contains("fl")) {
+    panel.style.top = "auto";
+    panel.style.bottom = window.innerHeight - r.top + 8 + "px";
+    panel.style.left = Math.max(8, Math.min(r.left, window.innerWidth - w - 8)) + "px";
+    panel.style.maxHeight = Math.max(160, r.top - 20) + "px";
+  } else {
+    panel.style.bottom = "auto";
+    panel.style.top = r.bottom + 8 + "px";
+    panel.style.left = Math.max(8, Math.min(r.right - w, window.innerWidth - w - 8)) + "px";
+    panel.style.maxHeight = Math.max(160, window.innerHeight - r.bottom - 100) + "px";
+  }
+}
 
 let items = [];
 let unsub = null;
@@ -94,8 +140,18 @@ function paint() {
 }
 
 bell.onclick = () => {
-  panel.style.display = panel.style.display === "block" ? "none" : "block";
+  const open = panel.style.display === "block";
+  if (!open) {
+    mountBell();
+    placePanel();
+  }
+  panel.style.display = open ? "none" : "block";
 };
+window.addEventListener("resize", () => {
+  if (bell.style.display === "none") return;
+  mountBell();
+  if (panel.style.display === "block") placePanel();
+});
 
 onAuthStateChanged(auth, (user) => {
   if (unsub) {
@@ -108,6 +164,7 @@ onAuthStateChanged(auth, (user) => {
     bell.style.display = "none";
     return;
   }
+  mountBell();
   bell.style.display = "flex";
   unsub = onSnapshot(
     query(collection(db, "users", user.uid, "notifs"), orderBy("ts", "desc"), limit(30)),
