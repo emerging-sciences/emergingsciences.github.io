@@ -2391,7 +2391,8 @@ window.ES_DATA = {
     "t": "IIT JAM Mathematics — Full Length Mock 1",
     "q": 60,
     "min": 180
-  }
+  },
+ { "id": "cuetpg-full-1", "e": "cuetpg", "p": "ma", "s": "full", "t": "CUET PG Mathematics — Full Length Mock 1", "q": 75, "min": 90 }
 ],
 "patternsChecked": "14 Nov 2026",
 "patterns": [
