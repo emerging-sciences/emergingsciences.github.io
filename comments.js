@@ -24,7 +24,7 @@ const MAX = 500;
 // Is UID wale ke comments par "Teacher" tag lagta hai, wo kisi ka bhi comment delete kar sakta hai,
 // aur students ke naye comments ki notification (🔔) isi ko aati hai. Khali rakhoge to ye teeno band rahenge.
 // Same UID firestore.rules me bhi likhna hai.
-export const ADMIN_UIDS = [ /* "6BgsIDeHMyMoLxSwAXmKFigyPKB3" */ ];
+export const ADMIN_UIDS = [ "6BgsIDeHMyMoLxSwAXmKFigyPKB3" ];
 const isAdmin = (u) => !!u && ADMIN_UIDS.includes(u.uid);
 export { app, auth, db };
 
