@@ -3,42 +3,38 @@
    Colors / look badalna ho to sirf yahi file edit karo.
    ========================================================================== */
 :root{
-  /* ---- PALETTE (Lovable site ke colors yahan aayenge) ---- */
-  --bg:#06070d;                      /* page background (Lovable theme-color) */
-  --surface:#0d0f1a;                 /* cards */
-  --surface2:#131625;                /* hover / raised cards */
-  --border:rgba(255,255,255,.08);
-  --border-strong:rgba(255,255,255,.16);
-  --text:#ECEEF5;
-  --text2:#A6ABBE;
-  --text3:#737891;
-  --blue:#4F8CFF;                    /* main accent */
-  --blue-dark:#2563EB;
-  --blue-light:rgba(79,140,255,.12);
-  --blue-mid:rgba(79,140,255,.25);
-  --green:#34D399;
-  --radius:14px;
+  --bg:#0a0f0d; --surface:#111a17; --surface2:#172420;
+  --border:rgba(255,255,255,.08); --border-strong:rgba(255,255,255,.17);
+  --text:#EDF4F0; --text2:#A5B8AF; --text3:#6F847A;
+  --blue:#2DD4A0; --blue-dark:#10B981; --blue-light:rgba(45,212,160,.12); --blue-mid:rgba(45,212,160,.28);
+  --green:#F5B544; --radius:20px;
 }
 body{background:var(--bg)!important;color:var(--text)}
 .hero,.section-alt,.page-hero,.stats-bar{background:var(--bg)}
-.hdr{background:rgba(6,7,13,.92)}
-.bnav{background:rgba(13,15,26,.97)}
+.hdr{background:rgba(10,15,13,.92)}
+.bnav{background:rgba(17,26,23,.97)}
 #splash{background:var(--bg)}
 .a-card,.exam-card,.a-row{background:var(--surface)}
 a.a-card:hover,.a-row:hover,.exam-card:hover{background:var(--surface2)}
 
 /* ---- Home: hero ---- */
 .free-pill{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--blue-mid);background:var(--blue-light);color:var(--blue);border-radius:99px;padding:6px 16px;font-size:12.5px;font-weight:600;margin-bottom:1.25rem}
-.hero-inner{padding:3.5rem 1.25rem 2.5rem}
+.hero-inner{padding:3.5rem 1.5rem 2.5rem}
 .hero-btns{margin-bottom:0}
 
 /* ---- Home: counts (kitne lectures, notes, mocks, exams) ---- */
-.stats-row{max-width:900px;margin:0 auto;padding:0 1.25rem;display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
-.stat-box{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:16px 8px;text-align:center}
-.stat-box b{display:block;font-family:var(--font-d);font-size:1.7rem;line-height:1.1;color:var(--blue)}
-.stat-box span{display:block;margin-top:4px;font-size:12px;color:var(--text2)}
-@media(max-width:560px){.stats-row{grid-template-columns:repeat(2,1fr)}}
-#app[data-page="home"] .section{padding-bottom:1rem}
+/* 3 equal cards, always in ONE row (7 Lectures · 14 Notes · 19 Exams).
+   Row width + side padding match .section-inner / .section (900px + 1.5rem / 1rem on phones),
+   so the cards line up exactly with the hero text and the exam cards below. */
+.stats-row{max-width:calc(900px + 3rem);margin:2rem auto 0;padding:0 1.5rem;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.stat-box{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;min-height:96px;padding:16px 8px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);text-align:center}
+.stat-box b{display:block;font-family:var(--font-d);font-size:1.7rem;font-weight:700;line-height:1.1;font-variant-numeric:tabular-nums;color:var(--blue)}
+.stat-box span{display:block;margin:0;font-size:12.5px;line-height:1.3;white-space:nowrap;color:var(--text2)}
+@media(max-width:680px){.stats-row{padding:0 1rem}}
+@media(max-width:560px){.stats-row{gap:8px}.stat-box{min-height:84px;padding:14px 4px;gap:4px}.stat-box b{font-size:1.45rem}.stat-box span{font-size:11.5px}}
+@media(max-width:360px){.stat-box span{font-size:10.5px}}
+/* equal breathing room above and below the stats row */
+#app[data-page="home"] .section{padding-top:2rem;padding-bottom:1rem}
 
 /* ---- Lectures: thumbnail + title ---- */
 .a-row.lec{padding:10px;gap:14px;align-items:center;margin:10px 0}
@@ -70,22 +66,11 @@ html[data-theme="light"] .th-toggle .th-sun{display:none}
 html[data-theme="light"] .th-toggle .th-moon{display:block}
 
 html[data-theme="light"]{
-  --bg:#F7F8FC;
-  --surface:#FFFFFF;
-  --surface2:#EEF1F8;
-  --border:rgba(15,23,42,.10);
-  --border-strong:rgba(15,23,42,.18);
-  --text:#0F172A;
-  --text2:#475569;
-  --text3:#64748B;
-  --blue:#2563EB;
-  --blue-dark:#1D4ED8;
-  --blue-light:rgba(37,99,235,.09);
-  --blue-mid:rgba(37,99,235,.22);
-  --green:#047857;
+  --bg:#F3F8F5; --surface:#FFFFFF; --surface2:#E8F1EC; --border:rgba(15,40,30,.10); --border-strong:rgba(15,40,30,.18);
+  --text:#0E1F18; --text2:#44594F; --text3:#5E746A; --blue:#0B8F6A; --blue-dark:#08785A; --blue-light:rgba(11,143,106,.09); --blue-mid:rgba(11,143,106,.24); --green:#B45309;
 }
-html[data-theme="light"] .hdr{background:rgba(247,248,252,.92)}
-html[data-theme="light"] nav{background:rgba(247,248,252,.88)}
+html[data-theme="light"] .hdr{background:rgba(243,248,245,.92)}
+html[data-theme="light"] nav{background:rgba(243,248,245,.88)}
 html[data-theme="light"] .bnav{background:rgba(255,255,255,.97);border-color:var(--border-strong);box-shadow:0 8px 30px rgba(15,23,42,.14)}
 html[data-theme="light"] .bnav a{color:var(--text3)}
 html[data-theme="light"] .bnav a.on{color:var(--blue)}
@@ -97,3 +82,24 @@ html[data-theme="light"] .gradient-text{background-image:linear-gradient(135deg,
 /* inline colours written by app-core.js (made for dark) */
 html[data-theme="light"] .exam-icon[style*="C084FC"]{color:#7E22CE!important}
 html[data-theme="light"] [style*="ffffff22"]{border-top-color:var(--border)!important}
+
+/* ---- Emerging Sciences · school portal look: emerald + amber, rounder cards, left-aligned hero ---- */
+.hero{background:radial-gradient(900px 340px at 12% 0%,rgba(45,212,160,.13),transparent 70%),var(--bg)}
+.hero-inner{text-align:left;max-width:calc(900px + 3rem);margin:0 auto}
+@media(max-width:680px){.hero-inner{padding:3rem 1rem 2.5rem}}
+/* hero text now starts exactly where the sections below start; let only the big heading run a little
+   past the right edge so its line breaks stay the same as before (hero is left-aligned, so nothing shows) */
+@media(min-width:681px){.hero h1{margin-right:-8px}}
+@media(min-width:1000px){.hero h1{margin-right:-40px}}
+.hero-btns{justify-content:flex-start}
+.hero h1 .accent{color:var(--blue)}
+.hero-sub{color:var(--text2);max-width:46ch;margin:0 0 1.5rem;font-size:15.5px}
+.btn-primary{color:#04140e!important;font-weight:700}
+.a-card,.exam-card,.a-row,.stat-box{border-radius:var(--radius)}
+.stat-box b{color:var(--green)}
+.cat-h{grid-column:1/-1;margin:2rem 0 .2rem;font-family:var(--font-d);font-size:1.15rem;display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;border-left:4px solid var(--green);padding-left:12px}
+.cat-h:first-child{margin-top:.5rem}
+.cat-h small{font:500 12.5px var(--font-b);color:var(--text3)}
+#cat-chips{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 .5rem}
+#cat-chips a{border:1px solid var(--border-strong);border-radius:99px;padding:7px 14px;font-size:13px;color:var(--text2);text-decoration:none}
+#cat-chips a:hover{color:var(--blue);border-color:var(--blue)}
