@@ -7,12 +7,12 @@ import { getFirestore, collection, addDoc, query, orderBy, limit, onSnapshot, de
 
 // ====== STEP: yahan apni Firebase config paste karo (Firebase console > Project settings > Your apps > Web) ======
 const firebaseConfig = {
-  apiKey: "AIzaSyBNnO1fVE_q1RcSu4kfGDdbevZ-bBe_M38",
-  authDomain: "emerging-sciences-msc.firebaseapp.com",
-  projectId: "emerging-sciences-msc",
-  storageBucket: "emerging-sciences-msc.firebasestorage.app",
-  messagingSenderId: "948669837260",
-  appId: "1:948669837260:web:ea42ca7c4af42853dab769"
+  apiKey: "AIzaSyD_YYVetPkf6jOO4VfBetw0q-NaWUptYtk",
+  authDomain: "emerging-sciences-ece22.firebaseapp.com",
+  projectId: "emerging-sciences-ece22",
+  storageBucket: "emerging-sciences-ece22.firebasestorage.app",
+  messagingSenderId: "915855745802",
+  appId: "1:915855745802:web:a9e3dab10ad94dc08310f3"
 };
 // ==========================================================================================================
 
@@ -24,7 +24,7 @@ const MAX = 500;
 // Is UID wale ke comments par "Teacher" tag lagta hai, wo kisi ka bhi comment delete kar sakta hai,
 // aur students ke naye comments ki notification (🔔) isi ko aati hai. Khali rakhoge to ye teeno band rahenge.
 // Same UID firestore.rules me bhi likhna hai.
-export const ADMIN_UIDS = [ /* "6BgsIDeHMyMoLxSwAXmKFigyPKB3" */ ];
+export const ADMIN_UIDS = [ /* "PASTE_YOUR_UID_HERE" */ ];
 const isAdmin = (u) => !!u && ADMIN_UIDS.includes(u.uid);
 export { app, auth, db };
 
@@ -141,7 +141,7 @@ export function mount(lectureId, host) {
   async function castVote(val) {
     const u = auth.currentUser;
     if (!u) {
-      signInWithPopup(auth, new GoogleAuthProvider()).catch(() => alert("Vote ke liye Google sign-in zaruri hai."));
+      signInWithPopup(auth, new GoogleAuthProvider()).catch((e) => alert("Vote ke liye Google sign-in zaruri hai. (" + ((e && e.code) || "error") + ")"));
       return;
     }
     try {
@@ -166,7 +166,7 @@ export function mount(lectureId, host) {
     if (!user) {
       const b = document.createElement("button");
       b.textContent = "Sign in with Google to comment";
-      b.onclick = () => signInWithPopup(auth, new GoogleAuthProvider()).catch(() => alert("Sign-in nahi ho paya. Dobara try karo."));
+      b.onclick = () => signInWithPopup(auth, new GoogleAuthProvider()).catch((e) => alert("Sign-in nahi ho paya. Dobara try karo. (" + ((e && e.code) || "error") + ")"));
       bar.appendChild(b);
       return;
     }
@@ -226,7 +226,7 @@ export function mount(lectureId, host) {
 
   // ---- live comment list (comments + replies) ----
   function signIn(msg) {
-    signInWithPopup(auth, new GoogleAuthProvider()).catch(() => alert(msg));
+    signInWithPopup(auth, new GoogleAuthProvider()).catch((e) => alert(msg + " (" + ((e && e.code) || "error") + ")"));
   }
 
   // Delete: root comment with replies -> tombstone (replies stay); otherwise real delete + remove the related 🔔.

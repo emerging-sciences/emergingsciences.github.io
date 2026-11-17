@@ -79,7 +79,7 @@ function paintLoggedOut() {
   go.type = "button";
   go.textContent = "Sign in with Google";
   go.style.cssText = "display:block;margin:10px 12px 14px;padding:9px 14px;border:0;border-radius:10px;background:#4F8CFF;color:#fff;font:inherit;font-weight:600;cursor:pointer";
-  go.onclick = () => signInWithPopup(auth, new GoogleAuthProvider()).catch(() => alert("Sign-in nahi ho paya. Dobara try karo."));
+  go.onclick = () => signInWithPopup(auth, new GoogleAuthProvider()).catch((e) => alert("Sign-in nahi ho paya. Dobara try karo. (" + ((e && e.code) || "error") + ")"));
   panel.append(head, em, go);
 }
 
