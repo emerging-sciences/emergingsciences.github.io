@@ -10,7 +10,7 @@
 //                     ("p" = subject id; no "p" means Mathematics), then put "ph-mech" in the exam's "subjects" list.
 // ADD A LECTURE     : in "lectures": { "id":"ph-mech-01", "s":"ph-mech", "n":"L-01", "t":"Title", "k":"T", "yt":"YouTubeVideoId" }   (k: T = theory, P = practice)
 // ADD MATERIAL      : in "material": { "id":"m99", "t":"Title", "d":"short note", "k":"Notes", "s":"ph-mech", "drive":"<Google Drive file id>" }
-// ADD A MOCK        : in "": { "id":"jam-ph-1", "e":"jam", "p":"ph", "s":"full", "t":"Title", "q":12, "min":30 }
+// ADD A MOCK        : in "mocks": { "id":"jam-ph-1", "e":"jam", "p":"ph", "s":"full", "t":"Title", "q":12, "min":30 }
 // SYLLABUS rows     : { "e":"jam", "p":"ph", "t":"Title", "url":"https://official-link.pdf", "src":"Official · site" }  (or "drive":"<id>"; no "p" = Mathematics)
 // PYQS rows         : { "e":"jam", "p":"ph", "y":2026, "t":"Title", "qp":"https://...", "key":"https://..." }  ("g" = optional group, "n" = optional note)
 // pyqPortals        : official 'all years' page. Key "jam" = fallback for every subject of that exam; key "jam-ph" = only for Physics.
@@ -2391,10 +2391,7 @@ window.ES_DATA = {
     "t": "IIT JAM Mathematics — Full Length Mock 1",
     "q": 60,
     "min": 180
-  },
- { "id": "cuetpg-full-1", "e": "cuetpg", "p": "ma", "s": "full", "t": "CUET PG Mathematics — Full Length Mock 1", "q": 75, "min": 90 },
- { "id": "tifr-full-1", "e": "tifr", "p": "ma", "s": "full", "t": "TIFR GS Mathematics — Full Length Mock 1", "q": 40, "min": 180 },
- { "id": "jam-full-2", "e": "jam", "p": "ma", "s": "full", "t": "IIT JAM Mathematics — Full Length Mock 2", "q": 60, "min": 180}
+  }
 ],
 "patternsChecked": "14 Nov 2026",
 "patterns": [

@@ -52,34 +52,6 @@ function addStyle() {
 
 let unsub = null;
 
-// Small message at the bottom of the screen (does not block the page).
-function toast(msg) {
-  const t = document.createElement("div");
-  t.textContent = msg;
-  t.style.cssText =
-    "position:fixed;left:50%;transform:translateX(-50%);bottom:90px;max-width:90vw;z-index:10000;padding:10px 16px;border-radius:10px;background:#c62828;color:#fff;font-size:13px;box-shadow:0 6px 20px rgba(0,0,0,.4)";
-  document.body.appendChild(t);
-  setTimeout(() => t.remove(), 7000);
-}
-
-// Writes "X replied to your comment" into the other user's inbox: users/{uid}/notifs.
-// Returns null on success, or the Firebase error code (for example "permission-denied") on failure.
-// (Before, a failure here was swallowed silently, so nobody ever knew why a notification did not arrive.)
-async function pushNotif(toUid, data) {
-  for (let i = 0; i < 2; i++) {
-    try {
-      await addDoc(collection(db, "users", toUid, "notifs"), { ...data, ts: serverTimestamp(), read: false });
-      return null;
-    } catch (e) {
-      console.error("Emerging Sciences: notification could not be saved", e);
-      if (e && e.code === "permission-denied") return e.code; // retrying cannot help: Firestore rules block it
-      if (i === 1) return (e && e.code) || "error";
-      await new Promise((r) => setTimeout(r, 800));
-    }
-  }
-  return "error";
-}
-
 export function mount(lectureId, host) {
   if (!host || !lectureId) return;
   addStyle();
@@ -293,13 +265,16 @@ export function mount(lectureId, host) {
             ts: serverTimestamp()
           });
           if (c.uid && c.uid !== u.uid) {
-            const bad = await pushNotif(c.uid, {
-              fromUid: u.uid,
-              fromName: myName,
-              text: text.slice(0, 120),
-              lectureId: lectureId
-            });
-            if (bad) toast("Reply post ho gaya, par unko notification nahi ja paya (" + bad + ").");
+            try {
+              await addDoc(collection(db, "users", c.uid, "notifs"), {
+                fromUid: u.uid,
+                fromName: myName,
+                text: text.slice(0, 120),
+                lectureId: lectureId,
+                ts: serverTimestamp(),
+                read: false
+              });
+            } catch (e) {}
           }
           rbox.innerHTML = "";
         } catch (e) {
