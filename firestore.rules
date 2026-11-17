@@ -7,7 +7,7 @@ service cloud.firestore {
 
     // OWNER / TEACHER UIDs — same UID(s) as ADMIN_UIDS in comments.js
     // (Firebase console -> Authentication -> Users -> "User UID"). Replace the placeholder before publishing.
-    function isAdminUid(x) { return x in ['PASTE_YOUR_UID_HERE']; }
+    function isAdminUid(x) { return x in ['6BgsIDeHMyMoLxSwAXmKFigyPKB3']; }
     function isAdmin() { return request.auth != null && isAdminUid(request.auth.uid); }
 
     // ---- Lecture comments + replies ----
