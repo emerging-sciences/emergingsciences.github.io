@@ -1,7 +1,7 @@
 // Emerging Sciences — in-app notifications (🔔): reply to my comment; (teacher only) new student comments
 import { auth, db, ADMIN_UIDS } from "./comments.js";
 import { onAuthStateChanged, GoogleAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
-import { collection, query, orderBy, limit, onSnapshot, updateDoc, doc }
+import { collection, query, orderBy, limit, onSnapshot, updateDoc, deleteDoc, doc }
   from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
 
 const css = document.createElement("style");
@@ -126,6 +126,12 @@ function lectureTitle(id) {
   }
 }
 
+function removeNotifs(ds) {
+  const u = auth.currentUser;
+  if (!u) return;
+  return Promise.all(ds.map((d) => deleteDoc(doc(db, "users", u.uid, "notifs", d.id)).catch(() => {})));
+}
+
 function markRead(ds) {
   const u = auth.currentUser;
   if (!u) return;
@@ -149,7 +155,10 @@ function paint() {
   const all = document.createElement("button");
   all.textContent = "Mark all read";
   all.onclick = () => markRead(items);
-  head.append(t, all);
+  const clr = document.createElement("button");
+  clr.textContent = "Clear all";
+  clr.onclick = () => items.length && confirm("Saari notifications hata dein?") && removeNotifs(items);
+  head.append(t, all, clr);
   panel.appendChild(head);
 
   if (!items.length) {
@@ -172,7 +181,16 @@ function paint() {
     b.textContent = "“" + (n.text || "") + "”";
     const c = document.createElement("small");
     c.textContent = lectureTitle(n.lectureId);
-    row.append(a, b, c);
+    const x = document.createElement("button");
+    x.textContent = "✕";
+    x.title = "Hatao";
+    x.setAttribute("aria-label", "Notification hatao");
+    x.style.cssText = "float:right;margin-left:8px;background:none;border:0;color:inherit;opacity:.6;cursor:pointer;font-size:14px;padding:0 4px";
+    x.onclick = (ev) => {
+      ev.stopPropagation();
+      removeNotifs([d]);
+    };
+    row.append(x, a, b, c);
     row.onclick = async () => {
       await markRead([d]);
       location.href = "watch.html?id=" + encodeURIComponent(n.lectureId) + "#cmts";
