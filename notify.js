@@ -83,20 +83,6 @@ function paintLoggedOut() {
   panel.append(head, em, go);
 }
 
-function paintError(err) {
-  badge.style.display = "none";
-  panel.innerHTML = "";
-  const head = document.createElement("div");
-  head.className = "ph";
-  const t = document.createElement("b");
-  t.textContent = "Notifications";
-  head.appendChild(t);
-  const em = document.createElement("div");
-  em.className = "em";
-  em.textContent = "Notifications load nahi ho paye (" + ((err && err.code) || "error") + "). Page refresh karo; na ho to sign out karke dobara sign in karo.";
-  panel.append(head, em);
-}
-
 function placePanel() {
   const r = bell.getBoundingClientRect();
   const w = Math.min(340, window.innerWidth - 16);
@@ -220,10 +206,6 @@ onAuthStateChanged(auth, (user) => {
       items = snap.docs;
       paint();
     },
-    (err) => {
-      // Before this was silent: the bell just stayed empty. Now the panel says what went wrong.
-      console.error("Emerging Sciences: notifications could not be loaded", err);
-      paintError(err);
-    }
+    () => {}
   );
 });
