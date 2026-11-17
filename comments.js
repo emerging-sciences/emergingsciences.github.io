@@ -7,12 +7,12 @@ import { getFirestore, collection, addDoc, query, orderBy, limit, onSnapshot, de
 
 // ====== STEP: yahan apni Firebase config paste karo (Firebase console > Project settings > Your apps > Web) ======
 const firebaseConfig = {
-  apiKey: "AIzaSyD_YYVetPkf6jOO4VfBetw0q-NaWUptYtk",
-  authDomain: "emerging-sciences-ece22.firebaseapp.com",
-  projectId: "emerging-sciences-ece22",
-  storageBucket: "emerging-sciences-ece22.firebasestorage.app",
-  messagingSenderId: "915855745802",
-  appId: "1:915855745802:web:a9e3dab10ad94dc08310f3"
+  apiKey: "AIzaSyBNnO1fVE_q1RcSu4kfGDdbevZ-bBe_M38",
+  authDomain: "emerging-sciences-msc.firebaseapp.com",
+  projectId: "emerging-sciences-msc",
+  storageBucket: "emerging-sciences-msc.firebasestorage.app",
+  messagingSenderId: "948669837260",
+  appId: "1:948669837260:web:ea42ca7c4af42853dab769"
 };
 // ==========================================================================================================
 
