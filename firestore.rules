@@ -1,11 +1,14 @@
 // Emerging Sciences — Firestore security rules (reference copy).
 // GitHub does NOT apply this file by itself. To use it:
 //   Firebase console -> Firestore Database -> Rules -> paste -> Publish.
-// If you already have rules there, only make sure the "users/{uid}/notifs" block below exists
-// (that block is what lets a reply create a notification for the other person).
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
+
+    // OWNER / TEACHER UIDs — same UID(s) as ADMIN_UIDS in comments.js
+    // (Firebase console -> Authentication -> Users -> "User UID"). Replace the placeholder before publishing.
+    function isAdminUid(x) { return x in ['PASTE_YOUR_UID_HERE']; }
+    function isAdmin() { return request.auth != null && isAdminUid(request.auth.uid); }
 
     // ---- Lecture comments + replies ----
     match /lectures/{lectureId}/comments/{commentId} {
@@ -14,11 +17,17 @@ service cloud.firestore {
                     && request.resource.data.uid == request.auth.uid
                     && request.resource.data.text is string
                     && request.resource.data.text.size() > 0
-                    && request.resource.data.text.size() <= 500;
-      // 👍 on a comment: anyone signed in may change ONLY the likedBy list
-      allow update: if request.auth != null
-                    && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['likedBy']);
-      allow delete: if request.auth != null && resource.data.uid == request.auth.uid;
+                    && request.resource.data.text.size() <= 500
+                    && !('deleted' in request.resource.data);
+      allow update: if request.auth != null && (
+                      // 👍 on a comment: ONLY the likedBy list may change
+                      request.resource.data.diff(resource.data).affectedKeys().hasOnly(['likedBy'])
+                      // delete of a comment that still has replies: author (or owner) turns it into a "deleted" placeholder
+                      || ((resource.data.uid == request.auth.uid || isAdmin())
+                          && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['deleted', 'text', 'name', 'photo'])
+                          && request.resource.data.deleted == true
+                          && request.resource.data.text == ''));
+      allow delete: if request.auth != null && (resource.data.uid == request.auth.uid || isAdmin());
     }
 
     // ---- Lecture 👍 / 👎 (one vote per user; the document id is the user's uid) ----
@@ -29,13 +38,22 @@ service cloud.firestore {
       allow delete: if request.auth != null && request.auth.uid == uid;
     }
 
-    // ---- Reply notifications (the 🔔 bell) ----
-    // Written by the person who REPLIES (into the other person's inbox), read by the owner of the inbox.
+    // ---- 🔔 notifications. Notification id == id of the comment/reply that caused it. ----
     match /users/{uid}/notifs/{notifId} {
-      allow read, delete: if request.auth != null && request.auth.uid == uid;
+      allow read: if request.auth != null && request.auth.uid == uid;
+      // the person who wrote the comment/reply can remove its notification when they delete it; the owner can too
+      allow delete: if request.auth != null
+                    && (request.auth.uid == uid || resource.data.fromUid == request.auth.uid || isAdmin());
+      // Only for a REAL comment/reply of mine: (a) a reply addressed to this inbox's owner, or (b) a new comment for the teacher's inbox.
+      // This stops anybody from spamming other people's bell.
       allow create: if request.auth != null
                     && request.resource.data.fromUid == request.auth.uid
-                    && request.resource.data.read == false;
+                    && request.resource.data.read == false
+                    && request.resource.data.lectureId is string
+                    && exists(/databases/$(database)/documents/lectures/$(request.resource.data.lectureId)/comments/$(notifId))
+                    && get(/databases/$(database)/documents/lectures/$(request.resource.data.lectureId)/comments/$(notifId)).data.uid == request.auth.uid
+                    && (get(/databases/$(database)/documents/lectures/$(request.resource.data.lectureId)/comments/$(notifId)).data.get('replyToUid', '') == uid
+                        || isAdminUid(uid));
       allow update: if request.auth != null && request.auth.uid == uid
                     && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['read']);
     }

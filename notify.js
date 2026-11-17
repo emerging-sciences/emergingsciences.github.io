@@ -1,5 +1,5 @@
-// Emerging Sciences — in-app notifications (🔔): "kisi ne aapke comment par reply kiya"
-import { auth, db } from "./comments.js";
+// Emerging Sciences — in-app notifications (🔔): reply to my comment; (teacher only) new student comments
+import { auth, db, ADMIN_UIDS } from "./comments.js";
 import { onAuthStateChanged, GoogleAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
 import { collection, query, orderBy, limit, onSnapshot, updateDoc, doc }
   from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
@@ -83,6 +83,20 @@ function paintLoggedOut() {
   panel.append(head, em, go);
 }
 
+function paintError(err) {
+  badge.style.display = "none";
+  panel.innerHTML = "";
+  const head = document.createElement("div");
+  head.className = "ph";
+  const t = document.createElement("b");
+  t.textContent = "Notifications";
+  head.appendChild(t);
+  const em = document.createElement("div");
+  em.className = "em";
+  em.textContent = "Notifications load nahi ho paye (" + ((err && err.code) || "error") + "). Page refresh karo; na ho to sign out karke dobara sign in karo.";
+  panel.append(head, em);
+}
+
 function placePanel() {
   const r = bell.getBoundingClientRect();
   const w = Math.min(340, window.innerWidth - 16);
@@ -150,7 +164,10 @@ function paint() {
     const row = document.createElement("div");
     row.className = "ni" + (n.read ? "" : " new");
     const a = document.createElement("div");
-    a.textContent = (n.fromName || "Koi") + " ne aapke comment par reply kiya";
+    const who = n.fromName || "Koi";
+    a.textContent = n.kind === "new"
+      ? who + " ne naya comment kiya"
+      : (ADMIN_UIDS.includes(n.fromUid) ? "👨‍🏫 Teacher" : who) + " ne aapke comment par reply kiya";
     const b = document.createElement("small");
     b.textContent = "“" + (n.text || "") + "”";
     const c = document.createElement("small");
@@ -206,6 +223,10 @@ onAuthStateChanged(auth, (user) => {
       items = snap.docs;
       paint();
     },
-    () => {}
+    (err) => {
+      // Before this was silent: the bell just stayed empty. Now the panel says what went wrong.
+      console.error("Emerging Sciences: notifications could not be loaded", err);
+      paintError(err);
+    }
   );
 });

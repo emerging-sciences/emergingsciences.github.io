@@ -7,20 +7,25 @@ import { getFirestore, collection, addDoc, query, orderBy, limit, onSnapshot, de
 
 // ====== STEP: yahan apni Firebase config paste karo (Firebase console > Project settings > Your apps > Web) ======
 const firebaseConfig = {
-  apiKey: "AIzaSyBNnO1fVE_q1RcSu4kfGDdbevZ-bBe_M38",
-  authDomain: "emerging-sciences-msc.firebaseapp.com",
-  projectId: "emerging-sciences-msc",
-  storageBucket: "emerging-sciences-msc.firebasestorage.app",
-  messagingSenderId: "948669837260",
-  appId: "1:948669837260:web:ea42ca7c4af42853dab769"
+  apiKey: "AIzaSyD_YYVetPkf6jOO4VfBetw0q-NaWUptYtk",
+  authDomain: "emerging-sciences-ece22.firebaseapp.com",
+  projectId: "emerging-sciences-ece22",
+  storageBucket: "emerging-sciences-ece22.firebasestorage.app",
+  messagingSenderId: "915855745802",
+  appId: "1:915855745802:web:a9e3dab10ad94dc08310f3"
 };
-
 // ==========================================================================================================
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
 const MAX = 500;
+// OWNER / TEACHER: apna Firebase UID yahan likho (Firebase console > Authentication > Users > "User UID").
+// Is UID wale ke comments par "Teacher" tag lagta hai, wo kisi ka bhi comment delete kar sakta hai,
+// aur students ke naye comments ki notification (🔔) isi ko aati hai. Khali rakhoge to ye teeno band rahenge.
+// Same UID firestore.rules me bhi likhna hai.
+export const ADMIN_UIDS = [ /* "PASTE_YOUR_UID_HERE" */ ];
+const isAdmin = (u) => !!u && ADMIN_UIDS.includes(u.uid);
 export { app, auth, db };
 
 function addStyle() {
@@ -46,12 +51,41 @@ function addStyle() {
   .cm-rbox{margin-top:8px}
   .cm-rbox textarea{width:100%;min-height:54px;box-sizing:border-box;border-radius:8px;border:1px solid rgba(255,255,255,.25);background:rgba(255,255,255,.05);color:inherit;padding:8px;font:inherit}
   .cm-rbox button{margin-top:6px;cursor:pointer;border:1px solid rgba(255,255,255,.25);background:rgba(255,255,255,.08);color:inherit;border-radius:8px;padding:6px 12px;font:inherit}
+  .cm-gone{font-style:italic;opacity:.6;font-size:13px}
   .cm-del{margin-left:8px;cursor:pointer;background:none;border:0;color:inherit;opacity:.7;font-size:12px}
   `;
   document.head.appendChild(s);
 }
 
 let unsub = null;
+
+// Small message at the bottom of the screen (does not block the page).
+function toast(msg) {
+  const t = document.createElement("div");
+  t.textContent = msg;
+  t.style.cssText =
+    "position:fixed;left:50%;transform:translateX(-50%);bottom:90px;max-width:90vw;z-index:10000;padding:10px 16px;border-radius:10px;background:#c62828;color:#fff;font-size:13px;box-shadow:0 6px 20px rgba(0,0,0,.4)";
+  document.body.appendChild(t);
+  setTimeout(() => t.remove(), 7000);
+}
+
+// Writes "X replied to your comment" into the other user's inbox: users/{uid}/notifs.
+// Returns null on success, or the Firebase error code (for example "permission-denied") on failure.
+// (Before, a failure here was swallowed silently, so nobody ever knew why a notification did not arrive.)
+async function pushNotif(toUid, notifId, data) {
+  for (let i = 0; i < 2; i++) {
+    try {
+      await setDoc(doc(db, "users", toUid, "notifs", notifId), { ...data, ts: serverTimestamp(), read: false });
+      return null;
+    } catch (e) {
+      console.error("Emerging Sciences: notification could not be saved", e);
+      if (e && e.code === "permission-denied") return e.code; // retrying cannot help: Firestore rules block it
+      if (i === 1) return (e && e.code) || "error";
+      await new Promise((r) => setTimeout(r, 800));
+    }
+  }
+  return "error";
+}
 
 export function mount(lectureId, host) {
   if (!host || !lectureId) return;
@@ -163,7 +197,8 @@ export function mount(lectureId, host) {
       if (!text) return;
       send.disabled = true;
       try {
-        await addDoc(col, {
+        const nref = doc(col);
+        await setDoc(nref, {
           uid: user.uid,
           name: (user.displayName || "Student").slice(0, 60),
           photo: user.photoURL || "",
@@ -171,6 +206,15 @@ export function mount(lectureId, host) {
           likedBy: [],
           ts: serverTimestamp()
         });
+        if (ADMIN_UIDS[0] && !isAdmin(user)) {
+          pushNotif(ADMIN_UIDS[0], nref.id, {
+            kind: "new",
+            fromUid: user.uid,
+            fromName: (user.displayName || "Student").slice(0, 60),
+            text: text.slice(0, 120),
+            lectureId: lectureId
+          });
+        }
         ta.value = "";
         cnt.textContent = "0/" + MAX;
       } catch (e) {
@@ -185,8 +229,31 @@ export function mount(lectureId, host) {
     signInWithPopup(auth, new GoogleAuthProvider()).catch(() => alert(msg));
   }
 
-  function mkItem(d, rootId) {
+  // Delete: root comment with replies -> tombstone (replies stay); otherwise real delete + remove the related 🔔.
+  async function removeComment(d, c, hasReplies) {
+    const ref = doc(db, "lectures", lectureId, "comments", d.id);
+    const isRoot = !c.parentId;
+    try {
+      if (isRoot && hasReplies) {
+        await updateDoc(ref, { deleted: true, text: "", name: "", photo: "" });
+      } else {
+        await deleteDoc(ref);
+      }
+      if (!isRoot && c.replyToUid) deleteDoc(doc(db, "users", c.replyToUid, "notifs", d.id)).catch(() => {});
+      if (isRoot && ADMIN_UIDS[0]) deleteDoc(doc(db, "users", ADMIN_UIDS[0], "notifs", d.id)).catch(() => {});
+    } catch (e) {
+      alert("Delete nahi ho paya. Thodi der baad try karo.");
+    }
+  }
+
+  function mkItem(d, rootId, hasReplies) {
     const c = d.data();
+    if (c.deleted) {
+      const g = document.createElement("div");
+      g.className = "cm-item cm-gone";
+      g.textContent = "🗑 Ye comment delete kar diya gaya.";
+      return g;
+    }
     const item = document.createElement("div");
     item.className = "cm-item";
     let av;
@@ -204,12 +271,12 @@ export function mount(lectureId, host) {
     const meta = document.createElement("div");
     meta.className = "cm-meta";
     const when = c.ts && c.ts.toDate ? c.ts.toDate().toLocaleString() : "just now";
-    meta.textContent = (c.name || "Student") + " \u00b7 " + when;
-    if (auth.currentUser && auth.currentUser.uid === c.uid) {
+    meta.textContent = (c.name || "Student") + (ADMIN_UIDS.includes(c.uid) ? " ✔ Teacher" : "") + " \u00b7 " + when;
+    if (auth.currentUser && (auth.currentUser.uid === c.uid || isAdmin(auth.currentUser))) {
       const del = document.createElement("button");
       del.className = "cm-del";
       del.textContent = "\ud83d\uddd1 Delete";
-      del.onclick = () => confirm("Ye comment delete karein?") && deleteDoc(doc(db, "lectures", lectureId, "comments", d.id));
+      del.onclick = () => confirm("Ye comment delete karein?") && removeComment(d, c, hasReplies);
       meta.appendChild(del);
     }
     const txt = document.createElement("div");
@@ -255,7 +322,8 @@ export function mount(lectureId, host) {
         send.disabled = true;
         const myName = (u.displayName || "Student").slice(0, 60);
         try {
-          await addDoc(col, {
+          const rref = doc(col);
+          await setDoc(rref, {
             uid: u.uid,
             name: myName,
             photo: u.photoURL || "",
@@ -266,16 +334,14 @@ export function mount(lectureId, host) {
             ts: serverTimestamp()
           });
           if (c.uid && c.uid !== u.uid) {
-            try {
-              await addDoc(collection(db, "users", c.uid, "notifs"), {
-                fromUid: u.uid,
-                fromName: myName,
-                text: text.slice(0, 120),
-                lectureId: lectureId,
-                ts: serverTimestamp(),
-                read: false
-              });
-            } catch (e) {}
+            const bad = await pushNotif(c.uid, rref.id, {
+              kind: "reply",
+              fromUid: u.uid,
+              fromName: myName,
+              text: text.slice(0, 120),
+              lectureId: lectureId
+            });
+            if (bad) toast("Reply post ho gaya, par unko notification nahi ja paya (" + bad + ").");
           }
           rbox.innerHTML = "";
         } catch (e) {
@@ -296,25 +362,44 @@ export function mount(lectureId, host) {
     list.innerHTML = "";
     const tops = [];
     const kids = {};
+    const topIds = {};
     snap.forEach((d) => {
       const pid = d.data().parentId;
       if (pid) (kids[pid] = kids[pid] || []).push(d);
-      else tops.push(d);
+      else {
+        tops.push(d);
+        topIds[d.id] = 1;
+      }
     });
-    if (!tops.length) {
+    // deleted comment with no replies left = nothing to show
+    const live = tops.filter((d) => !d.data().deleted || (kids[d.id] || []).length);
+    // replies whose parent is missing (old data / parent not in the latest 200): keep them visible
+    const orphans = Object.keys(kids).filter((id) => !topIds[id]);
+    if (!live.length && !orphans.length) {
       list.textContent = "Abhi koi comment nahi. Pehla comment aap karo!";
       return;
     }
-    tops.forEach((d) => {
+    const addReplies = (wrap, rs, rootId) => {
+      if (!rs.length) return;
+      const rw = document.createElement("div");
+      rw.className = "cm-replies";
+      rs.slice().reverse().forEach((r) => rw.appendChild(mkItem(r, rootId, false))); // purane reply pehle
+      wrap.appendChild(rw);
+    };
+    live.forEach((d) => {
       const wrap = document.createElement("div");
-      wrap.appendChild(mkItem(d, d.id));
-      const rs = (kids[d.id] || []).slice().reverse(); // purane reply pehle
-      if (rs.length) {
-        const rw = document.createElement("div");
-        rw.className = "cm-replies";
-        rs.forEach((r) => rw.appendChild(mkItem(r, d.id)));
-        wrap.appendChild(rw);
-      }
+      const rs = kids[d.id] || [];
+      wrap.appendChild(mkItem(d, d.id, rs.length > 0));
+      addReplies(wrap, rs, d.id);
+      list.appendChild(wrap);
+    });
+    orphans.forEach((pid) => {
+      const wrap = document.createElement("div");
+      const g = document.createElement("div");
+      g.className = "cm-item cm-gone";
+      g.textContent = "↪ Original comment dikh nahi raha (delete ho gaya ya bahut purana hai).";
+      wrap.appendChild(g);
+      addReplies(wrap, kids[pid], pid);
       list.appendChild(wrap);
     });
   };
