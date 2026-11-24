@@ -639,7 +639,7 @@ q:[
 {s:'C',t:'NAT',m:2,q:'$\\displaystyle\\lim_{n\\to\\infty}\\sum_{k=1}^{n}\\frac{n}{n^{2}+k^{2}}=$ ______ (correct up to two decimal places)',a:[0.78,0.79],e:'$\\sum\\frac1n\\cdot\\frac{1}{1+(k/n)^2}\\to\\int_0^1\\frac{dx}{1+x^2}=\\frac\\pi4\\approx0.785$.'},
 ]}
  ,
-'jam-full-2027-1':{cfg:{title:'IIT JAM Mathematics (MA) — Mock Test 1 (JAM 2027 Syllabus)',minutes:180,secs:{A:'Section A (MCQ)',B:'Section B (MSQ)',C:'Section C (NAT)'}},
+'jam-full-4':{cfg:{title:'IIT JAM Mathematics (MA) — Mock Test 4',minutes:180,secs:{A:'Section A (MCQ)',B:'Section B (MSQ)',C:'Section C (NAT)'}},
 q:[
 {s:'A',t:'MCQ',m:1,q:'$\\displaystyle\\lim_{n\\to\\infty}\\left(\\frac{n^2+1}{n^2-1}\\right)^{n^2}$ equals',o:['$e$','$e^{2}$','$1$','$e^{-2}$'],a:[1],e:'Write $\\frac{n^2+1}{n^2-1}=1+\\frac{2}{n^2-1}$. Then $n^2\\ln\\left(1+\\frac{2}{n^2-1}\\right)\\sim\\frac{2n^2}{n^2-1}\\to2$, so the limit is $e^{2}$.'},
 {s:'A',t:'MCQ',m:1,q:'$\\displaystyle\\lim_{x\\to0}\\frac{e^{x^2}-\\cos x}{x^2}$ equals',o:['$\\dfrac12$','$1$','$\\dfrac32$','$2$'],a:[2],e:'Using $e^{x^2}=1+x^2+O(x^4)$ and $\\cos x=1-\\frac{x^2}{2}+O(x^4)$, the numerator is $\\frac32x^2+O(x^4)$. Hence the limit is $\\frac32$.'},
