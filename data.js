@@ -2397,7 +2397,8 @@ window.ES_DATA = {
  { "id": "cuetpg-full-1", "e": "cuetpg", "p": "ma", "s": "full", "t": "CUET PG Mathematics — Full Length Mock 1", "q": 75, "min": 90 },
  { "id": "gate-full-1", "e": "gate", "p": "ma", "s": "full", "t": "GATE Mathematics (MA) — Full Length Mock 1", "q": 65, "min": 180 },
  { "id": "jam-ph-full-1", "e": "jam", "p": "ph", "s": "full", "t": "IIT JAM Physics (PH) — Full Length Mock 1", "q": 60, "min": 180 },
- { "id": "jam-full-3", "e": "jam", "p": "ma", "s": "full", "t": "IIT JAM Mathematics (MA) — Full Length Mock 3", "q": 60, "min": 180 }
+ { "id": "jam-full-3", "e": "jam", "p": "ma", "s": "full", "t": "IIT JAM Mathematics (MA) — Full Length Mock 3", "q": 60, "min": 180 },
+ { "id": "jam-full-4", "e": "jam", "p": "ma", "s": "full", "t": "IIT JAM Mathematics (MA) — Full Length Mock 4", "q": 60, "min": 180 }
 ],
 "patternsChecked": "14 Nov 2026",
 "patterns": [
